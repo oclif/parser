@@ -10,11 +10,13 @@ export interface IInputOptions {
   flags?: InputFlags
   args?: IArg[]
   output?: 'object' | 'array'
+  strict?: boolean
 }
-type InputOptions = IInputOptions & {
+export type InputOptions = IInputOptions & {
   argv: string[]
   flags: InputFlags
   args: InputArgs
+  strict: boolean
 }
 export interface IOutputArg {
   type: 'arg'
@@ -91,7 +93,7 @@ function parseArray(input: InputOptions): OutputArray {
 
   while (argv.length) {
     const arg = argv.shift() as string
-    if (arg.startsWith('-')) {
+    if (parsingFlags && arg.startsWith('-')) {
       // attempt to parse as arg
       if (arg === '--') {
         parsingFlags = false
@@ -121,21 +123,7 @@ function setNames(flags: InputFlags) {
   }
 }
 
-export function parse(options: IInputOptions & { output?: 'object' }): IOutput
-export function parse(options: IInputOptions & { output: 'array' }): OutputArray
-export function parse(options: IInputOptions): any {
-  const input: InputOptions = {
-    args: [],
-    argv: process.argv.slice(2),
-    flags: {},
-    ...options,
-  }
-  setNames(input.flags)
-  const arr = parseArray(input)
-  validate(input.args, input.flags, arr)
-  if (input.output === 'array') {
-    return arr
-  }
+function buildOutputFromArray(arr: OutputArray): IOutput {
   return arr.reduce(
     (obj, elem) => {
       switch (elem.type) {
@@ -152,9 +140,8 @@ export function parse(options: IInputOptions): any {
           break
         case 'arg':
           obj.argv.push(elem.input)
-          const { name } = input.args[elem.i]
-          if (name) {
-            obj.args[name] = elem.input
+          if (elem.arg) {
+            obj.args[elem.arg.name] = elem.input
           }
           break
       }
@@ -166,4 +153,23 @@ export function parse(options: IInputOptions): any {
       flags: {},
     } as IOutput,
   )
+}
+
+export function parse(options: IInputOptions & { output?: 'object' }): IOutput
+export function parse(options: IInputOptions & { output: 'array' }): OutputArray
+export function parse(options: IInputOptions): any {
+  const input: InputOptions = {
+    args: [],
+    argv: process.argv.slice(2),
+    flags: {},
+    ...options,
+    strict: options.strict !== false,
+  }
+  setNames(input.flags)
+  const arr = parseArray(input)
+  validate(input, arr)
+  if (input.output === 'array') {
+    return arr
+  }
+  return buildOutputFromArray(arr)
 }

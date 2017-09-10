@@ -227,23 +227,23 @@ describe('multiple flags', () => {
   })
 })
 
-// describe('variableArgs', () => {
-//   test('skips flag parsing after "--"', () => {
-//     const out = parse({
-//       variableArgs: true,
-//       flags: {myflag: flags.boolean()},
-//       args: [{name: 'argOne'}]
-//     })
-//     {argv: ['foo', 'bar', '--', '--myflag']})
-//     expect(out.argv).toEqual(['foo', 'bar', '--myflag'])
-//     expect(out.args).toEqual({argOne: 'foo'})
-//   })
+describe('strict: false', () => {
+  test('skips flag parsing after "--"', () => {
+    const out = parse({
+      args: [{ name: 'argOne' }],
+      argv: ['foo', 'bar', '--', '--myflag'],
+      flags: { myflag: flags.boolean() },
+      strict: false,
+    })
+    expect(out.argv).toEqual(['foo', 'bar', '--myflag'])
+    expect(out.args).toEqual({ argOne: 'foo' })
+  })
 
-//   test('does not repeat arguments', () => {
-//     const out = parse({
-//       variableArgs: true
-//     })
-//     {argv: ['foo', '--myflag=foo bar']})
-//     expect(out.argv).toEqual(['foo', '--myflag=foo bar'])
-//   })
-// })
+  test('does not repeat arguments', () => {
+    const out = parse({
+      argv: ['foo', '--myflag=foo bar'],
+      strict: false,
+    })
+    expect(out.argv).toEqual(['foo', '--myflag=foo bar'])
+  })
+})
