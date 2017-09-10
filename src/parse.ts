@@ -109,8 +109,8 @@ function parseArray(input: InputOptions): OutputArray {
 }
 
 export interface IOutput {
-  flags: { [name: string]: string | boolean }
-  args: { [name: string]: string | boolean }
+  flags: { [name: string]: any }
+  args: { [name: string]: any }
   argv: string[]
 }
 
@@ -138,7 +138,12 @@ export function parse(options: IInputOptions): any {
     (obj, elem) => {
       switch (elem.type) {
         case 'valueflag':
-          obj.flags[elem.flag.name] = elem.flag.parse(elem.input)
+          if (elem.flag.multiple) {
+            obj.flags[elem.flag.name] = obj.flags[elem.flag.name] || []
+            obj.flags[elem.flag.name].push(elem.flag.parse(elem.input))
+          } else {
+            obj.flags[elem.flag.name] = elem.flag.parse(elem.input)
+          }
           break
         case 'flag':
           obj.flags[elem.flag.name] = true

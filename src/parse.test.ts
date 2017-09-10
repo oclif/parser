@@ -203,6 +203,18 @@ arg3  arg3 desc`)
   })
 })
 
+describe('multiple flags', () => {
+  test('parses multiple flags', () => {
+    const out = parse({
+      argv: ['--foo', 'a', '--foo=b'],
+      flags: {
+        foo: flags.string({ multiple: true }),
+      },
+    })
+    expect(out.flags).toMatchObject({ foo: ['a', 'b'] })
+  })
+})
+
 // describe('variableArgs', () => {
 //   test('skips flag parsing after "--"', () => {
 //     const out = parse({

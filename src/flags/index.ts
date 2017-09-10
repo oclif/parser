@@ -1,14 +1,16 @@
+import { IFlagOptions } from './base'
 import { BooleanFlag } from './boolean'
 import { StringFlag } from './string'
+import { IValueFlagOptions } from './value'
+
+export { Flag } from './base'
 export { ValueFlag } from './value'
-export { Flag, IFlagOptions } from './base'
-import { IFlagOptions } from './base'
 
 export const flags = {
   boolean: (options: IFlagOptions = {}) => {
     return new BooleanFlag(options)
   },
-  string: (options: IFlagOptions = {}) => {
+  string: (options: IValueFlagOptions = {}) => {
     return new StringFlag(options)
   },
 }
