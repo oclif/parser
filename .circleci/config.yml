@@ -1,0 +1,22 @@
+---
+version: 2
+jobs:
+  build:
+    working_directory: /cli
+    docker:
+      - image: node:6
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v0-yarn-{{ .Branch }}-{{checksum "yarn.lock"}}
+            - v0-yarn-{{ .Branch }}
+            - v0-yarn-master
+      - run: yarn
+      - run: yarn test -- --coverage
+      - run: yarn run coverage
+      - save_cache:
+          key: v0-yarn-{{ .Branch }}-{{checksum "yarn.lock"}}
+          paths:
+            - /cli/node_modules
+            - /usr/local/share/.cache/yarn
