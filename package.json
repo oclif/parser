@@ -1,0 +1,9 @@
+{
+  "name": "cli-flags",
+  "version": "0.0.0",
+  "description": "basic CLI flag parser",
+  "main": "lib/index.js",
+  "repository": "https://github.com/jdxcode/cli-flags",
+  "author": "Jeff Dickey",
+  "license": "ISC"
+}
