@@ -1,27 +1,24 @@
-export interface IArgOptions {
-  name: string
+import { AlphabetLowercase, AlphabetUppercase } from '../alphabet'
+
+export interface IFlagOptions {
+  char?: AlphabetLowercase | AlphabetUppercase
   description?: string
+  hidden?: boolean
   required?: boolean
   optional?: boolean
-  hidden?: boolean
 }
 
-export class Arg<T> {
+export abstract class Flag {
   public name: string
+  public char?: AlphabetLowercase | AlphabetUppercase
   public description?: string
   public hidden: boolean
   public required: boolean
 
-  constructor(options: IArgOptions) {
-    this.name = options.name
+  constructor(options: IFlagOptions) {
+    this.char = options.char
     this.description = options.description
     this.hidden = !!options.hidden
     this.required = options.required || options.optional === false
   }
-}
-
-export const args = {
-  string: (options: IArgOptions) => {
-    return new Arg<string>(options)
-  },
 }

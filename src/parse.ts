@@ -1,8 +1,10 @@
-import { Flag, ValueFlag } from './flags'
 import { Arg } from './args'
+import { Flag, ValueFlag } from './flags'
 import { validate } from './validate'
-export type InputArgs = Arg<string>[]
-export type InputFlags = { [name: string]: Flag }
+export type InputArgs = Array<Arg<string>>
+export interface InputFlags {
+  [name: string]: Flag
+}
 export interface IInputOptions {
   argv: string[]
   flags?: InputFlags
@@ -13,36 +15,50 @@ type InputOptions = IInputOptions & {
   flags: InputFlags
   args: InputArgs
 }
-export type OutputArg = { type: 'arg'; i: number; input: string; arg: Arg<string> }
-export type OutputFlag = { type: 'flag'; name: string; flag: Flag }
-export type OutputValueFlag = { type: 'valueflag'; name: string; input: string; flag: ValueFlag<any> }
-export type OutputArray = (OutputArg | OutputFlag | OutputValueFlag)[]
+export interface IOutputArg {
+  type: 'arg'
+  i: number
+  input: string
+  arg: Arg<string>
+}
+export interface IOutputFlag {
+  type: 'flag'
+  flag: Flag
+}
+export interface IOutputValueFlag {
+  type: 'valueflag'
+  input: string
+  flag: ValueFlag<any>
+}
+export type OutputArray = Array<IOutputArg | IOutputFlag | IOutputValueFlag>
 
 function parseArray(input: InputOptions): OutputArray {
-  let output: OutputArray = []
+  const output: OutputArray = []
+  const argv = input.argv.slice(0)
   let parsingFlags = true
-  let argv = input.argv.slice(0)
   let argI = 0
 
-  let findLongFlag = (arg: string) => {
-    let name = arg.slice(2)
-    if (input.flags[name]) return name
+  const findLongFlag = (arg: string) => {
+    const name = arg.slice(2)
+    if (input.flags[name]) {
+      return name
+    }
   }
 
-  let findShortFlag = (arg: string) => {
+  const findShortFlag = (arg: string) => {
     return Object.keys(input.flags).find(k => input.flags[k].char === arg[1])
   }
 
-  let parseFlag = (arg: string): boolean => {
-    let long = arg.startsWith('--')
-    let name = long ? findLongFlag(arg) : findShortFlag(arg)
+  const parseFlag = (arg: string): boolean => {
+    const long = arg.startsWith('--')
+    const name = long ? findLongFlag(arg) : findShortFlag(arg)
     if (!name) {
       const i = arg.indexOf('=')
       if (i !== -1) {
-        let sliced = arg.slice(i + 1)
+        const sliced = arg.slice(i + 1)
         argv.unshift(sliced)
 
-        let equalsParsed = parseFlag(arg.slice(0, i))
+        const equalsParsed = parseFlag(arg.slice(0, i))
         if (!equalsParsed) {
           argv.shift()
         }
@@ -50,30 +66,39 @@ function parseArray(input: InputOptions): OutputArray {
       }
       return false
     }
-    let flag = input.flags[name]
+    const flag = input.flags[name]
     if (flag instanceof ValueFlag) {
-      let input
-      if (long || arg.length < 3) input = argv.shift()
-      else input = arg.slice(arg[2] === '=' ? 3 : 2)
-      if (!input) throw new Error(`Flag --${name} expects a value`)
-      output.push({ type: 'valueflag', name, input, flag })
+      let value
+      if (long || arg.length < 3) {
+        value = argv.shift()
+      } else {
+        value = arg.slice(arg[2] === '=' ? 3 : 2)
+      }
+      if (!value) {
+        throw new Error(`Flag --${name} expects a value`)
+      }
+      output.push({ type: 'valueflag', input: value, flag })
     } else {
-      output.push({ type: 'flag', name, flag })
+      output.push({ type: 'flag', flag })
       // push the rest of the short characters back on the stack
-      if (!long && arg.length > 2) argv.unshift(`-${arg.slice(2)}`)
+      if (!long && arg.length > 2) {
+        argv.unshift(`-${arg.slice(2)}`)
+      }
     }
     return true
   }
 
   while (argv.length) {
-    let arg = argv.shift() as string
+    const arg = argv.shift() as string
     if (arg.startsWith('-')) {
       // attempt to parse as arg
       if (arg === '--') {
         parsingFlags = false
         continue
       }
-      if (parseFlag(arg)) continue
+      if (parseFlag(arg)) {
+        continue
+      }
       // not actually a flag if it reaches here so parse as an arg
     }
     // not a flag, parse as arg
@@ -83,44 +108,55 @@ function parseArray(input: InputOptions): OutputArray {
   return output
 }
 
-export type Output = {
+export interface IOutput {
   flags: { [name: string]: string | boolean }
   args: { [name: string]: string | boolean }
   argv: string[]
 }
 
-export function parse(options: IInputOptions & { output?: 'object' }): Output
+function setNames(flags: InputFlags) {
+  for (const name of Object.keys(flags)) {
+    flags[name].name = name
+  }
+}
+
+export function parse(options: IInputOptions & { output?: 'object' }): IOutput
 export function parse(options: IInputOptions & { output: 'array' }): OutputArray
 export function parse(options: IInputOptions): any {
-  let input: InputOptions = {
-    flags: {},
+  const input: InputOptions = {
     args: [],
+    flags: {},
     ...options,
   }
+  setNames(input.flags)
   const arr = parseArray(input)
-  validate(input.args, arr)
-  if (input.output === 'array') return arr
+  validate(input.args, input.flags, arr)
+  if (input.output === 'array') {
+    return arr
+  }
   return arr.reduce(
     (obj, elem) => {
       switch (elem.type) {
         case 'valueflag':
-          obj.flags[elem.name] = elem.flag.parse(elem.input)
+          obj.flags[elem.flag.name] = elem.flag.parse(elem.input)
           break
         case 'flag':
-          obj.flags[elem.name] = true
+          obj.flags[elem.flag.name] = true
           break
         case 'arg':
           obj.argv.push(elem.input)
-          let { name } = input.args[elem.i]
-          if (name) obj.args[name] = elem.input
+          const { name } = input.args[elem.i]
+          if (name) {
+            obj.args[name] = elem.input
+          }
           break
       }
       return obj
     },
     {
-      flags: {},
       args: {},
       argv: [],
-    } as Output,
+      flags: {},
+    } as IOutput,
   )
 }

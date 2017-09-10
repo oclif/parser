@@ -12,6 +12,7 @@ function termwidth(stream: any): number {
   return width
 }
 
+// tslint:disable-next-line:no-string-literal
 const columns: number | null = (global as any)['columns']
 
 export const errtermwidth = columns || termwidth(process.stderr)

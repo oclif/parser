@@ -5,6 +5,7 @@
   "author": "Jeff Dickey",
   "bugs": "https://github.com/jdxcode/cli-flags/issues",
   "devDependencies": {
+    "@types/jest": "^20.0.8",
     "@types/lodash.maxby": "^4.6.3",
     "@types/node": "^8.0.28",
     "husky": "^0.14.3",
@@ -59,6 +60,7 @@
   "types": "./lib/index.d.ts",
   "dependencies": {
     "@heroku/linewrap": "^1.0.0",
-    "lodash.maxby": "^4.6.0"
+    "lodash.maxby": "^4.6.0",
+    "string": "^3.3.3"
   }
 }

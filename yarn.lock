@@ -6,6 +6,10 @@
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@heroku/linewrap/-/linewrap-1.0.0.tgz#a9d4e99f0a3e423a899b775f5f3d6747a1ff15c6"
 
+"@types/jest@^20.0.8":
+  version "20.0.8"
+  resolved "https://registry.yarnpkg.com/@types/jest/-/jest-20.0.8.tgz#7f8c97f73d20d3bf5448fbe33661a342002b5954"
+
 "@types/lodash.maxby@^4.6.3":
   version "4.6.3"
   resolved "https://registry.yarnpkg.com/@types/lodash.maxby/-/lodash.maxby-4.6.3.tgz#be73126d59e1838c847006f05276392347714be9"
@@ -2865,6 +2869,10 @@ string.prototype.trim@~1.1.2:
     define-properties "^1.1.2"
     es-abstract "^1.5.0"
     function-bind "^1.0.2"
+
+string@^3.3.3:
+  version "3.3.3"
+  resolved "https://registry.yarnpkg.com/string/-/string-3.3.3.tgz#5ea211cd92d228e184294990a6cc97b366a77cb0"
 
 string_decoder@~0.10.x:
   version "0.10.31"
