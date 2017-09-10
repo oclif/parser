@@ -1,14 +1,4 @@
-cli-flags
-=========
-
-[![CircleCI](https://circleci.com/gh/jdxcode/cli-flags/tree/master.svg?style=svg)](https://circleci.com/gh/jdxcode/cli-flags/tree/master)
-
-CLI flag parser.
-
-Usage:
-
-```js
-const {flags: Flags, parse} = require('cli-flags')
+const {flags: Flags, parse} = require('.') // replace '.' with 'cli-flags'
 
 const {flags, args} = parse({
   flags: {
@@ -29,4 +19,3 @@ if (flags['output-file']) {
 }
 
 console.log(`input arg: ${args.input}`)
-```

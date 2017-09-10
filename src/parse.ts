@@ -6,12 +6,13 @@ export interface InputFlags {
   [name: string]: Flag
 }
 export interface IInputOptions {
-  argv: string[]
+  argv?: string[]
   flags?: InputFlags
   args?: IArg[]
   output?: 'object' | 'array'
 }
 type InputOptions = IInputOptions & {
+  argv: string[]
   flags: InputFlags
   args: InputArgs
 }
@@ -125,6 +126,7 @@ export function parse(options: IInputOptions & { output: 'array' }): OutputArray
 export function parse(options: IInputOptions): any {
   const input: InputOptions = {
     args: [],
+    argv: process.argv.slice(2),
     flags: {},
     ...options,
   }

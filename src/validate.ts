@@ -1,12 +1,14 @@
 import { RequiredArgsError } from './errors/required_args'
 import { RequiredFlagError } from './errors/required_flag'
+import { UnexpectedArgsError } from './errors/unexpected_args'
 import { Flag, ValueFlag } from './flags'
 import { InputArgs, InputFlags, IOutputArg, IOutputFlag, OutputArray } from './parse'
 
 function validateArgs(expected: InputArgs, input: IOutputArg[]) {
   const maxArgs = expected.length
   if (input.length > maxArgs) {
-    throw new Error('whoa')
+    const extras = input.slice(maxArgs)
+    throw new UnexpectedArgsError(extras)
   }
   const requiredArgs = expected.filter(a => a.required)
   const missingRequiredArgs = requiredArgs.slice(input.length)

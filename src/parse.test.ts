@@ -171,6 +171,18 @@ arg3  arg3 desc`)
     }
   })
 
+  test('too many args', () => {
+    expect.assertions(1)
+    try {
+      const out = parse({
+        args: [args.string({ name: 'arg1', required: true })],
+        argv: ['arg1', 'arg2'],
+      })
+    } catch (err) {
+      expect(err.message).toEqual(`Unexpected arg: arg2`)
+    }
+  })
+
   test('parses args', () => {
     const out = parse({
       args: [args.string({ name: 'myarg' }), args.string({ name: 'myarg2' })],
