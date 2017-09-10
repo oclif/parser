@@ -29,4 +29,9 @@ if (flags['output-file']) {
 }
 
 console.log(`input arg: ${args.input}`)
+
+// $ node example.js -f myinput --output-file=myexample.txt
+// --force was set
+// output file is: myexample.txt
+// input arg: myinput
 ```
