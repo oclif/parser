@@ -1,14 +1,14 @@
-import { Arg } from './args'
+import { IArg } from './args'
 import { Flag, ValueFlag } from './flags'
 import { validate } from './validate'
-export type InputArgs = Array<Arg<string>>
+export type InputArgs = IArg[]
 export interface InputFlags {
   [name: string]: Flag
 }
 export interface IInputOptions {
   argv: string[]
   flags?: InputFlags
-  args?: InputArgs
+  args?: IArg[]
   output?: 'object' | 'array'
 }
 type InputOptions = IInputOptions & {
@@ -19,7 +19,7 @@ export interface IOutputArg {
   type: 'arg'
   i: number
   input: string
-  arg: Arg<string>
+  arg: IArg
 }
 export interface IOutputFlag {
   type: 'flag'

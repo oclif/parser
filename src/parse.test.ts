@@ -113,36 +113,6 @@ describe('flags', () => {
     expect(out.flags).toEqual({ myflag: 'foo' })
   })
 
-  test('requires required args', () => {
-    expect.assertions(1)
-    try {
-      const out = parse({
-        args: [args.string({ required: true }), args.string({ required: true }), args.string({ optional: false })],
-        argv: ['arg1'],
-      })
-    } catch (err) {
-      expect(err.message).toEqual('Missing 2 required args')
-    }
-  })
-
-  test('requires required args with names', () => {
-    expect.assertions(1)
-    try {
-      const out = parse({
-        args: [
-          args.string({ required: true }),
-          args.string({ name: 'arg2', description: 'arg2 desc', required: true }),
-          args.string({ name: 'arg3', description: 'arg3 desc', optional: false }),
-        ],
-        argv: ['arg1'],
-      })
-    } catch (err) {
-      expect(err.message).toEqual(`Missing 2 required args:
-arg2  arg2 desc
-arg3  arg3 desc`)
-    }
-  })
-
   test('requires required flag', () => {
     expect.assertions(1)
     try {
@@ -182,46 +152,56 @@ arg3  arg3 desc`)
   })
 })
 
-// describe('args', () => {
-//   test('requires args by default', () => {
-//     const out = parse({
-//     expect.assertions(1)
-//     const p = new Parser({args: [{name: 'myarg'}, {name: 'myarg2'}]})
-//     try {
-//       await p.parse()
-//     } catch (err) {
-//       expect(out.err.message).toEqual('Error: Missing required argument myarg')
-//     }
-//   })
+describe('args', () => {
+  test('requires required args with names', () => {
+    expect.assertions(1)
+    try {
+      const out = parse({
+        args: [
+          args.string({ name: 'arg1', required: true }),
+          args.string({ name: 'arg2', description: 'arg2 desc', required: true }),
+          args.string({ name: 'arg3', description: 'arg3 desc', optional: false }),
+        ],
+        argv: ['arg1'],
+      })
+    } catch (err) {
+      expect(err.message).toEqual(`Missing 2 required args:
+arg2  arg2 desc
+arg3  arg3 desc`)
+    }
+  })
 
-//   test('parses args', () => {
-//     const out = parse({
-//     const p = new Parser({args: [{name: 'myarg'}, {name: 'myarg2'}]})
-//     {argv: ['foo', 'bar']})
-//     expect(out.argv).toEqual(['foo', 'bar'])
-//   })
+  test('parses args', () => {
+    const out = parse({
+      args: [args.string({ name: 'myarg' }), args.string({ name: 'myarg2' })],
+      argv: ['foo', 'bar'],
+    })
+    expect(out.argv).toEqual(['foo', 'bar'])
+  })
+  test('skips optional args', () => {
+    const out = parse({
+      args: [args.string({ name: 'myarg', optional: true }), args.string({ name: 'myarg2', optional: true })],
+      argv: ['foo'],
+    })
+    expect(out.argv).toEqual(['foo'])
+  })
 
-//   test('skips optional args', () => {
-//     const out = parse({
-//     const p = new Parser({args: [{name: 'myarg', optional: true}, {name: 'myarg2', optional: true}]})
-//     {argv: ['foo']})
-//     expect(out.argv).toEqual(['foo'])
-//   })
+  test('skips non-required args', () => {
+    const out = parse({
+      args: [args.string({ name: 'myarg', required: false }), args.string({ name: 'myarg2', required: false })],
+      argv: ['foo'],
+    })
+    expect(out.argv).toEqual(['foo'])
+  })
 
-//   test('skips non-required args', () => {
-//     const out = parse({
-//     const p = new Parser({args: [{name: 'myarg', required: false}, {name: 'myarg2', required: false}]})
-//     {argv: ['foo']})
-//     expect(out.argv).toEqual(['foo'])
-//   })
-
-//   test('parses something looking like a flag as an arg', () => {
-//     const out = parse({
-//     const p = new Parser({args: [{name: 'myarg'}]})
-//     {argv: ['--foo']})
-//     expect(out.argv).toEqual(['--foo'])
-//   })
-// })
+  test('parses something looking like a flag as an arg', () => {
+    const out = parse({
+      args: [{ name: 'myarg' }],
+      argv: ['--foo'],
+    })
+    expect(out.argv).toEqual(['--foo'])
+  })
+})
 
 // describe('variableArgs', () => {
 //   test('skips flag parsing after "--"', () => {

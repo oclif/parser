@@ -1,4 +1,3 @@
-import { Arg } from './args'
 import { RequiredArgsError } from './errors/required_args'
 import { RequiredFlagError } from './errors/required_flag'
 import { Flag, ValueFlag } from './flags'
