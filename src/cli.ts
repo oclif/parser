@@ -1,3 +1,5 @@
+import MaxBy = require('lodash.maxby')
+import PadEnd = require('lodash.padend')
 import { stdtermwidth } from './screen'
 
 function linewrap(length: number, s: string): string {
@@ -10,17 +12,20 @@ function linewrap(length: number, s: string): string {
 export type IListItem = [string, string | undefined]
 export type IList = IListItem[]
 export function renderList(items: IListItem[]): string {
-  const S = require('string')
-  const max = require('lodash.maxby')
+  const padEnd: typeof PadEnd = require('lodash.padend')
+  const maxBy: typeof MaxBy = require('lodash.maxby')
 
-  const maxLength = max(items, '[0].length')[0].length
+  if (items.length === 0) {
+    return ''
+  }
+  const maxLength = (maxBy(items, '[0].length') as any)[0].length
   const lines = items.map(i => {
     let left = i[0]
     let right = i[1]
     if (!right) {
       return left
     }
-    left = `${S(left).padRight(maxLength)}`
+    left = `${padEnd(left, maxLength)}`
     right = linewrap(maxLength + 2, right)
     return `${left}  ${right}`
   })
