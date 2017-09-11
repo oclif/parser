@@ -1,4 +1,3 @@
-import { IListItem, renderList } from '../cli'
 import { Flag } from '../flags'
 import { CLIFlagsError } from './base'
 

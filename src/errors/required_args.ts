@@ -1,5 +1,5 @@
+import { renderList } from 'cli-ux/lib/list'
 import { IArg } from '../args'
-import { IListItem, renderList } from '../cli'
 import { CLIFlagsError } from './base'
 
 export class RequiredArgsError extends Error {
@@ -7,7 +7,7 @@ export class RequiredArgsError extends Error {
     let msg = `Missing ${args.length} required arg${args.length === 1 ? '' : 's'}`
     const namedArgs = args.filter(a => a.name)
     if (namedArgs.length) {
-      const list = renderList(namedArgs.map(a => [a.name, a.description] as IListItem))
+      const list = renderList(namedArgs.map(a => [a.name, a.description] as [string, string]))
       msg += `:\n${list}`
     }
     super(msg)

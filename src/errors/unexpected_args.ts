@@ -1,4 +1,3 @@
-import { IListItem, renderList } from '../cli'
 import { IOutputArg } from '../parse'
 import { CLIFlagsError } from './base'
 
