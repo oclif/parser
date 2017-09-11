@@ -111,9 +111,18 @@ function parseArray(input: InputOptions): OutputArray {
   return output
 }
 
+// tslint:disable-next-line:interface-over-type-literal
+export type OutputArgs = {
+  [name: string]: any
+}
+
+// tslint:disable-next-line:interface-over-type-literal
+export type OutputFlags = {
+  [name: string]: any
+}
 export interface IOutput {
-  flags: { [name: string]: any }
-  args: { [name: string]: any }
+  flags: OutputFlags
+  args: OutputArgs
   argv: string[]
 }
 
