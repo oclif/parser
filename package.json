@@ -5,7 +5,7 @@
   "author": "Jeff Dickey",
   "bugs": "https://github.com/jdxcode/cli-flags/issues",
   "dependencies": {
-    "cli-ux": "^1.1.0"
+    "cli-ux": "^1.1.1"
   },
   "devDependencies": {
     "@types/jest": "^20.0.8",
@@ -46,6 +46,7 @@
   "lint-staged": {
     "**/*.ts": [
       "prettier --write",
+      "tslint --fix",
       "git add",
       "jest --bail --findRelatedTests"
     ]

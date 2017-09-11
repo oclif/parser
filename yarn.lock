@@ -10,22 +10,6 @@
   version "20.0.8"
   resolved "https://registry.yarnpkg.com/@types/jest/-/jest-20.0.8.tgz#7f8c97f73d20d3bf5448fbe33661a342002b5954"
 
-"@types/lodash.maxby@^4.6.3":
-  version "4.6.3"
-  resolved "https://registry.yarnpkg.com/@types/lodash.maxby/-/lodash.maxby-4.6.3.tgz#be73126d59e1838c847006f05276392347714be9"
-  dependencies:
-    "@types/lodash" "*"
-
-"@types/lodash.padend@^4.6.3":
-  version "4.6.3"
-  resolved "https://registry.yarnpkg.com/@types/lodash.padend/-/lodash.padend-4.6.3.tgz#e5ff65302a13e73bfa547e25a61afb003d3eb979"
-  dependencies:
-    "@types/lodash" "*"
-
-"@types/lodash@*":
-  version "4.14.74"
-  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.74.tgz#ac3bd8db988e7f7038e5d22bd76a7ba13f876168"
-
 "@types/node@^8.0.28":
   version "8.0.28"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-8.0.28.tgz#86206716f8d9251cf41692e384264cbd7058ad60"
@@ -499,10 +483,11 @@ cli-truncate@^0.2.1:
     slice-ansi "0.0.4"
     string-width "^1.0.1"
 
-cli-ux@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/cli-ux/-/cli-ux-1.1.0.tgz#9958ec78d277bfd44a6813c3ed08f5a0d9bc4a4f"
+cli-ux@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/cli-ux/-/cli-ux-1.1.1.tgz#a10db3586dc1c37a0565e5e69c98be164d7c9f14"
   dependencies:
+    "@heroku/linewrap" "^1.0.0"
     ansi-escapes "^3.0.0"
     ansi-styles "^3.2.0"
     cardinal "^1.0.0"
