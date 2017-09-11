@@ -6,17 +6,18 @@ export interface IFlagOptions {
   hidden?: boolean
   required?: boolean
   optional?: boolean
+  multiple?: boolean
 }
 
-export abstract class Flag<T> {
-  public type: 'boolean' | 'value'
+export abstract class Flag <T> {
+  public type: 'boolean' | 'value' | 'multiple'
   public name: string
   public char?: AlphabetLowercase | AlphabetUppercase
   public description?: string
   public hidden: boolean
   public required: boolean
-  public input?: string
-  public value: T
+  public inputs: string[] = []
+  public abstract get value(): T
 
   constructor(options: IFlagOptions) {
     this.char = options.char

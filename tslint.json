@@ -4,6 +4,9 @@
     "tslint-config-prettier"
   ],
   "rules": {
-    "interface-over-type-literal": false
+    "array-type": false,
+    "curly": false,
+    "interface-over-type-literal": false,
+    "max-classes-per-file": false
   }
 }

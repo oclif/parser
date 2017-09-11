@@ -2,7 +2,6 @@ import { IFlagOptions } from './base'
 import { BooleanFlag } from './boolean'
 import { IntegerFlag } from './integer'
 import { StringFlag } from './string'
-import { IValueFlagOptions } from './value'
 
 export { ValueFlag } from './value'
 export { Flag } from './base'
@@ -12,10 +11,14 @@ export const flags = {
   boolean: (options: IFlagOptions = {}) => {
     return new BooleanFlag(options)
   },
-  integer: (options: IValueFlagOptions = {}) => {
+  integer: (options: IFlagOptions = {}) => {
     return new IntegerFlag(options)
   },
-  string: (options: IValueFlagOptions = {}) => {
-    return new StringFlag(options)
+  string: (options: IFlagOptions = {}) => {
+    if (options.multiple) {
+      return new MultipleStringFlag(options)
+    } else {
+      return new StringFlag(options)
+    }
   },
 }

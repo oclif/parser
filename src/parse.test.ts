@@ -157,17 +157,17 @@ describe('args', () => {
   test('requires required args with names', () => {
     expect.assertions(1)
     try {
-      const out = parse({
+      parse({
         args: [
           args.string({ name: 'arg1', required: true }),
           args.string({
-            name: 'arg2',
             description: 'arg2 desc',
+            name: 'arg2',
             required: true,
           }),
           args.string({
-            name: 'arg3',
             description: 'arg3 desc',
+            name: 'arg3',
             optional: false,
           }),
         ],
@@ -183,7 +183,7 @@ arg3  arg3 desc`)
   test('too many args', () => {
     expect.assertions(1)
     try {
-      const out = parse({
+      parse({
         args: [args.string({ name: 'arg1', required: true })],
         argv: ['arg1', 'arg2'],
       })
@@ -225,7 +225,7 @@ arg3  arg3 desc`)
 })
 
 describe('multiple flags', () => {
-  test('parses multiple flags', () => {
+  test.only('parses multiple flags', () => {
     const out = parse({
       argv: ['--foo', 'a', '--foo=b'],
       flags: {

@@ -1,17 +1,14 @@
 import { Flag, IFlagOptions } from './base'
 
-export interface IValueFlagOptions extends IFlagOptions {
-  multiple?: boolean
-}
-
-export abstract class ValueFlag<T> extends Flag<T> {
-  public type: 'value' = 'value'
-  public multiple: boolean
-
-  constructor(options: IValueFlagOptions) {
-    super(options)
-    this.multiple = !!options.multiple
+export abstract class ValueFlag<T> extends Flag <T> {
+  public static multiple <T> (options: IFlagOptions) {
+    class MultipleValueFlag extends this <T[]> {
+      public parse (input: string) { super.parse(input) }
+      public get value(): T[] { super.value }
+    }
+    return new MultipleValueFlag(options)
   }
 
-  public abstract parse(input: string): T
+  public type: 'value' = 'value'
+  public abstract get value(): T
 }

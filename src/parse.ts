@@ -66,7 +66,12 @@ function parseArray<T extends IFlags>(input: ParserInput<T>): RawParseArray {
       if (!value) {
         throw new Error(`Flag --${name} expects a value`)
       }
-      flag.input = value
+      if (flag.multiple) {
+        flag.input = flag.input || []
+        arr.push(value)
+      } else {
+        flag.input = value
+      }
       output.push(flag)
     } else {
       output.push(flag)
@@ -119,7 +124,7 @@ function buildOutputFromArray<T extends IFlags>(raw: RawParseArray): ParserOutpu
           flag.value = flag.parse(flag.input)
           if (flag.multiple) {
             obj.flags[flag.name] = obj.flags[flag.name] || []
-            // obj.flags[flag.name].push(flag.parse(flag.value))
+            obj.flags[flag.name].push(flag.parse(flag.value))
           } else {
             obj.flags[flag.name] = flag.value
           }
