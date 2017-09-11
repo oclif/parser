@@ -2,15 +2,17 @@
   "compilerOptions": {
     "declaration": true,
     "module": "commonjs",
+    "noEmitOnError": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
     "outDir": "./lib",
     "pretty": true,
+    "removeComments": true,
     "strict": true,
-    "target": "es2016"
+    "target": "es6"
   },
   "include": [
     "./src/**/*"
-  ],
-  "exclude": [
-    "**/*.test.ts"
   ]
 }

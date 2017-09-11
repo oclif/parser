@@ -35,18 +35,16 @@ describe('output: array', () => {
       flags: {
         bool: flags.boolean(),
       },
-      output: 'array',
     })
-    expect((out[0] as any).flag.name).toEqual('bool')
+    expect(out.raw[0].name).toEqual('bool')
   })
 
   test('arg1', () => {
     const out = parse({
       args: [args.string({ name: 'foo' })],
       argv: ['arg1'],
-      output: 'array',
     })
-    expect((out[0] as any).input).toEqual('arg1')
+    expect(out.raw[0].input).toEqual('arg1')
   })
 })
 
@@ -119,7 +117,10 @@ describe('flags', () => {
       const out = parse({
         argv: [],
         flags: {
-          myflag: flags.string({ required: true, description: 'flag description' }),
+          myflag: flags.string({
+            required: true,
+            description: 'flag description',
+          }),
         },
       })
     } catch (err) {
@@ -159,8 +160,16 @@ describe('args', () => {
       const out = parse({
         args: [
           args.string({ name: 'arg1', required: true }),
-          args.string({ name: 'arg2', description: 'arg2 desc', required: true }),
-          args.string({ name: 'arg3', description: 'arg3 desc', optional: false }),
+          args.string({
+            name: 'arg2',
+            description: 'arg2 desc',
+            required: true,
+          }),
+          args.string({
+            name: 'arg3',
+            description: 'arg3 desc',
+            optional: false,
+          }),
         ],
         argv: ['arg1'],
       })
@@ -208,7 +217,7 @@ arg3  arg3 desc`)
 
   test('parses something looking like a flag as an arg', () => {
     const out = parse({
-      args: [{ name: 'myarg' }],
+      args: [args.string({ name: 'myarg' })],
       argv: ['--foo'],
     })
     expect(out.argv).toEqual(['--foo'])
@@ -230,7 +239,7 @@ describe('multiple flags', () => {
 describe('strict: false', () => {
   test('skips flag parsing after "--"', () => {
     const out = parse({
-      args: [{ name: 'argOne' }],
+      args: [args.string({ name: 'argOne' })],
       argv: ['foo', 'bar', '--', '--myflag'],
       flags: { myflag: flags.boolean() },
       strict: false,
@@ -245,5 +254,27 @@ describe('strict: false', () => {
       strict: false,
     })
     expect(out.argv).toEqual(['foo', '--myflag=foo bar'])
+  })
+})
+
+describe('integer flag', () => {
+  test('parses integers', () => {
+    const out = parse({
+      argv: ['--int', '100'],
+      flags: { int: flags.integer() },
+    })
+    expect(out.flags).toMatchObject({ int: 100 })
+  })
+
+  test('does not parse strings', () => {
+    expect.assertions(1)
+    try {
+      parse({
+        argv: ['--int', 's10'],
+        flags: { int: flags.integer() },
+      })
+    } catch (err) {
+      expect(err.message).toEqual(`expected integer but received: 's10'`)
+    }
   })
 })
