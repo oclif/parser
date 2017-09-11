@@ -6,14 +6,12 @@ export interface IBooleanFlag extends IFlagBase<boolean> {
 }
 
 export class BooleanFlag extends Flag<boolean> implements IBooleanFlag {
-  public readonly type: 'boolean' = 'boolean'
+  public type: 'boolean' = 'boolean'
   public input: string[] = []
   constructor(options: IFlagOptions = {}) {
     super(options)
   }
-  public get value() {
-    return this.input.length > 0
-  }
+  public get value() { return this.input.length > 0 }
   public handleInput(argv: string[]): ParsingToken | undefined {
     const argv0 = argv.shift()
     if (!argv0) {

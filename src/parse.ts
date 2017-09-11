@@ -1,144 +1,100 @@
 import _ from './lodash'
 
-export interface IFlagBase <T> {
-  name?: string
-  description?: string
-  value: T
-  handleInput (argv: string[]): ParsingToken | undefined
-}
-
-export interface IOptionFlag <T> extends IFlagBase <T> {
-  type: 'option'
-}
-
-export interface IMultiOptionFlag <T> extends IFlagBase <T[]> {
-  type: 'multiple'
-}
-
-export type IFlag <T> = IOptionFlag<T> | IMultiOptionFlag<T>
-
-type IFlagOptions = {
-  type: 'option' | 'multiple'
-  name?: string
-  description?: string
-}
-
-abstract class Flag <T> {
-  public type: 'option' | 'multiple'
-  public name?: string
-  public description?: string
-  constructor (options: IFlagOptions) {
-    this.type = options.type
-    this.name = options.name
-    this.description = options.description
-  }
-  public abstract handleInput (argv: string[]): ParsingToken | undefined
-  public abstract get value(): T[] | T | undefined
-}
-
-abstract class OptionFlag <T> extends Flag <T> {
-  public input: string[] = []
-  public get value() {
-    if (this.type === 'multiple') return this.input.map(i => this.parse(i))
-    return this.input[0] ? this.parse(this.input[0]) : undefined
-  }
-  public abstract parse(input: string): T
-  public handleInput (argv: string[]): ParsingToken | undefined {
-    const argv0 = argv.shift()
-    if (!argv0) { return }
-    if (argv0 !== `--${this.name}`) { argv.unshift(argv0); return }
-    const argv1 = argv.shift()
-    if (!argv1) { throw new Error('no value error') }
-    this.input.push(argv1)
-    return {type: 'option', flag: this.name!, input: argv1} as OptionFlagToken
-  }
-}
-
-class StringFlag extends OptionFlag <string> {
-  public parse(input: string) { return input }
-}
-class IntFlag extends OptionFlag<number> {
-  public parse(input: string) { return parseInt(input, 10) }
-}
-
-const flags = {
-  integer: (options: Partial<IFlagOptions>={}) => {
-    if (options.type === 'multiple') {
-      return new IntFlag({...options, type: 'multiple'}) as IMultiOptionFlag<number>
-    } else {
-      return new IntFlag({...options, type: 'option'}) as IOptionFlag<number>
-    }
-  },
-  string: (options: Partial<IFlagOptions>={}) => {
-    if (options.type === 'multiple') {
-      return new StringFlag({...options, type: 'multiple'}) as IMultiOptionFlag<string>
-    } else {
-      return new StringFlag({...options, type: 'option'}) as IOptionFlag<string>
-    }
-  },
-}
+import { IArg } from './args'
+import { IFlag } from './flags'
 
 export interface InputFlags {
   [name: string]: IFlag<any>
 }
 
-export type ParserInput <T extends InputFlags> = {
+export type ParserInput<T extends InputFlags> = {
   argv: string[]
   flags: T
-  // args: Array<Arg<any>>
+  args: IArg[]
   strict: boolean
 }
 
-export type ParserOutput <T extends InputFlags> = {
-  flags: {[P in keyof T]?: T[P]['value']}
-  // args: {[name: string]: any}
+export type ParserOutput<T extends InputFlags> = {
+  flags: { [P in keyof T]?: T[P]['value'] }
+  args: { [name: string]: any }
   argv: string[]
   raw: ParsingToken[]
 }
 
-export type OptionFlagToken = {type: 'option', flag: string, input: string}
-export type ParsingToken = OptionFlagToken
+export type ArgToken = { type: 'arg'; arg: number; input: string }
+export type BooleanFlagToken = { type: 'boolean'; flag: string; input: string }
+export type OptionFlagToken = { type: 'option'; flag: string; input: string }
+export type ParsingToken = ArgToken | BooleanFlagToken | OptionFlagToken
 
-export function parse <T extends InputFlags> (options: Partial<ParserInput<T>>): ParserOutput<T> {
+export function parse<T extends InputFlags>(options: Partial<ParserInput<T>>): ParserOutput<T> {
   const input: ParserInput<T> = {
-    // args: options.args || [],
+    args: options.args || [],
     argv: options.argv || process.argv.slice(2),
-    flags: options.flags || {} as T,
-    strict: options.strict !== false
+    flags: options.flags || ({} as T),
+    strict: options.strict !== false,
   }
   const parser = new Parser<T>(input)
   return parser.parse()
 }
 
-export class Parser <T extends InputFlags> {
+export class Parser<T extends InputFlags> {
   private argv: string[]
   private raw: ParsingToken[] = []
-  constructor (readonly input: ParserInput<T>) {
+  constructor(readonly input: ParserInput<T>) {
     this.argv = input.argv.slice(0)
     this._setNames(input)
   }
 
   public parse(): ParserOutput<T> {
-    while (this.argv.length) this._findNextToken(this.argv)
+    let parsingFlags = true
+    while (this.argv.length) {
+      if (parsingFlags && this.argv[0].startsWith('-')) {
+        // attempt to parse as arg
+        if (this.argv[0] === '--') {
+          this.argv.shift()
+          parsingFlags = false
+          continue
+        }
+        if (this._parseFlag(this.argv)) {
+          continue
+        }
+        // not actually a flag if it reaches here so parse as an arg
+      }
+      // not a flag, parse as arg
+      const input = this.argv.shift() as string
+      const outputArgs = this.raw.filter(o => o.type === 'arg') as Array<IArg>
+      const numArgs = outputArgs.length
+      let nextArg: IArg = this.input.args[numArgs]
+      if (!nextArg) {
+        nextArg = {} as IArg
+      }
+      nextArg.input = input
+      this.raw.push({ type: 'arg', arg: numArgs, input })
+    }
     return {
-      argv: [],
+      args: this.input.args.reduce(
+        (args, a) => {
+          if (a.name) args[a.name] = a.input
+          return args
+        },
+        {} as ParserOutput<T>['args'],
+      ),
+      argv: this.raw.filter(o => o.type === 'arg').map(a => a.input),
       flags: _.mapValues(this.input.flags, 'value'),
-      raw: this.raw
+      raw: this.raw,
     }
   }
 
-  private _findNextToken (argv: string[]): void {
-    const elements: IFlag<any>[] = Object.values(this.input.flags)
-    for (const element of elements) {
-      const token = element.handleInput(argv)
+  private _parseFlag(argv: string[]): boolean | undefined {
+    const flags = Object.values(this.input.flags)
+    for (const flag of flags) {
+      const token = flag.handleInput(argv)
       if (token) {
         this.raw.push(token)
-        return
+        return true
       }
     }
-    throw new Error(`Unexpected argument: ${argv[0]}`)
   }
-
 
   private _setNames(input: ParserInput<T>) {
     for (const name of Object.keys(input.flags)) {

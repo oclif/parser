@@ -1,11 +1,7 @@
-import {inspect} from 'util'
-import { ValueFlag } from './value'
+import { OptionFlag } from './option'
 
-export class IntegerFlag extends ValueFlag<number> {
-  public parse(input: string): number {
-    const isInt = /^\+?\d+$/.test(input)
-    if (!isInt) {throw new Error(`expected integer but received: ${inspect(input)}`)}
-
+export class IntFlag extends OptionFlag<number> {
+  public parse(input: string) {
     return parseInt(input, 10)
   }
 }

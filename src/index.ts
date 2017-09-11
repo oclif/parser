@@ -1,3 +1,3 @@
-export { args, Arg } from './args'
+export { IArg } from './args'
 export { parse, ParserInput, ParserOutput } from './parse'
-export { flags, BooleanFlag, ValueFlag } from './flags'
+export { flags } from './flags'
