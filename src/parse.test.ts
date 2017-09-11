@@ -114,12 +114,12 @@ describe('flags', () => {
   test('requires required flag', () => {
     expect.assertions(1)
     try {
-      const out = parse({
+      parse({
         argv: [],
         flags: {
           myflag: flags.string({
-            required: true,
             description: 'flag description',
+            required: true,
           }),
         },
       })
@@ -261,7 +261,7 @@ describe('integer flag', () => {
   test('parses integers', () => {
     const out = parse({
       argv: ['--int', '100'],
-      flags: { int: flags.integer() },
+      flags: { int: flags.integer(), s: flags.string() },
     })
     expect(out.flags).toMatchObject({ int: 100 })
   })

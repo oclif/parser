@@ -1,6 +1,6 @@
 import { Arg, args } from './args'
 import { BooleanFlag, ValueFlag } from './flags'
-// import { validate } from './validate'
+import { validate } from './validate'
 
 export interface IFlags {
   [name: string]: BooleanFlag | ValueFlag<any>
@@ -14,7 +14,6 @@ export type ParserInput <T extends IFlags> = {
 }
 
 export type ParserOutput <T extends IFlags> = {
-  // flags: {[P in keyof T['flags']]: T['flags'][P]['value']}
   flags: {[P in keyof T]?: T[P]['value']}
   args: {[name: string]: any}
   argv: string[]
@@ -150,7 +149,6 @@ function buildOutputFromArray<T extends IFlags>(raw: RawParseArray): ParserOutpu
   )
 }
 
-// export function parse<T extends IFlags>(options: Partial<ParserInput<T>>): ParserOutput<T> {
 export function parse<T extends IFlags>(options: Partial<ParserInput<T>>): ParserOutput<T> {
   const input: ParserInput<T> = {
     args: options.args || [],
@@ -161,6 +159,6 @@ export function parse<T extends IFlags>(options: Partial<ParserInput<T>>): Parse
   setNames(input.flags)
   const arr = parseArray(input)
   const output = buildOutputFromArray<T>(arr)
-  // validate(input, output)
+  validate(input, output)
   return output
 }
