@@ -16,9 +16,11 @@ export type ParserInput<T extends InputFlags> = {
   strict: boolean
 }
 
+export type OutputFlags<T extends InputFlags> = { [P in keyof T]?: T[P]['value'] }
+export type OutputArgs = { [k: string]: string }
 export type ParserOutput<T extends InputFlags> = {
-  flags: { [P in keyof T]?: T[P]['value'] }
-  args: { [name: string]: any }
+  flags: OutputFlags<T>
+  args: OutputArgs
   argv: string[]
   raw: ParsingToken[]
 }
