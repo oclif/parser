@@ -93,13 +93,13 @@ export class Parser<T extends InputFlags> {
         }
         flag.input.push(value)
         if (flag.type === 'option') {
-          this.raw.push({ type: 'option', flag: flag as IOptionFlag<typeof flag.value>, input: value })
+          this.raw.push({ type: 'option', flag, input: value })
         } else {
-          this.raw.push({ type: 'option', flag: flag as IMultiOptionFlag<typeof flag.value>, input: value })
+          this.raw.push({ type: 'option', flag, input: value })
         }
       } else {
         flag.value = true
-        this.raw.push({ type: 'boolean', flag: flag as IBooleanFlag })
+        this.raw.push({ type: 'boolean', flag })
         // push the rest of the short characters back on the stack
         if (!long && arg.length > 2) {
           this.argv.unshift(`-${arg.slice(2)}`)

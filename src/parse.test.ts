@@ -223,12 +223,14 @@ arg3  arg3 desc`)
   describe('multiple flags', () => {
     test('parses multiple flags', () => {
       const out = parse({
-        argv: ['--foo', 'a', '--foo=b'],
+        argv: ['--bar', 'a', '--bar=b', '--foo=c'],
         flags: {
-          foo: flags.string({ multiple: true }),
+          bar: flags.string({ multiple: true }),
+          foo: flags.string(),
         },
       })
-      expect(out.flags).toMatchObject({ foo: ['a', 'b'] })
+      expect(out.flags.foo.toUpperCase()).toEqual('C')
+      expect(out.flags.bar.join('|')).toEqual('a|b')
     })
   })
 

@@ -1,11 +1,11 @@
 import { Flag } from './base'
 
 export interface IBooleanFlag extends Flag {
-  readonly type: 'boolean'
+  type: 'boolean'
   value: boolean
 }
 
-export class BooleanFlag extends Flag implements IBooleanFlag {
+export class BooleanFlag extends Flag {
   public readonly type: 'boolean' = 'boolean'
   public value: boolean
 }
