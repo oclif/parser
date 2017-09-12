@@ -1,17 +1,16 @@
 import { Flag, IFlagOptions } from './base'
 
 export interface IValueFlagOptions extends IFlagOptions {
-  type?: 'option' | 'multiple'
+  multiple?: boolean
 }
 
 export abstract class OptionFlag<T> extends Flag<T> {
   public input: string[] = []
-  public readonly type: string
+  public readonly type: string = 'option'
   public readonly multiple: boolean
   constructor(options: IValueFlagOptions = {}) {
     super(options)
-    this.type = options.type || 'option'
-    this.multiple = this.type === 'multiple'
+    this.multiple = !!options.multiple
   }
   public get value() {
     if (this.multiple) return this.input.map(i => this.parse(i))

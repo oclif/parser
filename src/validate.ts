@@ -11,7 +11,7 @@ function validateArgs<T extends InputFlags>(expected: ParserInput<T>, input: Arr
     const extras = input.slice(maxArgs)
     throw new UnexpectedArgsError(extras)
   }
-  const requiredArgs = expected.args.filter(a => a.required)
+  const requiredArgs = expected.args.filter(a => a.required || a.optional === false)
   const missingRequiredArgs = requiredArgs.slice(input.length)
   if (missingRequiredArgs.length) {
     throw new RequiredArgsError(missingRequiredArgs)

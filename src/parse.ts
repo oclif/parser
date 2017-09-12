@@ -78,7 +78,7 @@ export class Parser<T extends InputFlags> {
         return false
       }
       const flag = this.input.flags[name]
-      if (flag.type === 'option' || flag.type === 'multiple') {
+      if (flag.type === 'option') {
         let value
         if (long || arg.length < 3) {
           value = this.argv.shift()
