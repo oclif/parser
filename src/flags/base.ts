@@ -8,7 +8,7 @@ export interface IFlagOptions {
   optional?: boolean
 }
 
-export abstract class Flag<T> {
+export abstract class Flag {
   public name?: string
   public char?: AlphabetLowercase | AlphabetUppercase
   public description?: string
@@ -21,6 +21,4 @@ export abstract class Flag<T> {
     this.hidden = !!options.hidden
     this.required = options.required || options.optional === false
   }
-
-  public abstract get value(): T | T[] | undefined
 }

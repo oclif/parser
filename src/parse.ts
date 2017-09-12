@@ -1,7 +1,7 @@
 import _ from './lodash'
 
 import { IArg } from './args'
-import { BooleanFlag, IFlag, OptionFlag } from './flags'
+import { IBooleanFlag, IFlag, IMultiOptionFlag, IOptionFlag } from './flags'
 import { validate } from './validate'
 
 export interface InputFlags {
@@ -16,25 +16,25 @@ export type ParserInput<T extends InputFlags> = {
   strict: boolean
 }
 
-export type OutputFlags<T extends InputFlags> = { [P in keyof T]?: T[P]['value'] }
+export type OutputFlags<T extends InputFlags> = { [P in keyof T]: T[P]['value'] }
 export type OutputArgs = { [k: string]: string }
 export type ParserOutput<T extends InputFlags> = {
   flags: OutputFlags<T>
   args: OutputArgs
   argv: string[]
-  raw: ParsingToken[]
+  raw: ParsingToken<any>[]
 }
 
 export type ArgToken = { type: 'arg'; arg: IArg; i: number; input: string }
-export type BooleanFlagToken = { type: 'boolean'; flag: BooleanFlag }
-export type OptionFlagToken = { type: 'option'; flag: OptionFlag<any>; input: string }
-export type ParsingToken = ArgToken | BooleanFlagToken | OptionFlagToken
+export type BooleanFlagToken = { type: 'boolean'; flag: IBooleanFlag }
+export type OptionFlagToken<T> = { type: 'option'; flag: IMultiOptionFlag<T> | IOptionFlag<T>; input: string }
+export type ParsingToken<T> = ArgToken | BooleanFlagToken | OptionFlagToken<T>
 
 export function parse<T extends InputFlags>(options: Partial<ParserInput<T>>): ParserOutput<T> {
   const input: ParserInput<T> = {
     args: options.args || [],
     argv: options.argv || process.argv.slice(2),
-    flags: options.flags || ({} as T),
+    flags: (options.flags || {}) as T,
     strict: options.strict !== false,
   }
   const parser = new Parser<T>(input)
@@ -45,7 +45,7 @@ export function parse<T extends InputFlags>(options: Partial<ParserInput<T>>): P
 
 export class Parser<T extends InputFlags> {
   private argv: string[]
-  private raw: ParsingToken[] = []
+  private raw: ParsingToken<any>[] = []
   constructor(readonly input: ParserInput<T>) {
     this.argv = input.argv.slice(0)
     this._setNames(input)
@@ -81,7 +81,7 @@ export class Parser<T extends InputFlags> {
         return false
       }
       const flag = this.input.flags[name]
-      if (flag.type === 'option') {
+      if (flag.type === 'option' || flag.type === 'multi') {
         let value
         if (long || arg.length < 3) {
           value = this.argv.shift()
@@ -92,10 +92,14 @@ export class Parser<T extends InputFlags> {
           throw new Error(`Flag --${name} expects a value`)
         }
         flag.input.push(value)
-        this.raw.push({ type: 'option', flag: flag as OptionFlag<any>, input: value })
+        if (flag.type === 'option') {
+          this.raw.push({ type: 'option', flag: flag as IOptionFlag<typeof flag.value>, input: value })
+        } else {
+          this.raw.push({ type: 'option', flag: flag as IMultiOptionFlag<typeof flag.value>, input: value })
+        }
       } else {
-        flag.input.push(arg)
-        this.raw.push({ type: 'boolean', flag: flag as BooleanFlag })
+        flag.value = true
+        this.raw.push({ type: 'boolean', flag: flag as IBooleanFlag })
         // push the rest of the short characters back on the stack
         if (!long && arg.length > 2) {
           this.argv.unshift(`-${arg.slice(2)}`)

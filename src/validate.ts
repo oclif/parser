@@ -2,7 +2,7 @@ import { IArg } from './args'
 import { RequiredArgsError } from './errors/required_args'
 import { RequiredFlagError } from './errors/required_flag'
 import { UnexpectedArgsError } from './errors/unexpected_args'
-import { OptionFlag } from './flags'
+import { IFlag } from './flags'
 import { InputFlags, ParserInput, ParserOutput } from './parse'
 
 function validateArgs<T extends InputFlags>(expected: ParserInput<T>, input: Array<IArg>) {
@@ -20,7 +20,7 @@ function validateArgs<T extends InputFlags>(expected: ParserInput<T>, input: Arr
 
 function validateFlags<T extends InputFlags>(expected: ParserInput<T>) {
   const requiredFlags = Object.keys(expected.flags)
-    .map(k => [k, expected.flags[k]] as [string, OptionFlag<any>])
+    .map(k => [k, expected.flags[k]] as [string, IFlag<any>])
     .filter(([, flag]) => flag.required)
   for (const [, flag] of requiredFlags) {
     if (flag.value === undefined) {

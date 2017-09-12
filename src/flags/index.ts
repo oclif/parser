@@ -1,20 +1,35 @@
 import { IFlagOptions } from './base'
-import { BooleanFlag } from './boolean'
+import { BooleanFlag, IBooleanFlag } from './boolean'
 import { IntFlag } from './integer'
-import { IValueFlagOptions, OptionFlag } from './option'
+import { IMultiOptionFlag, IMultiOptionFlagOptions, IOptionFlag, IValueFlagOptions } from './option'
 import { StringFlag } from './string'
 
-export type IFlag<T> = BooleanFlag | OptionFlag<T>
-export { BooleanFlag, OptionFlag }
+export type IFlag<T> = IBooleanFlag | IOptionFlag<T> | IMultiOptionFlag<T>
+export { IBooleanFlag, IOptionFlag, IMultiOptionFlag }
+
+function buildint(options: IMultiOptionFlagOptions): IMultiOptionFlag<string>
+function buildint(options: IValueFlagOptions): IOptionFlag<string>
+function buildint(options: IValueFlagOptions): any {
+  return new IntFlag(options)
+}
+
+function buildstring(options: IMultiOptionFlagOptions): IMultiOptionFlag<string>
+function buildstring(options: IValueFlagOptions): IOptionFlag<string>
+function buildstring(options: IValueFlagOptions): any {
+  return new StringFlag(options)
+}
 
 export const flags = {
   boolean: (options: IFlagOptions = {}) => {
     return new BooleanFlag(options)
   },
   integer: (options: IValueFlagOptions = {}) => {
-    return new IntFlag(options)
+    return buildint({
+      ...options,
+      multiple: !!options.multiple,
+    })
   },
   string: (options: IValueFlagOptions = {}) => {
-    return new StringFlag(options)
+    return buildstring(options)
   },
 }

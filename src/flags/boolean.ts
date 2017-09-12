@@ -1,12 +1,11 @@
-import { Flag, IFlagOptions } from './base'
+import { Flag } from './base'
 
-export class BooleanFlag extends Flag<boolean> {
+export interface IBooleanFlag extends Flag {
+  readonly type: 'boolean'
+  value: boolean
+}
+
+export class BooleanFlag extends Flag implements IBooleanFlag {
   public readonly type: 'boolean' = 'boolean'
-  public input: string[] = []
-  constructor(options: IFlagOptions = {}) {
-    super(options)
-  }
-  public get value() {
-    return this.input.length > 0
-  }
+  public value: boolean
 }
