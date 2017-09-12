@@ -8,12 +8,12 @@ CLI flag parser.
 Usage:
 
 ```js
-const {flags: Flags, parse} = require('cli-flags')
+const CLI = require('cli-flags')
 
-const {flags, args} = parse({
+const {flags, args} = CLI.parse({
   flags: {
-    'output-file': Flags.string({char: 'o'}),
-    force: Flags.boolean({char: 'f'})
+    'output-file': CLI.flags.string({char: 'o'}),
+    force: CLI.flags.boolean({char: 'f'})
   },
   args: [
     {name: 'input', required: true}
