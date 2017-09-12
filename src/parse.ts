@@ -130,7 +130,7 @@ export class Parser<T extends InputFlags> {
     return {
       args: this.input.args.reduce(
         (args, a) => {
-          if (a.name) args[a.name] = a.input
+          if (a.name && a.input) args[a.name] = a.input
           return args
         },
         {} as ParserOutput<T>['args'],
