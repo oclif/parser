@@ -1,7 +1,8 @@
 import _ from './lodash'
 
 import { IArg } from './args'
-import { IFlag } from './flags'
+import { BooleanFlag, IFlag, OptionFlag } from './flags'
+import { validate } from './validate'
 
 export interface InputFlags {
   [name: string]: IFlag<any>
@@ -21,9 +22,9 @@ export type ParserOutput<T extends InputFlags> = {
   raw: ParsingToken[]
 }
 
-export type ArgToken = { type: 'arg'; arg: number; input: string }
-export type BooleanFlagToken = { type: 'boolean'; flag: string; input: string }
-export type OptionFlagToken = { type: 'option'; flag: string; input: string }
+export type ArgToken = { type: 'arg'; arg: IArg; i: number; input: string }
+export type BooleanFlagToken = { type: 'boolean'; flag: BooleanFlag }
+export type OptionFlagToken = { type: 'option'; flag: OptionFlag<any>; input: string }
 export type ParsingToken = ArgToken | BooleanFlagToken | OptionFlagToken
 
 export function parse<T extends InputFlags>(options: Partial<ParserInput<T>>): ParserOutput<T> {
@@ -34,7 +35,9 @@ export function parse<T extends InputFlags>(options: Partial<ParserInput<T>>): P
     strict: options.strict !== false,
   }
   const parser = new Parser<T>(input)
-  return parser.parse()
+  const output = parser.parse()
+  validate(input, output)
+  return output
 }
 
 export class Parser<T extends InputFlags> {
@@ -46,22 +49,72 @@ export class Parser<T extends InputFlags> {
   }
 
   public parse(): ParserOutput<T> {
+    const findLongFlag = (arg: string) => {
+      const name = arg.slice(2)
+      if (this.input.flags[name]) {
+        return name
+      }
+    }
+
+    const findShortFlag = (arg: string) => {
+      return Object.keys(this.input.flags).find(k => this.input.flags[k].char === arg[1])
+    }
+
+    const parseFlag = (arg: string): boolean => {
+      const long = arg.startsWith('--')
+      const name = long ? findLongFlag(arg) : findShortFlag(arg)
+      if (!name) {
+        const i = arg.indexOf('=')
+        if (i !== -1) {
+          const sliced = arg.slice(i + 1)
+          this.argv.unshift(sliced)
+
+          const equalsParsed = parseFlag(arg.slice(0, i))
+          if (!equalsParsed) {
+            this.argv.shift()
+          }
+          return equalsParsed
+        }
+        return false
+      }
+      const flag = this.input.flags[name]
+      if (flag.type === 'option' || flag.type === 'multiple') {
+        let value
+        if (long || arg.length < 3) {
+          value = this.argv.shift()
+        } else {
+          value = arg.slice(arg[2] === '=' ? 3 : 2)
+        }
+        if (!value) {
+          throw new Error(`Flag --${name} expects a value`)
+        }
+        flag.input.push(value)
+        this.raw.push({ type: 'option', flag: flag as OptionFlag<any>, input: value })
+      } else {
+        flag.input.push(arg)
+        this.raw.push({ type: 'boolean', flag: flag as BooleanFlag })
+        // push the rest of the short characters back on the stack
+        if (!long && arg.length > 2) {
+          this.argv.unshift(`-${arg.slice(2)}`)
+        }
+      }
+      return true
+    }
     let parsingFlags = true
     while (this.argv.length) {
-      if (parsingFlags && this.argv[0].startsWith('-')) {
+      const input = this.argv.shift() as string
+      if (parsingFlags && input.startsWith('-')) {
         // attempt to parse as arg
-        if (this.argv[0] === '--') {
-          this.argv.shift()
+        if (input === '--') {
           parsingFlags = false
           continue
         }
-        if (this._parseFlag(this.argv)) {
+        if (parseFlag(input)) {
           continue
         }
         // not actually a flag if it reaches here so parse as an arg
       }
       // not a flag, parse as arg
-      const input = this.argv.shift() as string
       const outputArgs = this.raw.filter(o => o.type === 'arg') as Array<IArg>
       const numArgs = outputArgs.length
       let nextArg: IArg = this.input.args[numArgs]
@@ -69,7 +122,7 @@ export class Parser<T extends InputFlags> {
         nextArg = {} as IArg
       }
       nextArg.input = input
-      this.raw.push({ type: 'arg', arg: numArgs, input })
+      this.raw.push({ type: 'arg', arg: nextArg, i: numArgs, input })
     }
     return {
       args: this.input.args.reduce(
@@ -79,20 +132,9 @@ export class Parser<T extends InputFlags> {
         },
         {} as ParserOutput<T>['args'],
       ),
-      argv: this.raw.filter(o => o.type === 'arg').map(a => a.input),
+      argv: (this.raw.filter(o => o.type === 'arg') as ArgToken[]).map(a => a.input),
       flags: _.mapValues(this.input.flags, 'value'),
       raw: this.raw,
-    }
-  }
-
-  private _parseFlag(argv: string[]): boolean | undefined {
-    const flags = Object.values(this.input.flags)
-    for (const flag of flags) {
-      const token = flag.handleInput(argv)
-      if (token) {
-        this.raw.push(token)
-        return true
-      }
     }
   }
 

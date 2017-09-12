@@ -1,11 +1,11 @@
-import { Arg } from './args'
+import { IArg } from './args'
 import { RequiredArgsError } from './errors/required_args'
 import { RequiredFlagError } from './errors/required_flag'
 import { UnexpectedArgsError } from './errors/unexpected_args'
-import { ValueFlag } from './flags'
-import { IFlags, ParserInput, ParserOutput } from './parse'
+import { OptionFlag } from './flags'
+import { InputFlags, ParserInput, ParserOutput } from './parse'
 
-function validateArgs<T extends IFlags>(expected: ParserInput<T>, input: Array<Arg<any>>) {
+function validateArgs<T extends InputFlags>(expected: ParserInput<T>, input: Array<IArg>) {
   const maxArgs = expected.args.length
   if (expected.strict && input.length > maxArgs) {
     const extras = input.slice(maxArgs)
@@ -18,21 +18,19 @@ function validateArgs<T extends IFlags>(expected: ParserInput<T>, input: Array<A
   }
 }
 
-function validateFlags<T extends IFlags>(expected: ParserInput<T>, input: Array<ValueFlag<any>>) {
+function validateFlags<T extends InputFlags>(expected: ParserInput<T>) {
   const requiredFlags = Object.keys(expected.flags)
-    .map(k => [k, expected.flags[k]] as [string, ValueFlag<any>])
+    .map(k => [k, expected.flags[k]] as [string, OptionFlag<any>])
     .filter(([, flag]) => flag.required)
-  for (const [name, flag] of requiredFlags) {
-    if (!!input.find(f => f.name === name)) {
-      return
+  for (const [, flag] of requiredFlags) {
+    if (flag.value === undefined) {
+      throw new RequiredFlagError(flag)
     }
-    throw new RequiredFlagError(flag)
   }
 }
 
-export function validate <T extends IFlags> (expected: ParserInput<T>, input: ParserOutput<T>) {
-  const args = input.raw.filter(a => a.type === 'arg') as Array<Arg<any>>
-  const flags = input.raw.filter(a => a.type === 'value') as Array<ValueFlag<any>>
+export function validate<T extends InputFlags>(expected: ParserInput<T>, input: ParserOutput<T>) {
+  const args = input.raw.filter(a => a.type === 'arg') as IArg[]
   validateArgs(expected, args)
-  validateFlags(expected, flags)
+  validateFlags(expected)
 }
