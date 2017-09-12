@@ -7,11 +7,12 @@ import { validate } from './validate'
 export interface InputFlags {
   [name: string]: IFlag<any>
 }
+export type InputArgs = IArg[]
 
 export type ParserInput<T extends InputFlags> = {
   argv: string[]
   flags: T
-  args: IArg[]
+  args: InputArgs
   strict: boolean
 }
 
