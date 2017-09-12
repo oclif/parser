@@ -24,10 +24,7 @@ export const flags = {
     return new BooleanFlag(options)
   },
   integer: (options: IValueFlagOptions = {}) => {
-    return buildint({
-      ...options,
-      multiple: !!options.multiple,
-    })
+    return buildint(options)
   },
   string: (options: IValueFlagOptions = {}) => {
     return buildstring(options)
