@@ -3331,6 +3331,12 @@ ts-lodash@^4.0.4:
   version "4.0.4"
   resolved "https://registry.yarnpkg.com/ts-lodash/-/ts-lodash-4.0.4.tgz#082700585b9f34a4b2abb0a6ada75cfd26deb2bd"
 
+ts-lodash@^4.0.5:
+  version "4.0.5"
+  resolved "https://registry.yarnpkg.com/ts-lodash/-/ts-lodash-4.0.5.tgz#1d0a74de2758df43a821d176e2cc85c50925ee67"
+  dependencies:
+    lodash "^4.17.4"
+
 ts-node@^3.3.0:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/ts-node/-/ts-node-3.3.0.tgz#c13c6a3024e30be1180dd53038fc209289d4bf69"
