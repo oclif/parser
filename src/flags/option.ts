@@ -1,7 +1,8 @@
 import { Flag, IFlagOptions } from './base'
 
-export interface IOptionFlagOptions extends IFlagOptions {
+export interface IOptionFlagOptions<T> extends IFlagOptions {
   multiple?: boolean
+  default?: T
 }
 
 export interface IOptionFlagBase extends Flag {
@@ -25,8 +26,8 @@ export type OptionFlagClass<T> = {
   new (options: IFlagOptions): IOptionFlagConcreteClass<T>
 }
 
-export type Singular<T> = (options?: IOptionFlagOptions & { multiple?: false }) => IOptionFlag<T>
-export type Multiple<T> = (options: IOptionFlagOptions & { multiple: true }) => IMultiOptionFlag<T>
+export type Singular<T> = (options?: IOptionFlagOptions<T> & { multiple?: false }) => IOptionFlag<T>
+export type Multiple<T> = (options: IOptionFlagOptions<T> & { multiple: true }) => IMultiOptionFlag<T>
 export type SingularOrMultiple<T> = Singular<T> & Multiple<T>
 
 export abstract class OptionFlag<T> extends Flag {
@@ -42,6 +43,7 @@ export abstract class OptionFlag<T> extends Flag {
       const klass = class extends flag implements IOptionFlag<T> {
         public readonly type: 'option' = 'option'
         public get value(): T {
+          if (this.options.default) return this.options.default
           return this.parse(this.input[0])
         }
       }
@@ -61,5 +63,8 @@ export abstract class OptionFlag<T> extends Flag {
   }
   public input: string[] = []
   public readonly type: 'option' | 'multi'
+  constructor(readonly options: IOptionFlagOptions<T> = {}) {
+    super(options)
+  }
   public abstract parse(input: string): T
 }

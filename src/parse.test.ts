@@ -277,3 +277,11 @@ arg3  arg3 desc`)
     })
   })
 })
+
+test('defaults', () => {
+  const out = parse({
+    argv: [],
+    flags: { foo: flags.string({ default: 'bar' }) },
+  })
+  expect(out.flags).toMatchObject({ foo: 'bar' })
+})
