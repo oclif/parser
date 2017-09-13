@@ -5,7 +5,7 @@
   "author": "Jeff Dickey",
   "bugs": "https://github.com/jdxcode/cli-flags/issues",
   "dependencies": {
-    "cli-ux": "^1.1.5",
+    "cli-ux": "^1.1.7",
     "lodash": "^4.17.4",
     "ts-lodash": "^4.0.4"
   },
