@@ -519,9 +519,9 @@ cli-truncate@^0.2.1:
     slice-ansi "0.0.4"
     string-width "^1.0.1"
 
-cli-ux@^1.1.1:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/cli-ux/-/cli-ux-1.1.1.tgz#a10db3586dc1c37a0565e5e69c98be164d7c9f14"
+cli-ux@^1.1.5:
+  version "1.1.5"
+  resolved "https://registry.yarnpkg.com/cli-ux/-/cli-ux-1.1.5.tgz#e1bd0ddf292cb94d79d338cdff3e352c7db57ea6"
   dependencies:
     "@heroku/linewrap" "^1.0.0"
     ansi-escapes "^3.0.0"
@@ -3350,6 +3350,10 @@ ts-jest@^21.0.0:
     pkg-dir "^2.0.0"
     source-map-support "^0.4.4"
     yargs "^8.0.1"
+
+ts-lodash@^4.0.4:
+  version "4.0.4"
+  resolved "https://registry.yarnpkg.com/ts-lodash/-/ts-lodash-4.0.4.tgz#082700585b9f34a4b2abb0a6ada75cfd26deb2bd"
 
 ts-node@^3.3.0:
   version "3.3.0"

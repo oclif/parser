@@ -1,4 +1,4 @@
-import _ from './lodash'
+import _ from 'ts-lodash'
 
 import { IArg } from './args'
 import { defaultFlags, IBooleanFlag, IFlag, IMultiOptionFlag, IOptionFlag } from './flags'
@@ -19,9 +19,10 @@ export type ParserInput<T extends InputFlags> = {
 export type DefaultFlags = {
   color: IBooleanFlag
 }
-export type OutputFlags<T extends InputFlags & DefaultFlags> = { [P in keyof T]: T[P]['value'] }
+export type outputFlags<T extends InputFlags> = { [P in keyof T]: T[P]['value'] }
+export type OutputFlags<T extends InputFlags> = outputFlags<T> & DefaultFlags
 export type OutputArgs = { [k: string]: string }
-export type ParserOutput<T extends InputFlags & DefaultFlags> = {
+export type ParserOutput<T extends InputFlags> = {
   flags: OutputFlags<T>
   args: OutputArgs
   argv: string[]
@@ -33,7 +34,7 @@ export type BooleanFlagToken = { type: 'boolean'; flag: IBooleanFlag }
 export type OptionFlagToken<T> = { type: 'option'; flag: IMultiOptionFlag<T> | IOptionFlag<T>; input: string }
 export type ParsingToken<T> = ArgToken | BooleanFlagToken | OptionFlagToken<T>
 
-export function parse<T extends InputFlags>(options: Partial<ParserInput<T>>): ParserOutput<T & DefaultFlags> {
+export function parse<T extends InputFlags>(options: Partial<ParserInput<T>>): ParserOutput<T> {
   const input = {
     args: options.args || [],
     argv: options.argv || process.argv.slice(2),
@@ -49,7 +50,7 @@ export function parse<T extends InputFlags>(options: Partial<ParserInput<T>>): P
   return output
 }
 
-export class Parser<T extends InputFlags & DefaultFlags> {
+export class Parser<T extends InputFlags> {
   private argv: string[]
   private raw: ParsingToken<any>[] = []
   private booleanFlags: { [k: string]: IBooleanFlag }
@@ -67,7 +68,7 @@ export class Parser<T extends InputFlags & DefaultFlags> {
       }
       if (arg.startsWith('--no-')) {
         const flag = this.booleanFlags[arg.slice(5)]
-        if (flag && flag.options.allowNo) return flag.name
+        if (flag && flag.options!.allowNo) return flag.name
       }
     }
 
@@ -158,8 +159,9 @@ export class Parser<T extends InputFlags & DefaultFlags> {
   }
 
   private _setNames(input: ParserInput<T>) {
-    for (const name of Object.keys(input.flags)) {
-      input.flags[name].name = name
+    for (const [name, flag] of Object.entries(input.flags)) {
+      flag.name = name
+      flag.options = flag.options || {}
     }
   }
 }

@@ -5,16 +5,17 @@ export interface IOptionFlagOptions<T> extends IFlagOptions {
   default?: T
 }
 
-export interface IOptionFlagBase extends Flag {
+export interface IOptionFlagBase<T> extends Flag {
   input: string[]
+  options: IOptionFlagOptions<T>
 }
 
-export interface IOptionFlag<T> extends IOptionFlagBase {
+export interface IOptionFlag<T> extends IOptionFlagBase<T> {
   type: 'option'
   readonly value: T
 }
 
-export interface IMultiOptionFlag<T> extends IOptionFlagBase {
+export interface IMultiOptionFlag<T> extends IOptionFlagBase<T> {
   type: 'multi'
   readonly value: T[]
 }

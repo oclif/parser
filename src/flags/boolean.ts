@@ -7,7 +7,7 @@ export interface IBooleanFlagOptions extends IFlagOptions {
 export interface IBooleanFlag extends Flag {
   type: 'boolean'
   value: boolean
-  options: IBooleanFlagOptions
+  options?: IBooleanFlagOptions
 }
 
 export class BooleanFlag extends Flag {
