@@ -292,3 +292,11 @@ test('--no-color', () => {
   })
   expect(out.flags).toMatchObject({ color: false })
 })
+
+test('parse', () => {
+  const out = parse({
+    argv: ['--foo=bar'],
+    flags: { foo: flags.string({ parse: input => input.toUpperCase() }) },
+  })
+  expect(out.flags).toMatchObject({ foo: 'BAR' })
+})

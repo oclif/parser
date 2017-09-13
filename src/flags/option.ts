@@ -3,6 +3,7 @@ import { Flag, IFlagOptions } from './base'
 export interface IOptionFlagOptions<T> extends IFlagOptions {
   multiple?: boolean
   default?: T
+  parse?: (input: string, options: { [k: string]: any }) => T
 }
 
 export interface IOptionFlagBase<T> extends Flag {
@@ -44,8 +45,10 @@ export abstract class OptionFlag<T> extends Flag {
       const klass = class extends flag implements IOptionFlag<T> {
         public readonly type: 'option' = 'option'
         public get value(): T {
-          if (this.options.default) return this.options.default
-          return this.parse(this.input[0])
+          const input = this.input[0]
+          if (!input && this.options.default) return this.options.default
+          if (this.options.parse) return this.options.parse(input, {})
+          return this.parse(input)
         }
       }
       return new klass(options || {})
