@@ -285,3 +285,10 @@ test('defaults', () => {
   })
   expect(out.flags).toMatchObject({ foo: 'bar' })
 })
+
+test('--no-color', () => {
+  const out = parse({
+    argv: ['--no-color'],
+  })
+  expect(out.flags).toMatchObject({ color: false })
+})

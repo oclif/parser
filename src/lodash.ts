@@ -1,15 +1,16 @@
-import mapValues = require('lodash/mapValues')
-import set = require('lodash/set')
-import zipObject = require('lodash/zipObject')
+import lodash = require('lodash')
 
 export default {
-  get mapValues(): typeof mapValues {
+  get mapValues(): typeof lodash.mapValues {
     return fetch('lodash/mapValues')
   },
-  get set(): typeof set {
+  get pickBy(): typeof lodash.pickBy {
+    return fetch('lodash/pickBy')
+  },
+  get set(): typeof lodash.set {
     return fetch('lodash/set')
   },
-  get zipObject(): typeof zipObject {
+  get zipObject(): typeof lodash.zipObject {
     return fetch('lodash/zipObject')
   },
 }
