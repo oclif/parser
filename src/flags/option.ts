@@ -29,19 +29,12 @@ export type OptionFlagClass<T> = {
 }
 
 export type Singular<T> = (options?: IOptionFlagOptions<T> & { multiple?: false }) => IOptionFlag<T>
-export type Multiple<T> = (options: IOptionFlagOptions<T> & { multiple: true }) => IMultiOptionFlag<T>
-export type SingularOrMultiple<T> = Singular<T> & Multiple<T>
+export type multiple<T> = (options: IOptionFlagOptions<T> & { multiple: true }) => IMultiOptionFlag<T>
+export type Multiple<T> = Singular<T> & multiple<T>
 
 export abstract class OptionFlag<T> extends Flag {
-  public static singularOrMultiple<T>(flag: OptionFlagClass<T>): SingularOrMultiple<T> {
-    return (options?: any): any => {
-      options = options || {}
-      return options.multiple ? OptionFlag.multiple(flag)(options) : OptionFlag.singular(flag)(options)
-    }
-  }
-
   public static singular<T>(flag: OptionFlagClass<T>): Singular<T> {
-    return (options?: IFlagOptions): IOptionFlag<T> => {
+    return (options?: IOptionFlagOptions<T>): IOptionFlag<T> => {
       const klass = class extends flag implements IOptionFlag<T> {
         public readonly type: 'option' = 'option'
         public get value(): T {
@@ -55,14 +48,19 @@ export abstract class OptionFlag<T> extends Flag {
     }
   }
   public static multiple<T>(flag: OptionFlagClass<T>): Multiple<T> {
-    return (options?: IFlagOptions): IMultiOptionFlag<T> => {
-      const klass = class extends flag implements IMultiOptionFlag<T> {
-        public readonly type: 'multi' = 'multi'
-        public get value(): T[] {
-          return this.input.map(i => this.parse(i))
+    return (options?: IOptionFlagOptions<T>): any => {
+      options = options || {}
+      if (options.multiple) {
+        const klass = class extends flag implements IMultiOptionFlag<T> {
+          public readonly type: 'multi' = 'multi'
+          public get value(): T[] {
+            return this.input.map(i => this.parse(i))
+          }
         }
+        return new klass(options || {})
+      } else {
+        return OptionFlag.singular(flag)(options as any)
       }
-      return new klass(options || {})
     }
   }
   public input: string[] = []

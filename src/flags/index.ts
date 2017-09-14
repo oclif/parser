@@ -1,10 +1,10 @@
 import { BooleanFlag, IBooleanFlag, IBooleanFlagOptions } from './boolean'
 import { integerFlag } from './integer'
-import { IMultiOptionFlag, IOptionFlag, IOptionFlagOptions } from './option'
+import { IMultiOptionFlag, IOptionFlag, IOptionFlagOptions, Multiple, OptionFlag, Singular } from './option'
 import { flag as stringFlag } from './string'
 
 export type IFlag<T> = IBooleanFlag | IOptionFlag<T> | IMultiOptionFlag<T>
-export { IBooleanFlag, IOptionFlag, IMultiOptionFlag, IOptionFlagOptions }
+export { IBooleanFlag, IOptionFlag, IMultiOptionFlag, IOptionFlagOptions, OptionFlag, Singular, Multiple }
 
 export const flags = {
   boolean: (options: IBooleanFlagOptions = {}) => {

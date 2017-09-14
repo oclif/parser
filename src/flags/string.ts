@@ -1,4 +1,4 @@
-import { OptionFlag, SingularOrMultiple } from './option'
+import { Multiple, OptionFlag } from './option'
 
 class StringFlag extends OptionFlag<string> {
   public parse(input: string) {
@@ -6,4 +6,4 @@ class StringFlag extends OptionFlag<string> {
   }
 }
 
-export const flag: SingularOrMultiple<string> = OptionFlag.singularOrMultiple(StringFlag)
+export const flag: Multiple<string> = OptionFlag.multiple(StringFlag)
