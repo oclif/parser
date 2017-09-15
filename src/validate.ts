@@ -1,11 +1,10 @@
-import { IArg } from './args'
 import { RequiredArgsError } from './errors/required_args'
 import { RequiredFlagError } from './errors/required_flag'
 import { UnexpectedArgsError } from './errors/unexpected_args'
 import { IFlag } from './flags'
-import { DefaultFlags, InputFlags, ParserInput, ParserOutput } from './parse'
+import { DefaultFlags, InputFlags, parserInput, ParserOutput, ArgToken } from './parse'
 
-function validateArgs<T extends InputFlags & DefaultFlags>(expected: ParserInput<T>, input: Array<IArg>) {
+function validateArgs<T extends InputFlags & DefaultFlags>(expected: parserInput<T>, input: ArgToken[]) {
   const maxArgs = expected.args.length
   if (expected.strict && input.length > maxArgs) {
     const extras = input.slice(maxArgs)
@@ -18,7 +17,7 @@ function validateArgs<T extends InputFlags & DefaultFlags>(expected: ParserInput
   }
 }
 
-function validateFlags<T extends InputFlags & DefaultFlags>(expected: ParserInput<T>) {
+function validateFlags<T extends InputFlags & DefaultFlags>(expected: parserInput<T>) {
   const requiredFlags = Object.keys(expected.flags)
     .map(k => [k, expected.flags[k]] as [string, IFlag<any>])
     .filter(([, flag]) => flag.required)
@@ -30,10 +29,10 @@ function validateFlags<T extends InputFlags & DefaultFlags>(expected: ParserInpu
 }
 
 export function validate<T extends InputFlags & DefaultFlags>(
-  expected: ParserInput<T>,
+  expected: parserInput<T>,
   input: ParserOutput<T & DefaultFlags>,
 ) {
-  const args = input.raw.filter(a => a.type === 'arg') as IArg[]
+  const args = input.raw.filter(a => a.type === 'arg') as ArgToken[]
   validateArgs(expected, args)
   validateFlags(expected)
 }

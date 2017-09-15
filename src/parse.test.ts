@@ -36,7 +36,7 @@ describe('output: array', () => {
         bool: flags.boolean(),
       },
     })
-    expect(out.raw[0]).toMatchObject({ flag: { name: 'bool' } })
+    expect(out.raw[0]).toMatchObject({ flag: 'bool' })
   })
 
   test('arg1', () => {
@@ -127,19 +127,6 @@ describe('output: array', () => {
     }
   })
 
-  test('requires nonoptional flag', () => {
-    expect.assertions(1)
-    try {
-      parse({
-        argv: [],
-        flags: {
-          myflag: flags.string({ optional: false }),
-        },
-      })
-    } catch (err) {
-      expect(err.message).toEqual('Missing required flag --myflag')
-    }
-  })
   test('removes flags from argv', () => {
     const out = parse({
       args: [{ name: 'myarg' }],
@@ -165,7 +152,7 @@ describe('output: array', () => {
             {
               description: 'arg3 desc',
               name: 'arg3',
-              optional: false,
+              required: true,
             },
           ],
           argv: ['arg1'],
@@ -197,7 +184,7 @@ arg3  arg3 desc`)
     })
     test('skips optional args', () => {
       const out = parse({
-        args: [{ name: 'myarg', optional: true }, { name: 'myarg2', optional: true }],
+        args: [{ name: 'myarg' }, { name: 'myarg2' }],
         argv: ['foo'],
       })
       expect(out.argv).toEqual(['foo'])
@@ -280,9 +267,12 @@ arg3  arg3 desc`)
 
 test('defaults', () => {
   const out = parse({
+    args: [{ name: 'baz', default: 'BAZ' }],
     argv: [],
     flags: { foo: flags.string({ default: 'bar' }) },
   })
+  expect(out.args).toMatchObject({ baz: 'BAZ' })
+  expect(out.argv).toMatchObject(['BAZ'])
   expect(out.flags).toMatchObject({ foo: 'bar' })
 })
 
@@ -295,8 +285,11 @@ test('--no-color', () => {
 
 test('parse', () => {
   const out = parse({
-    argv: ['--foo=bar'],
+    args: [{ name: 'num', parse: i => parseInt(i, 10) }],
+    argv: ['--foo=bar', '100'],
     flags: { foo: flags.string({ parse: input => input.toUpperCase() }) },
   })
   expect(out.flags).toMatchObject({ foo: 'BAR' })
+  expect(out.args).toMatchObject({ num: 100 })
+  expect(out.argv).toMatchObject([100])
 })
