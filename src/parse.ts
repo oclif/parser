@@ -4,34 +4,15 @@ import { IArg, Arg, newArg } from './args'
 import { defaultFlags, IBooleanFlag, IFlag } from './flags'
 import { validate } from './validate'
 
-export interface InputFlags {
-  [name: string]: IFlag<any>
-}
 export type InputArgs = IArg<any>[]
+export type InputFlags = { [name: string]: IFlag<any> }
 
-export type parserInput<T extends InputFlags> = {
-  argv: string[]
-  flags: T
-  args: Arg<any>[]
-  strict: boolean
-}
-
-export type ParserInput<T extends InputFlags> = {
-  argv?: string[]
-  flags?: T
-  args?: InputArgs
-  strict?: boolean
-}
-
-export type DefaultFlags = {
-  color: IBooleanFlag
-}
-export type outputFlags<T extends InputFlags> = { [P in keyof T]: T[P]['value'] }
-export type OutputFlags<T extends InputFlags> = outputFlags<T> & DefaultFlags
-export type OutputArgs = { [k: string]: string }
-export type ParserOutput<T extends InputFlags> = {
+export type DefaultFlags = { [P in keyof typeof defaultFlags]: typeof defaultFlags[P]['value'] }
+export type OutputArgs = { [k: string]: any }
+export type OutputFlags<T extends InputFlags | undefined> = { [P in keyof T]: T[P]['value'] } & DefaultFlags
+export type ParserOutput<T extends InputFlags | undefined> = {
   flags: OutputFlags<T>
-  args: OutputArgs
+  args: { [k: string]: any }
   argv: string[]
   raw: ParsingToken[]
 }
@@ -40,14 +21,20 @@ export type ArgToken = { type: 'arg'; input: string }
 export type FlagToken = { type: 'flag'; flag: string; input: string }
 export type ParsingToken = ArgToken | FlagToken
 
-export function parse<T extends InputFlags>(options: ParserInput<T>): ParserOutput<T> {
-  const input = {
+export type ParserInput<T extends InputFlags | undefined> = {
+  argv?: string[]
+  flags?: T
+  args?: InputArgs
+  strict?: boolean
+}
+export function parse<T extends InputFlags | undefined>(options: ParserInput<T>): ParserOutput<T> {
+  const input: parserInput = {
     args: (options.args || []).map(a => newArg(a)),
     argv: options.argv || process.argv.slice(2),
     flags: {
       color: defaultFlags.color,
-      ...options.flags || {},
-    } as T & DefaultFlags,
+      ...(options.flags || {}) as InputFlags,
+    },
     strict: options.strict !== false,
   }
   const parser = new Parser(input)
@@ -56,17 +43,24 @@ export function parse<T extends InputFlags>(options: ParserInput<T>): ParserOutp
   return output
 }
 
-class Parser<T extends InputFlags> {
+export type parserInput = {
+  argv: string[]
+  flags: InputFlags
+  args: Arg<any>[]
+  strict: boolean
+}
+
+class Parser {
   private argv: string[]
   private raw: ParsingToken[] = []
   private booleanFlags: { [k: string]: IBooleanFlag }
-  constructor(readonly input: parserInput<T>) {
+  constructor(readonly input: parserInput) {
     this.argv = input.argv.slice(0)
     this._setNames()
     this.booleanFlags = _.pickBy(input.flags, (f: IFlag<any>) => f.type === 'boolean')
   }
 
-  public parse(): ParserOutput<T> {
+  public parse() {
     const findLongFlag = (arg: string) => {
       const name = arg.slice(2)
       if (this.input.flags[name]) {
@@ -155,7 +149,7 @@ class Parser<T extends InputFlags> {
     return args
   }
 
-  private _flags(): OutputFlags<T> {
+  private _flags(): OutputFlags<any> {
     const flags: OutputFlags<any> = {}
     for (const token of this._flagTokens) {
       const flag = this.input.flags[token.flag]

@@ -19,12 +19,17 @@ export type ParseFn<T> = (input: string, options: { [k: string]: any }) => T
 export interface IOptionFlagBase<T> extends IFlagBase {
   type: 'option'
   parse: ParseFn<T>
-  multiple: boolean
 }
 
-export interface ISingleOptionFlag<T> extends IOptionFlagBase<T> {
+export interface IOptionalFlag<T> extends IOptionFlagBase<T> {
   multiple: false
   default?: T
+  value?: T
+}
+
+export interface IRequiredFlag<T> extends IOptionFlagBase<T> {
+  multiple: false
+  default?: undefined
   value: T
 }
 
@@ -34,11 +39,12 @@ export interface IMultiOptionFlag<T> extends IOptionFlagBase<T> {
   value: T[]
 }
 
-export type IOptionFlag<T> = ISingleOptionFlag<T> | IMultiOptionFlag<T>
+export type IOptionFlag<T> = IOptionalFlag<T> | IRequiredFlag<T> | IMultiOptionFlag<T>
 
 export type FlagBuilder<T> = {
-  (options: Partial<IMultiOptionFlag<T>>): IMultiOptionFlag<T>
-  (options?: Partial<ISingleOptionFlag<T>>): ISingleOptionFlag<T>
+  (options: Partial<IMultiOptionFlag<T>> & { multiple: true }): IMultiOptionFlag<T>
+  (options: Partial<IRequiredFlag<T>> & { required: true }): IRequiredFlag<T>
+  (options?: Partial<IOptionalFlag<T>>): IOptionalFlag<T>
 }
 export function option<T>(defaults: (Partial<IOptionFlag<T>>) & { parse: ParseFn<T> }): FlagBuilder<T> {
   return (options?: any): any => {

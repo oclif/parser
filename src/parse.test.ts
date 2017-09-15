@@ -216,7 +216,7 @@ arg3  arg3 desc`)
           foo: flags.string(),
         },
       })
-      expect(out.flags.foo.toUpperCase()).toEqual('C')
+      expect(out.flags.foo!.toUpperCase()).toEqual('C')
       expect(out.flags.bar.join('|')).toEqual('a|b')
     })
   })
