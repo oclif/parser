@@ -1,10 +1,12 @@
-export type ParseFn<T> = (input: string) => T
+export type ArgParseContext<T = string> = { arg: Arg<T> } & { [k: string]: any }
+export type ParseFn<T> = (input: string, parseContext: ArgParseContext<T>) => T
+
 export interface IArg<T = string> {
   name: string
   description?: string
   required?: boolean
   hidden?: boolean
-  parse?: (input: string) => T
+  parse?: ParseFn<T>
   default?: T | (() => T)
 }
 

@@ -1,7 +1,7 @@
 import { AlphabetLowercase, AlphabetUppercase } from './alphabet'
 
 export interface IFlagBase {
-  name?: string
+  name: string
   char?: AlphabetLowercase | AlphabetUppercase
   description?: string
   hidden?: boolean
@@ -14,7 +14,9 @@ export interface IBooleanFlag extends IFlagBase {
   value: boolean
 }
 
-export type ParseFn<T> = (input: string, options: { [k: string]: any }) => T
+export type ParseContext = { [k: string]: any }
+export type FlagParseContext<T, PC extends ParseContext> = { flag: IOptionFlag<T> } & PC
+export type ParseFn<T, PC = any> = (input: string, parseContext: FlagParseContext<T, PC>) => T
 
 export interface IOptionFlagBase<T> extends IFlagBase {
   type: 'option'
@@ -46,7 +48,7 @@ export type FlagBuilder<T> = {
   (options: Partial<IRequiredFlag<T>> & { required: true }): IRequiredFlag<T>
   (options?: Partial<IOptionalFlag<T>>): IOptionalFlag<T>
 }
-export function option<T>(defaults: Partial<IOptionFlag<T>>): FlagBuilder<T> {
+export function option<T>(defaults: Partial<IOptionFlag<T>> = {}): FlagBuilder<T> {
   return (options?: any): any => {
     options = options || {}
     return {
@@ -69,7 +71,7 @@ export const flags = {
       allowNo: !!options.allowNo,
       type: 'boolean',
       value: false,
-    }
+    } as IBooleanFlag
   },
   integer: option<number>({
     parse: input => {
@@ -78,7 +80,7 @@ export const flags = {
     },
   }),
   option,
-  string: option<string>({ parse: input => input }),
+  string: option<string>(),
 }
 
 export const defaultFlags = {

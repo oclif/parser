@@ -273,15 +273,43 @@ test('--no-color', () => {
   expect(out.flags).toMatchObject({ color: false })
 })
 
-test('parse', () => {
-  const out = parse({
-    args: [{ name: 'num', parse: i => parseInt(i, 10) }],
-    argv: ['--foo=bar', '100'],
-    flags: { foo: flags.string({ parse: input => input.toUpperCase() }) },
+describe('parse', () => {
+  test('parse', () => {
+    const out = parse({
+      args: [{ name: 'num', parse: i => parseInt(i, 10) }],
+      argv: ['--foo=bar', '100'],
+      flags: { foo: flags.string({ parse: input => input.toUpperCase() }) },
+    })
+    expect(out.flags).toMatchObject({ foo: 'BAR' })
+    expect(out.args).toMatchObject({ num: 100 })
+    expect(out.argv).toMatchObject([100])
   })
-  expect(out.flags).toMatchObject({ foo: 'BAR' })
-  expect(out.args).toMatchObject({ num: 100 })
-  expect(out.argv).toMatchObject([100])
+
+  test('gets arg/flag in context', () => {
+    const out = parse({
+      args: [{ name: 'num', parse: (_, ctx) => ctx.arg.name!.toUpperCase() }],
+      argv: ['--foo=bar', '100'],
+      flags: { foo: flags.string({ parse: (_, ctx) => ctx.flag.name.toUpperCase() }) },
+    })
+    expect(out.flags).toMatchObject({ foo: 'FOO' })
+    expect(out.args).toMatchObject({ num: 'NUM' })
+  })
+
+  test('passes context through', () => {
+    const flagfn = jest.fn()
+    const argfn = jest.fn()
+    parse({
+      args: [{ name: 'num', parse: (_, ctx) => ctx.argfn() }],
+      argv: ['--foo=bar', '100'],
+      flags: { foo: flags.string({ parse: (_, ctx) => ctx.flagfn() }) },
+      parseContext: {
+        argfn,
+        flagfn,
+      },
+    })
+    expect(flagfn).toBeCalled()
+    expect(argfn).toBeCalled()
+  })
 })
 
 describe('defaults', () => {

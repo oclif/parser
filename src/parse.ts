@@ -26,6 +26,7 @@ export type ParserInput<T extends InputFlags | undefined> = {
   flags?: T
   args?: InputArgs
   strict?: boolean
+  parseContext?: { [k: string]: any }
 }
 export function parse<T extends InputFlags | undefined>(options: ParserInput<T>): ParserOutput<T> {
   const input: parserInput = {
@@ -35,6 +36,7 @@ export function parse<T extends InputFlags | undefined>(options: ParserInput<T>)
       color: defaultFlags.color,
       ...(options.flags || {}) as InputFlags,
     },
+    parseContext: options.parseContext || {},
     strict: options.strict !== false,
   }
   const parser = new Parser(input)
@@ -48,6 +50,7 @@ export type parserInput = {
   flags: InputFlags
   args: Arg<any>[]
   strict: boolean
+  parseContext: { [k: string]: any }
 }
 
 class Parser {
@@ -161,7 +164,10 @@ class Parser {
           flags[token.flag] = true
         }
       } else {
-        const value = flag.parse(token.input, {})
+        const value = flag.parse(token.input, {
+          flag,
+          ...this.input.parseContext,
+        })
         if (flag.multiple) {
           flags[token.flag] = flags[token.flag] || []
           flags[token.flag].push(value)
@@ -192,7 +198,14 @@ class Parser {
       const token = tokens[i]
       const arg = this.input.args[i]
       if (token) {
-        args[i] = arg ? arg.parse(token.input) : token.input
+        if (arg) {
+          args[i] = arg.parse(token.input, {
+            arg,
+            ...this.input.parseContext,
+          })
+        } else {
+          args[i] = token.input
+        }
       } else {
         if (arg.default) {
           if (typeof arg.default === 'function') {
