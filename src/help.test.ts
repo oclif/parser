@@ -1,10 +1,19 @@
 import { flags } from './flags'
-import { flagUsage } from './help'
+import { flagUsages } from './help'
 
 describe('flagUsage', () => {
-  test('shows usage', () => {
-    const flag = flags.string({ char: 'f', description: 'desc' })
-    flag.name = 'foo'
-    expect(flagUsage(flag)).toEqual(['-f, --foo FOO', 'desc'])
+  test('shows usages', () => {
+    const f = [
+      flags.string({ name: 'bak' }),
+      flags.string({ name: 'baz', description: 'baz' }),
+      flags.string({ name: 'bar', char: 'b', description: 'bar' }),
+      flags.string({ name: 'foo', char: 'f', description: 'desc' }),
+    ]
+    expect(flagUsages(f)).toEqual([
+      [' -b, --bar BAR', 'bar'],
+      [' -f, --foo FOO', 'desc'],
+      [' --bak BAK', undefined],
+      [' --baz BAZ', 'baz'],
+    ])
   })
 })

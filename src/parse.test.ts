@@ -125,7 +125,7 @@ describe('output: array', () => {
       })
     } catch (err) {
       expect(err.message).toEqual(
-        'Missing required flag:\n--myflag MYFLAG  flag description\nSee more help with --help',
+        'Missing required flag:\n --myflag MYFLAG  flag description\nSee more help with --help',
       )
     }
   })

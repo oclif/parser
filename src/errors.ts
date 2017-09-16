@@ -1,7 +1,7 @@
 import { renderList } from 'cli-ux/lib/list'
 import { Arg } from './args'
 import { IFlag } from './flags'
-import { flagUsage } from './help'
+import { flagUsages } from './help'
 import { ParserInput, ParserOutput } from './parse'
 import { InputFlags } from '.'
 
@@ -41,7 +41,7 @@ export class RequiredFlagError<T extends InputFlags> extends CLIParseError<T> {
   public flags: IFlag<any>[]
 
   constructor({ flags, parse }: ICLIParseErrorOptions<T> & { flags: IFlag<T>[] }) {
-    const usage = renderList(flags.map(f => flagUsage(f, { displayRequired: false })))
+    const usage = renderList(flagUsages(flags, { displayRequired: false }))
     const message = `Missing required flag${flags.length === 1 ? '' : 's'}:\n${usage}`
     super({ parse, message })
     this.flags = flags
