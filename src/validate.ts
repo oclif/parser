@@ -1,31 +1,26 @@
-import { RequiredArgsError } from './errors/required_args'
-import { RequiredFlagError } from './errors/required_flag'
-import { UnexpectedArgsError } from './errors/unexpected_args'
-import { parserInput, ParserOutput, ArgToken } from './parse'
+import { UnexpectedArgsError, RequiredArgsError, RequiredFlagError } from './errors'
+import { ParserInput, ParserOutput } from './parse'
+import { InputFlags } from '.'
 
-function validateArgs(expected: parserInput, input: ArgToken[]) {
-  const maxArgs = expected.args.length
-  if (expected.strict && input.length > maxArgs) {
-    const extras = input.slice(maxArgs)
-    throw new UnexpectedArgsError(extras)
-  }
-  const requiredArgs = expected.args.filter(a => a.required)
-  const missingRequiredArgs = requiredArgs.slice(input.length)
-  if (missingRequiredArgs.length) {
-    throw new RequiredArgsError(missingRequiredArgs)
-  }
-}
-
-function validateFlags(expected: parserInput) {
-  for (const flag of Object.values(expected.flags)) {
-    if (flag.required && flag.value === undefined) {
-      throw new RequiredFlagError(flag)
+export function validate<T extends InputFlags>(parse: { input: ParserInput; output: ParserOutput<T> }) {
+  function validateArgs() {
+    const maxArgs = parse.input.args.length
+    if (parse.input.strict && parse.output.argv.length > maxArgs) {
+      const extras = parse.output.argv.slice(maxArgs)
+      throw new UnexpectedArgsError({ parse, args: extras })
+    }
+    const requiredArgs = parse.input.args.filter(a => a.required)
+    const missingRequiredArgs = requiredArgs.slice(parse.output.argv.length)
+    if (missingRequiredArgs.length) {
+      throw new RequiredArgsError({ parse, args: missingRequiredArgs })
     }
   }
-}
 
-export function validate(expected: parserInput, input: ParserOutput<any>) {
-  const args = input.raw.filter(a => a.type === 'arg') as ArgToken[]
-  validateArgs(expected, args)
-  validateFlags(expected)
+  function validateFlags() {
+    const flags = Object.values(parse.input.flags).filter(f => f.required && f.value === undefined)
+    if (flags.length) throw new RequiredFlagError({ parse, flags })
+  }
+
+  validateArgs()
+  validateFlags()
 }

@@ -124,7 +124,9 @@ describe('output: array', () => {
         },
       })
     } catch (err) {
-      expect(err.message).toEqual('Missing required flag --myflag')
+      expect(err.message).toEqual(
+        'Missing required flag:\n--myflag MYFLAG  flag description\nSee more help with --help',
+      )
     }
   })
 
@@ -161,7 +163,8 @@ describe('output: array', () => {
       } catch (err) {
         expect(err.message).toEqual(`Missing 2 required args:
 arg2  arg2 desc
-arg3  arg3 desc`)
+arg3  arg3 desc
+See more help with --help`)
       }
     })
     test('too many args', () => {
@@ -172,7 +175,7 @@ arg3  arg3 desc`)
           argv: ['arg1', 'arg2'],
         })
       } catch (err) {
-        expect(err.message).toEqual(`Unexpected arg: arg2`)
+        expect(err.message).toEqual(`Unexpected argument: arg2\nSee more help with --help`)
       }
     })
 

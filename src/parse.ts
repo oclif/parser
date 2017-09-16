@@ -1,11 +1,7 @@
 import _ from 'ts-lodash'
-
-import { IArg, Arg, newArg } from './args'
+import { Arg } from './args'
 import { defaultFlags, IBooleanFlag, IFlag } from './flags'
-import { validate } from './validate'
-
-export type InputArgs = IArg<any>[]
-export type InputFlags = { [name: string]: IFlag<any> }
+import { InputFlags } from '.'
 
 export type DefaultFlags = { [P in keyof typeof defaultFlags]: typeof defaultFlags[P]['value'] }
 export type OutputArgs = { [k: string]: any }
@@ -21,31 +17,7 @@ export type ArgToken = { type: 'arg'; input: string }
 export type FlagToken = { type: 'flag'; flag: string; input: string }
 export type ParsingToken = ArgToken | FlagToken
 
-export type ParserInput<T extends InputFlags | undefined> = {
-  argv?: string[]
-  flags?: T
-  args?: InputArgs
-  strict?: boolean
-  parseContext?: { [k: string]: any }
-}
-export function parse<T extends InputFlags | undefined>(options: ParserInput<T>): ParserOutput<T> {
-  const input: parserInput = {
-    args: (options.args || []).map(a => newArg(a)),
-    argv: options.argv || process.argv.slice(2),
-    flags: {
-      color: defaultFlags.color,
-      ...(options.flags || {}) as InputFlags,
-    },
-    parseContext: options.parseContext || {},
-    strict: options.strict !== false,
-  }
-  const parser = new Parser(input)
-  const output = parser.parse()
-  validate(input, output)
-  return output
-}
-
-export type parserInput = {
+export type ParserInput = {
   argv: string[]
   flags: InputFlags
   args: Arg<any>[]
@@ -53,11 +25,11 @@ export type parserInput = {
   parseContext: { [k: string]: any }
 }
 
-class Parser {
+export class Parser {
   private argv: string[]
   private raw: ParsingToken[] = []
   private booleanFlags: { [k: string]: IBooleanFlag }
-  constructor(readonly input: parserInput) {
+  constructor(readonly input: ParserInput) {
     this.argv = input.argv.slice(0)
     this._setNames()
     this.booleanFlags = _.pickBy(input.flags, (f: IFlag<any>) => f.type === 'boolean')
