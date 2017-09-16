@@ -3,7 +3,7 @@
   "description": "basic CLI flag parser",
   "version": "1.0.14",
   "author": "Jeff Dickey",
-  "bugs": "https://github.com/jdxcode/cli-flags/issues",
+  "bugs": "https://github.com/heroku/cli-flags/issues",
   "dependencies": {
     "chalk": "^2.1.0",
     "cli-ux": "^1.1.8",
@@ -31,13 +31,13 @@
   "files": [
     "lib"
   ],
-  "homepage": "https://github.com/jdxcode/cli-flags",
+  "homepage": "https://github.com/heroku/cli-flags",
   "keywords": [
     "cli"
   ],
   "license": "ISC",
   "main": "./lib/index.js",
-  "repository": "jdxcode/cli-flags",
+  "repository": "heroku/cli-flags",
   "scripts": {
     "coverage": "cat coverage/coverage-final.json | remap-istanbul -o coverage/coverage-final.json && curl -s https://codecov.io/bash | bash",
     "posttest": "tslint -p .",
