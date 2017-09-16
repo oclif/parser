@@ -1,4 +1,5 @@
 import { flags, parse } from '.'
+import { option } from './flags'
 
 test('--bool', () => {
   const out = parse({
@@ -303,6 +304,17 @@ describe('defaults', () => {
     })
     expect(out.args).toMatchObject({ baz: 'BAZ' })
     expect(out.argv).toMatchObject(['BAZ'])
+    expect(out.flags).toMatchObject({ foo: 'bar' })
+  })
+})
+
+describe('custom option', () => {
+  test('does not require parse fn', () => {
+    const foo = option({ char: 'f' })
+    const out = parse({
+      argv: ['-f', 'bar'],
+      flags: { foo: foo() },
+    })
     expect(out.flags).toMatchObject({ foo: 'bar' })
   })
 })

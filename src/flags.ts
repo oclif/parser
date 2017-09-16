@@ -46,10 +46,11 @@ export type FlagBuilder<T> = {
   (options: Partial<IRequiredFlag<T>> & { required: true }): IRequiredFlag<T>
   (options?: Partial<IOptionalFlag<T>>): IOptionalFlag<T>
 }
-export function option<T>(defaults: (Partial<IOptionFlag<T>>) & { parse: ParseFn<T> }): FlagBuilder<T> {
+export function option<T>(defaults: Partial<IOptionFlag<T>>): FlagBuilder<T> {
   return (options?: any): any => {
     options = options || {}
     return {
+      parse: (i: string) => i,
       ...defaults,
       ...options,
       multiple: !!options.multiple,
