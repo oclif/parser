@@ -1,7 +1,7 @@
 {
   "name": "cli-flags",
   "description": "basic CLI flag parser",
-  "version": "1.0.13",
+  "version": "1.0.14",
   "author": "Jeff Dickey",
   "bugs": "https://github.com/jdxcode/cli-flags/issues",
   "dependencies": {
