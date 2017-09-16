@@ -334,6 +334,21 @@ describe('defaults', () => {
     expect(out.argv).toMatchObject(['BAZ'])
     expect(out.flags).toMatchObject({ foo: 'bar' })
   })
+
+  test('can default to a different flag', () => {
+    const out = parse({
+      argv: ['--foo=bar'],
+      flags: {
+        bar: flags.string({
+          default: ({ input }) => {
+            return input.flags.foo.input[0]
+          },
+        }),
+        foo: flags.string(),
+      },
+    })
+    expect(out.flags).toMatchObject({ foo: 'bar', bar: 'bar' })
+  })
 })
 
 describe('custom option', () => {

@@ -16,6 +16,7 @@ export type ArgBase<T> = {
   hidden?: boolean
   parse: ParseFn<T>
   default?: T | (() => T)
+  input?: string
 }
 
 export type RequiredArg<T> = ArgBase<T> & {

@@ -107,8 +107,10 @@ class Parser {
         if (!input) {
           throw new Error(`Flag --${name} expects a value`)
         }
+        flag.input.push(input)
         this.raw.push({ type: 'flag', flag: flag.name!, input })
       } else {
+        flag.input = arg
         this.raw.push({ type: 'flag', flag: flag.name!, input: arg })
         // push the rest of the short characters back on the stack
         if (!long && arg.length > 2) {
@@ -132,6 +134,8 @@ class Parser {
         // not actually a flag if it reaches here so parse as an arg
       }
       // not a flag, parse as arg
+      const arg = this.input.args[this._argTokens.length]
+      if (arg) arg.input = input
       this.raw.push({ type: 'arg', input })
     }
     const argv = this._argv()
@@ -181,7 +185,7 @@ class Parser {
       if (!flags[k]) {
         if (flag.type === 'option' && flag.default) {
           if (typeof flag.default === 'function') {
-            flags[k] = flag.default()
+            flags[k] = flag.default({ flag, input: this.input })
           } else {
             flags[k] = flag.default
           }
