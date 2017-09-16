@@ -3,6 +3,9 @@ import { Arg } from './args'
 import { defaultFlags, IBooleanFlag, IFlag } from './flags'
 import { InputFlags } from '.'
 
+// tslint:disable-next-line
+const debug = require('debug')('cli-flags')
+
 export type DefaultFlags = { [P in keyof typeof defaultFlags]: typeof defaultFlags[P]['value'] }
 export type OutputArgs = { [k: string]: any }
 export type OutputFlags<T extends InputFlags | undefined> = { [P in keyof T]: T[P]['value'] } & DefaultFlags
@@ -36,6 +39,8 @@ export class Parser {
   }
 
   public parse() {
+    this._debugInput()
+
     const findLongFlag = (arg: string) => {
       const name = arg.slice(2)
       if (this.input.flags[name]) {
@@ -111,10 +116,13 @@ export class Parser {
       this.raw.push({ type: 'arg', input })
     }
     const argv = this._argv()
+    const args = this._args(argv)
+    const flags = this._flags()
+    this._debugOutput(argv, args, flags)
     return {
-      args: this._args(argv),
+      args,
       argv,
-      flags: this._flags(),
+      flags,
       raw: this.raw,
     }
   }
@@ -161,6 +169,7 @@ export class Parser {
           } else {
             flags[k] = flag.default
           }
+          flag.value = flags[k]
         }
       }
     }
@@ -193,6 +202,33 @@ export class Parser {
       }
     }
     return args
+  }
+
+  private _debugOutput(args: any, flags: any, argv: any) {
+    if (argv.length) {
+      debug('argv: %o', argv)
+    }
+    if (Object.keys(args).length) {
+      debug('args: %o', args)
+    }
+    if (Object.keys(flags).length) {
+      debug('flags: %o', flags)
+    }
+  }
+
+  private _debugInput() {
+    debug('input: %s', this.argv.join(' '))
+    if (this.input.args.length) {
+      debug('available args: %s', this.input.args.map(a => a.name).join(' '))
+    }
+    if (Object.keys(this.input.flags).length) {
+      debug(
+        'available flags: %s',
+        Object.keys(this.input.flags)
+          .map(f => `--${f}`)
+          .join(' '),
+      )
+    }
   }
 
   private get _argTokens(): ArgToken[] {
