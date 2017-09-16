@@ -1,6 +1,15 @@
 export { IArg } from './args'
 export { ParserOutput, OutputArgs, OutputFlags, DefaultFlags } from './parse'
-export { flags, IFlag, option } from './flags'
+export {
+  flags,
+  IFlag,
+  IBooleanFlag,
+  IRequiredFlag,
+  IOptionalFlag,
+  IOptionFlag,
+  IMultiOptionFlag,
+  FlagBuilder,
+} from './flags'
 export { flagUsages } from './help'
 
 import { IArg } from './args'

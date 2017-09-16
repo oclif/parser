@@ -1,5 +1,4 @@
 import { flags, parse } from '.'
-import { option } from './flags'
 
 test('--bool', () => {
   const out = parse({
@@ -356,7 +355,7 @@ describe('defaults', () => {
 
 describe('custom option', () => {
   test('does not require parse fn', () => {
-    const foo = option({ char: 'f' })
+    const foo = flags.option({ char: 'f' })
     const out = parse({
       argv: ['-f', 'bar'],
       flags: { foo: foo() },
