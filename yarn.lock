@@ -523,9 +523,9 @@ cli-truncate@^0.2.1:
     slice-ansi "0.0.4"
     string-width "^1.0.1"
 
-cli-ux@^1.1.7:
-  version "1.1.7"
-  resolved "https://registry.yarnpkg.com/cli-ux/-/cli-ux-1.1.7.tgz#ef82dcf7d9feeec608be462bc3d2238530579807"
+cli-ux@^1.1.8:
+  version "1.1.8"
+  resolved "https://registry.yarnpkg.com/cli-ux/-/cli-ux-1.1.8.tgz#c534246ac849eb0fdcc3433bae9637ac12d4416b"
   dependencies:
     "@heroku/linewrap" "^1.0.0"
     ansi-escapes "^3.0.0"
@@ -538,7 +538,7 @@ cli-ux@^1.1.7:
     password-prompt "^1.0.3"
     strip-ansi "^4.0.0"
     supports-color "^4.4.0"
-    ts-lodash "^4.0.4"
+    ts-lodash "^4.0.5"
 
 cliui@^2.1.0:
   version "2.1.0"
@@ -3465,10 +3465,6 @@ ts-jest@^21.0.1:
     pkg-dir "^2.0.0"
     source-map-support "^0.4.4"
     yargs "^8.0.1"
-
-ts-lodash@^4.0.4:
-  version "4.0.4"
-  resolved "https://registry.yarnpkg.com/ts-lodash/-/ts-lodash-4.0.4.tgz#082700585b9f34a4b2abb0a6ada75cfd26deb2bd"
 
 ts-lodash@^4.0.5:
   version "4.0.5"
