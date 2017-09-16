@@ -23,7 +23,7 @@ export interface IOptionFlagBase<T> extends IFlagBase {
 
 export interface IOptionalFlag<T> extends IOptionFlagBase<T> {
   multiple: false
-  default?: T
+  default?: T | (() => T)
   value?: T
 }
 

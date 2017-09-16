@@ -265,17 +265,6 @@ arg3  arg3 desc`)
   })
 })
 
-test('defaults', () => {
-  const out = parse({
-    args: [{ name: 'baz', default: 'BAZ' }],
-    argv: [],
-    flags: { foo: flags.string({ default: 'bar' }) },
-  })
-  expect(out.args).toMatchObject({ baz: 'BAZ' })
-  expect(out.argv).toMatchObject(['BAZ'])
-  expect(out.flags).toMatchObject({ foo: 'bar' })
-})
-
 test('--no-color', () => {
   const out = parse({
     argv: ['--no-color'],
@@ -292,4 +281,28 @@ test('parse', () => {
   expect(out.flags).toMatchObject({ foo: 'BAR' })
   expect(out.args).toMatchObject({ num: 100 })
   expect(out.argv).toMatchObject([100])
+})
+
+describe('defaults', () => {
+  test('defaults', () => {
+    const out = parse({
+      args: [{ name: 'baz', default: 'BAZ' }],
+      argv: [],
+      flags: { foo: flags.string({ default: 'bar' }) },
+    })
+    expect(out.args).toMatchObject({ baz: 'BAZ' })
+    expect(out.argv).toMatchObject(['BAZ'])
+    expect(out.flags).toMatchObject({ foo: 'bar' })
+  })
+
+  test('default as function', () => {
+    const out = parse({
+      args: [{ name: 'baz', default: () => 'BAZ' }],
+      argv: [],
+      flags: { foo: flags.string({ default: () => 'bar' }) },
+    })
+    expect(out.args).toMatchObject({ baz: 'BAZ' })
+    expect(out.argv).toMatchObject(['BAZ'])
+    expect(out.flags).toMatchObject({ foo: 'bar' })
+  })
 })

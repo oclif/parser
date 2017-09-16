@@ -174,7 +174,11 @@ class Parser {
     for (const [k, flag] of Object.entries(this.input.flags)) {
       if (!flags[k]) {
         if (flag.type === 'option' && flag.default) {
-          flags[k] = flag.default
+          if (typeof flag.default === 'function') {
+            flags[k] = flag.default()
+          } else {
+            flags[k] = flag.default
+          }
         }
       }
     }
@@ -190,7 +194,13 @@ class Parser {
       if (token) {
         args[i] = arg ? arg.parse(token.input) : token.input
       } else {
-        if (arg.default) args[i] = arg.default
+        if (arg.default) {
+          if (typeof arg.default === 'function') {
+            args[i] = arg.default()
+          } else {
+            args[i] = arg.default
+          }
+        }
       }
     }
     return args

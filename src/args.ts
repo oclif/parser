@@ -5,7 +5,7 @@ export interface IArg<T = string> {
   required?: boolean
   hidden?: boolean
   parse?: (input: string) => T
-  default?: T
+  default?: T | (() => T)
 }
 
 export type ArgBase<T> = {
@@ -13,7 +13,7 @@ export type ArgBase<T> = {
   description?: string
   hidden?: boolean
   parse: ParseFn<T>
-  default?: T
+  default?: T | (() => T)
 }
 
 export type RequiredArg<T> = ArgBase<T> & {
