@@ -11,7 +11,6 @@ export interface IFlagBase {
 export interface IBooleanFlag extends IFlagBase {
   type: 'boolean'
   allowNo: boolean
-  value: boolean
   input: string
 }
 
@@ -28,19 +27,16 @@ export interface IOptionFlagBase<T> extends IFlagBase {
 export interface IOptionalFlag<T> extends IOptionFlagBase<T> {
   multiple: false
   default?: T | ((context: ParseContext) => T)
-  value?: T
 }
 
 export interface IRequiredFlag<T> extends IOptionFlagBase<T> {
   multiple: false
   default?: undefined
-  value: T
 }
 
 export interface IMultiOptionFlag<T> extends IOptionFlagBase<T> {
   multiple: true
   default?: undefined
-  value: T[]
 }
 
 export type IOptionFlag<T> = IOptionalFlag<T> | IRequiredFlag<T> | IMultiOptionFlag<T>
@@ -60,7 +56,6 @@ function option<T = string>(defaults: Partial<IOptionFlag<T>> = {}): FlagBuilder
       input: [],
       multiple: !!options.multiple,
       type: 'option',
-      value: options.multiple ? [] : undefined,
     }
   }
 }
@@ -73,7 +68,6 @@ export const flags = {
       ...options,
       allowNo: !!options.allowNo,
       type: 'boolean',
-      value: false,
     } as IBooleanFlag
   },
   integer: option<number>({

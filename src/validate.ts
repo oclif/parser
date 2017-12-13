@@ -16,7 +16,7 @@ export function validate(parse: { input: ParserInput; output: ParserOutput }) {
   }
 
   function validateFlags() {
-    const flags = Object.values(parse.input.flags).filter(f => f.required && f.value === undefined)
+    const flags = Object.values(parse.input.flags).filter(f => f.required && !parse.output.flags[f.name])
     if (flags.length) throw new RequiredFlagError({ parse, flags })
   }
 

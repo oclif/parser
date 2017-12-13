@@ -157,7 +157,6 @@ export class Parser {
         } else {
           flags[token.flag] = value
         }
-        flag.value = flags[token.flag]
       }
     }
     for (const [k, flag] of Object.entries(this.input.flags)) {
@@ -168,7 +167,6 @@ export class Parser {
           } else {
             flags[k] = flag.default
           }
-          flag.value = flags[k]
         }
       }
     }
