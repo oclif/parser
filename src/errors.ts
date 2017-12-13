@@ -3,29 +3,28 @@ import { Arg } from './args'
 import { IFlag } from './flags'
 import { flagUsages } from './help'
 import { ParserInput, ParserOutput } from './parse'
-import { InputFlags } from '.'
 
-export interface ICLIParseErrorOptions<T extends InputFlags> {
+export interface ICLIParseErrorOptions {
   parse: {
     input: ParserInput
-    output: ParserOutput<T>
+    output: ParserOutput
   }
 }
 
-export class CLIParseError<T extends InputFlags> extends Error {
-  public parse: ICLIParseErrorOptions<T>['parse']
+export class CLIParseError extends Error {
+  public parse: ICLIParseErrorOptions['parse']
 
-  constructor(options: ICLIParseErrorOptions<T> & { message: string }) {
+  constructor(options: ICLIParseErrorOptions & { message: string }) {
     options.message += `\nSee more help with --help`
     super(options.message)
     this.parse = options.parse
   }
 }
 
-export class RequiredArgsError<T extends InputFlags> extends CLIParseError<T> {
+export class RequiredArgsError extends CLIParseError {
   public args: Arg<any>[]
 
-  constructor({ args, parse }: ICLIParseErrorOptions<T> & { args: Arg<any>[] }) {
+  constructor({ args, parse }: ICLIParseErrorOptions & { args: Arg<any>[] }) {
     let message = `Missing ${args.length} required arg${args.length === 1 ? '' : 's'}`
     const namedArgs = args.filter(a => a.name)
     if (namedArgs.length) {
@@ -37,10 +36,10 @@ export class RequiredArgsError<T extends InputFlags> extends CLIParseError<T> {
   }
 }
 
-export class RequiredFlagError<T extends InputFlags> extends CLIParseError<T> {
+export class RequiredFlagError extends CLIParseError {
   public flags: IFlag<any>[]
 
-  constructor({ flags, parse }: ICLIParseErrorOptions<T> & { flags: IFlag<T>[] }) {
+  constructor({ flags, parse }: ICLIParseErrorOptions & { flags: IFlag<any>[] }) {
     const usage = renderList(flagUsages(flags, { displayRequired: false }))
     const message = `Missing required flag${flags.length === 1 ? '' : 's'}:\n${usage}`
     super({ parse, message })
@@ -48,10 +47,10 @@ export class RequiredFlagError<T extends InputFlags> extends CLIParseError<T> {
   }
 }
 
-export class UnexpectedArgsError<T extends InputFlags> extends CLIParseError<T> {
+export class UnexpectedArgsError extends CLIParseError {
   public args: string[]
 
-  constructor({ parse, args }: ICLIParseErrorOptions<T> & { args: string[] }) {
+  constructor({ parse, args }: ICLIParseErrorOptions & { args: string[] }) {
     const message = `Unexpected argument${args.length === 1 ? '' : 's'}: ${args.join(', ')}`
     super({ parse, message })
     this.args = args

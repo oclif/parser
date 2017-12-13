@@ -1,16 +1,15 @@
 import _ from 'ts-lodash'
 import { Arg } from './args'
-import { defaultFlags, IBooleanFlag, IFlag } from './flags'
+import { IBooleanFlag, IFlag } from './flags'
 import { InputFlags } from '.'
 
 // tslint:disable-next-line
 const debug = require('debug')('cli-flags')
 
-export type DefaultFlags = { [P in keyof typeof defaultFlags]: typeof defaultFlags[P]['value'] }
 export type OutputArgs = { [k: string]: any }
-export type OutputFlags<T extends InputFlags | undefined> = { [P in keyof T]: T[P]['value'] } & DefaultFlags
-export type ParserOutput<T extends InputFlags | undefined> = {
-  flags: OutputFlags<T>
+export type OutputFlags = { [k: string]: any }
+export type ParserOutput = {
+  flags: OutputFlags
   args: { [k: string]: any }
   argv: string[]
   raw: ParsingToken[]
@@ -35,7 +34,7 @@ export class Parser {
   constructor(readonly input: ParserInput) {
     this.argv = input.argv.slice(0)
     this._setNames()
-    this.booleanFlags = _.pickBy(input.flags, (f: IFlag<any>) => f.type === 'boolean')
+    this.booleanFlags = _.pickBy(input.flags, (f: IFlag<any>) => f.type === 'boolean') as any
   }
 
   public parse() {
@@ -136,8 +135,8 @@ export class Parser {
     return args
   }
 
-  private _flags(): OutputFlags<any> {
-    const flags: OutputFlags<any> = {}
+  private _flags(): OutputFlags {
+    const flags: OutputFlags = {}
     for (const token of this._flagTokens) {
       const flag = this.input.flags[token.flag]
       if (!flag) throw new Error(`Unexpected flag ${token.flag}`)

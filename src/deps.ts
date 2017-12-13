@@ -13,7 +13,7 @@ export const deps = {
   get validate(): typeof validate { return fetch('./validate') },
 
   // remote
-  get chalk(): typeof chalk { return fetch('chalk') },
+  get chalk(): typeof chalk.default { return fetch('chalk').default },
 }
 
 const cache: any = {}

@@ -5,28 +5,28 @@
   "author": "Jeff Dickey",
   "bugs": "https://github.com/heroku/cli-flags/issues",
   "dependencies": {
-    "chalk": "^2.1.0",
-    "cli-ux": "^2.0.1",
+    "chalk": "^2.3.0",
+    "cli-ux": "^2.0.5",
     "lodash": "^4.17.4",
     "ts-lodash": "^4.0.5"
   },
   "devDependencies": {
-    "@types/chalk": "^0.4.31",
-    "@types/jest": "^21.1.2",
-    "@types/lodash": "^4.14.77",
-    "@types/node": "^8.0.32",
+    "@types/chalk": "2.2.0",
+    "@types/jest": "^21.1.8",
+    "@types/lodash": "^4.14.88",
+    "@types/node": "^8.0.58",
     "babel-core": "^6.26.0",
     "del-cli": "^1.1.0",
     "husky": "^0.14.3",
     "jest": "^21.2.1",
-    "lint-staged": "^4.2.3",
-    "prettier": "^1.7.4",
+    "lint-staged": "^6.0.0",
+    "prettier": "^1.9.2",
     "remap-istanbul": "^0.9.5",
-    "ts-jest": "^21.0.1",
-    "ts-node": "^3.3.0",
-    "tslint": "^5.7.0",
-    "tslint-config-prettier": "^1.5.0",
-    "typescript": "^2.5.3"
+    "ts-jest": "^21.2.4",
+    "ts-node": "^4.0.1",
+    "tslint": "^5.8.0",
+    "tslint-config-prettier": "^1.6.0",
+    "typescript": "^2.6.2"
   },
   "files": [
     "lib"

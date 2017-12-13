@@ -1,8 +1,7 @@
 import { UnexpectedArgsError, RequiredArgsError, RequiredFlagError } from './errors'
 import { ParserInput, ParserOutput } from './parse'
-import { InputFlags } from '.'
 
-export function validate<T extends InputFlags>(parse: { input: ParserInput; output: ParserOutput<T> }) {
+export function validate(parse: { input: ParserInput; output: ParserOutput }) {
   function validateArgs() {
     const maxArgs = parse.input.args.length
     if (parse.input.strict && parse.output.argv.length > maxArgs) {

@@ -1,5 +1,5 @@
 export { IArg } from './args'
-export { ParserOutput, OutputArgs, OutputFlags, DefaultFlags } from './parse'
+export { ParserOutput, OutputArgs, OutputFlags } from './parse'
 export {
   flags,
   IFlag,
@@ -21,15 +21,15 @@ export type InputFlags = { [name: string]: IFlag<any> }
 
 import { deps } from './deps'
 
-export type ParserInput<T extends InputFlags | undefined> = {
+export type ParserInput = {
   argv?: string[]
-  flags?: T
+  flags?: InputFlags
   args?: InputArgs
   strict?: boolean
   parseContext?: { [k: string]: any }
 }
 
-export function parse<T extends InputFlags | undefined>(options: ParserInput<T>): ParserOutput<T> {
+export function parse(options: ParserInput): ParserOutput {
   const input = {
     args: (options.args || []).map(a => deps.args.newArg(a)),
     argv: options.argv || process.argv.slice(2),
