@@ -27,7 +27,7 @@ export interface IOptionFlagBase<T> extends IFlagBase {
 
 export interface IOptionalFlag<T> extends IOptionFlagBase<T> {
   multiple: false
-  default?: T | ((context: ParseContext) => T)
+  default?: T | ((context: ParseContext) => T | undefined)
 }
 
 export interface IRequiredFlag<T> extends IOptionFlagBase<T> {
