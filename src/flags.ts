@@ -1,9 +1,6 @@
 import { AlphabetLowercase, AlphabetUppercase } from './alphabet'
-import { ParserInput } from './parse'
 
-export type ParseContext = { [k: string]: any }
-export type FlagParseContext<T, PC extends ParseContext> = { flag: IOptionFlag<T>; input: ParserInput } & PC
-export type ParseFn<T, PC = any> = (input: string, parseContext: FlagParseContext<T, PC>) => T
+export type DefaultContext<T> = { options: IOptionFlag<T>; flags: { [k: string]: string } }
 
 export interface IFlagBase {
   name: string
@@ -16,18 +13,16 @@ export interface IFlagBase {
 export interface IBooleanFlag extends IFlagBase {
   type: 'boolean'
   allowNo: boolean
-  input: string
 }
 
 export interface IOptionFlagBase<T> extends IFlagBase {
   type: 'option'
-  parse: ParseFn<T>
-  input: string[]
+  parse: (input: string) => T
 }
 
 export interface IOptionalFlag<T> extends IOptionFlagBase<T> {
   multiple: false
-  default?: T | ((context: ParseContext) => T | undefined)
+  default?: T | ((context: DefaultContext<T>) => T | undefined)
 }
 
 export interface IRequiredFlag<T> extends IOptionFlagBase<T> {

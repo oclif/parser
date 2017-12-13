@@ -26,7 +26,6 @@ export type ParserInput = {
   flags?: InputFlags
   args?: InputArgs
   strict?: boolean
-  parseContext?: { [k: string]: any }
 }
 
 export function parse(options: ParserInput): ParserOutput {
@@ -37,7 +36,6 @@ export function parse(options: ParserInput): ParserOutput {
       color: deps.flags.defaultFlags.color,
       ...((options.flags || {}) as InputFlags),
     },
-    parseContext: options.parseContext || {},
     strict: options.strict !== false,
   }
   const parser = new deps.parse.Parser(input)

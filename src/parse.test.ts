@@ -287,31 +287,15 @@ describe('parse', () => {
     expect(out.argv).toMatchObject([100])
   })
 
-  test('gets arg/flag in context', () => {
-    const out = parse({
-      args: [{ name: 'num', parse: (_, ctx) => ctx.arg.name!.toUpperCase() }],
-      argv: ['--foo=bar', '100'],
-      flags: { foo: flags.string({ parse: (_, ctx) => ctx.flag.name.toUpperCase() }) },
-    })
-    expect(out.flags).toMatchObject({ foo: 'FOO' })
-    expect(out.args).toMatchObject({ num: 'NUM' })
-  })
-
-  test('passes context through', () => {
-    const flagfn = jest.fn()
-    const argfn = jest.fn()
-    parse({
-      args: [{ name: 'num', parse: (_, ctx) => ctx.argfn() }],
-      argv: ['--foo=bar', '100'],
-      flags: { foo: flags.string({ parse: (_, ctx) => ctx.flagfn() }) },
-      parseContext: {
-        argfn,
-        flagfn,
-      },
-    })
-    expect(flagfn).toBeCalled()
-    expect(argfn).toBeCalled()
-  })
+  // test('gets arg/flag in context', () => {
+  //   const out = parse({
+  //     args: [{ name: 'num', parse: (_, ctx) => ctx.arg.name!.toUpperCase() }],
+  //     argv: ['--foo=bar', '100'],
+  //     flags: { foo: flags.string({ parse: (_, ctx) => ctx.flag.name.toUpperCase() }) },
+  //   })
+  //   expect(out.flags).toMatchObject({ foo: 'FOO' })
+  //   expect(out.args).toMatchObject({ num: 'NUM' })
+  // })
 })
 
 describe('defaults', () => {
@@ -337,13 +321,24 @@ describe('defaults', () => {
     expect(out.flags).toMatchObject({ foo: 'bar' })
   })
 
+  test('default has options', () => {
+    const out = parse({
+      // args: [{ name: 'baz', default: () => 'BAZ' }],
+      argv: [],
+      flags: { foo: flags.string({ description: 'bar', default: ({ options }) => options.description }) },
+    })
+    // expect(out.args).toMatchObject({ baz: 'BAZ' })
+    // expect(out.argv).toMatchObject(['BAZ'])
+    expect(out.flags).toMatchObject({ foo: 'bar' })
+  })
+
   test('can default to a different flag', () => {
     const out = parse({
       argv: ['--foo=bar'],
       flags: {
         bar: flags.string({
-          default: ({ input }) => {
-            return input.flags.foo.input[0]
+          default: opts => {
+            return opts.flags.foo
           },
         }),
         foo: flags.string(),

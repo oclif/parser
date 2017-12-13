@@ -24,7 +24,6 @@ export type ParserInput = {
   flags: InputFlags
   args: Arg<any>[]
   strict: boolean
-  parseContext: { [k: string]: any }
 }
 
 export class Parser {
@@ -83,10 +82,8 @@ export class Parser {
         if (!input) {
           throw new Error(`Flag --${name} expects a value`)
         }
-        flag.input.push(input)
         this.raw.push({ type: 'flag', flag: flag.name!, input })
       } else {
-        flag.input = arg
         this.raw.push({ type: 'flag', flag: flag.name!, input: arg })
         // push the rest of the short characters back on the stack
         if (!long && arg.length > 2) {
@@ -147,10 +144,7 @@ export class Parser {
           flags[token.flag] = true
         }
       } else {
-        const value = flag.parse(token.input, {
-          flag,
-          ...this.input.parseContext,
-        })
+        const value = flag.parse(token.input)
         if (flag.multiple) {
           flags[token.flag] = flags[token.flag] || []
           flags[token.flag].push(value)
@@ -163,7 +157,7 @@ export class Parser {
       if (!flags[k]) {
         if (flag.type === 'option' && flag.default) {
           if (typeof flag.default === 'function') {
-            flags[k] = flag.default({ flag, input: this.input })
+            flags[k] = flag.default({ options: flag, flags })
           } else {
             flags[k] = flag.default
           }
@@ -181,10 +175,7 @@ export class Parser {
       const arg = this.input.args[i]
       if (token) {
         if (arg) {
-          args[i] = arg.parse(token.input, {
-            arg,
-            ...this.input.parseContext,
-          })
+          args[i] = arg.parse(token.input)
         } else {
           args[i] = token.input
         }

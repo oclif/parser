@@ -1,5 +1,4 @@
-export type ArgParseContext<T = string> = { arg: Arg<T> } & { [k: string]: any }
-export type ParseFn<T> = (input: string, parseContext: ArgParseContext<T>) => T
+export type ParseFn<T> = (input: string) => T
 
 export interface IArg<T = string> {
   name: string
