@@ -1,7 +1,7 @@
 {
   "name": "cli-flags",
   "description": "basic CLI flag parser",
-  "version": "1.0.17",
+  "version": "1.0.18",
   "author": "Jeff Dickey",
   "bugs": "https://github.com/heroku/cli-flags/issues",
   "dependencies": {
