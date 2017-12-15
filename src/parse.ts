@@ -144,7 +144,7 @@ export class Parser {
           flags[token.flag] = true
         }
       } else {
-        const value = flag.parse(token.input)
+        const value = flag.parse ? flag.parse(token.input) : token.input
         if (flag.multiple) {
           flags[token.flag] = flags[token.flag] || []
           flags[token.flag].push(value)
