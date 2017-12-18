@@ -6,15 +6,15 @@
   "bugs": "https://github.com/heroku/cli-flags/issues",
   "dependencies": {
     "chalk": "^2.3.0",
-    "cli-ux": "^2.0.5",
+    "cli-ux": "^2.0.8",
     "lodash": "^4.17.4",
     "ts-lodash": "^4.0.6"
   },
   "devDependencies": {
     "@types/chalk": "2.2.0",
     "@types/jest": "^21.1.8",
-    "@types/lodash": "^4.14.88",
-    "@types/node": "^8.0.58",
+    "@types/lodash": "^4.14.91",
+    "@types/node": "^8.5.1",
     "babel-core": "^6.26.0",
     "del-cli": "^1.1.0",
     "husky": "^0.14.3",
@@ -23,7 +23,7 @@
     "prettier": "^1.9.2",
     "remap-istanbul": "^0.9.5",
     "ts-jest": "^21.2.4",
-    "ts-node": "^4.0.1",
+    "ts-node": "^4.0.2",
     "tslint": "^5.8.0",
     "tslint-config-prettier": "^1.6.0",
     "typescript": "^2.6.2"
