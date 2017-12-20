@@ -4,6 +4,7 @@ import parse = require('./parse')
 import validate = require('./validate')
 
 import chalk = require('chalk')
+import list = require('cli-ux/lib/list')
 
 export const deps = {
   // local
@@ -13,7 +14,13 @@ export const deps = {
   get validate(): typeof validate { return fetch('./validate') },
 
   // remote
-  get chalk(): typeof chalk.default { return fetch('chalk').default },
+  get renderList(): typeof list.renderList { return fetch('cli-ux/lib/list').renderList },
+  get chalk(): typeof chalk.default | undefined {
+    try {
+      return fetch('chalk').default
+      // tslint:disable-next-line
+    } catch (err) {}
+  },
 }
 
 const cache: any = {}

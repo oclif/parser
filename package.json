@@ -5,11 +5,11 @@
   "author": "Jeff Dickey",
   "bugs": "https://github.com/heroku/cli-flags/issues",
   "dependencies": {
-    "chalk": "^2.3.0",
     "cli-ux": "^2.0.9",
     "ts-lodash": "^4.0.7"
   },
   "devDependencies": {
+    "chalk": "^2.3.0",
     "@types/chalk": "2.2.0",
     "@types/jest": "^21.1.8",
     "@types/lodash": "^4.14.91",

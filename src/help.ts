@@ -2,6 +2,11 @@ import { IFlag } from './flags'
 import { deps } from './deps'
 import _ from 'ts-lodash'
 
+function dim(s: string): string {
+  if (deps.chalk) return deps.chalk.dim(s)
+  return s
+}
+
 export type FlagUsageOptions = { displayRequired?: boolean }
 export function flagUsage(flag: IFlag<any>, options: FlagUsageOptions = {}): [string, string | undefined] {
   const label = []
@@ -12,7 +17,7 @@ export function flagUsage(flag: IFlag<any>, options: FlagUsageOptions = {}): [st
 
   let description: string | undefined = flag.description || ''
   if (options.displayRequired && flag.required) description = `(required) ${description}`
-  description = description ? deps.chalk.dim(description) : undefined
+  description = description ? dim(description) : undefined
 
   return [' ' + label.join(',').trim() + usage, description] as [string, string | undefined]
 }
