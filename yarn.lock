@@ -634,16 +634,15 @@ cli-truncate@^0.2.1:
     slice-ansi "0.0.4"
     string-width "^1.0.1"
 
-cli-ux@^2.0.9:
-  version "2.0.9"
-  resolved "https://registry.yarnpkg.com/cli-ux/-/cli-ux-2.0.9.tgz#8d4c630c821367154f32a1e204cc862f2f539c08"
+cli-ux@^2.0.10:
+  version "2.0.10"
+  resolved "https://registry.yarnpkg.com/cli-ux/-/cli-ux-2.0.10.tgz#5c4d4742af4d75f609aed43d79ee8499f5434113"
   dependencies:
     "@heroku/linewrap" "^1.0.0"
     ansi-escapes "^3.0.0"
     ansi-styles "^3.2.0"
     cardinal "^1.0.0"
     chalk "^2.3.0"
-    fs-extra "^5.0.0"
     lodash "^4.17.4"
     moment "^2.20.0"
     password-prompt "^1.0.3"
@@ -1234,14 +1233,6 @@ form-data@~2.3.1:
 fs-extra@4.0.3:
   version "4.0.3"
   resolved "https://registry.yarnpkg.com/fs-extra/-/fs-extra-4.0.3.tgz#0d852122e5bc5beb453fb028e9c0c9bf36340c94"
-  dependencies:
-    graceful-fs "^4.1.2"
-    jsonfile "^4.0.0"
-    universalify "^0.1.0"
-
-fs-extra@^5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/fs-extra/-/fs-extra-5.0.0.tgz#414d0110cdd06705734d055652c5411260c31abd"
   dependencies:
     graceful-fs "^4.1.2"
     jsonfile "^4.0.0"
@@ -3796,9 +3787,9 @@ ts-lodash@^4.0.6:
   dependencies:
     lodash "^4.17.4"
 
-ts-lodash@^4.0.7:
-  version "4.0.7"
-  resolved "https://registry.yarnpkg.com/ts-lodash/-/ts-lodash-4.0.7.tgz#da926ec01529f6c15b2ce4e74dfc66cbeac0490c"
+ts-lodash@^4.0.8:
+  version "4.0.8"
+  resolved "https://registry.yarnpkg.com/ts-lodash/-/ts-lodash-4.0.8.tgz#4f424e687f9c89a3dcf1473779a251f134170f6a"
   dependencies:
     lodash "^4.17.4"
 
