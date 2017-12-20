@@ -1,10 +1,15 @@
 import _ from 'ts-lodash'
 import { Arg } from './args'
-import { IBooleanFlag, IFlag } from './flags'
-import { InputFlags } from '.'
+import * as Flags from './flags'
 
-// tslint:disable-next-line
-const debug = require('debug')('cli-flags')
+let debug: any
+try {
+  // tslint:disable-next-line
+  debug = require('debug')('cli-flags')
+} catch (err) {
+  // tslint:disable-next-line
+  debug = () => {}
+}
 
 export type OutputArgs = { [k: string]: any }
 export type OutputFlags = { [k: string]: any }
@@ -21,7 +26,7 @@ export type ParsingToken = ArgToken | FlagToken
 
 export type ParserInput = {
   argv: string[]
-  flags: InputFlags
+  flags: Flags.Input
   args: Arg<any>[]
   strict: boolean
 }
@@ -29,11 +34,11 @@ export type ParserInput = {
 export class Parser {
   private argv: string[]
   private raw: ParsingToken[] = []
-  private booleanFlags: { [k: string]: IBooleanFlag }
+  private booleanFlags: { [k: string]: Flags.IBooleanFlag }
   constructor(readonly input: ParserInput) {
     this.argv = input.argv.slice(0)
     this._setNames()
-    this.booleanFlags = _.pickBy(input.flags, (f: IFlag<any>) => f.type === 'boolean') as any
+    this.booleanFlags = _.pickBy(input.flags, (f: Flags.IFlag<any>) => f.type === 'boolean') as any
   }
 
   public parse() {

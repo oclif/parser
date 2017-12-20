@@ -39,3 +39,5 @@ export function newArg(arg: IArg<any>): any {
     required: !!arg.required,
   }
 }
+
+export type Input = IArg<any>[]

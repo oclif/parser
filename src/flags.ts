@@ -15,35 +15,16 @@ export interface IBooleanFlag extends IFlagBase {
   allowNo: boolean
 }
 
-export interface IOptionFlagBase<T> extends IFlagBase {
+export interface IOptionFlag<T = string> extends IFlagBase {
   type: 'option'
-  parse: (input: string) => T
-}
-
-export interface IOptionalFlag<T> extends IOptionFlagBase<T> {
-  multiple: false
   default?: T | ((context: DefaultContext<T>) => T | undefined)
+  parse: (input: string) => T
+  multiple: boolean
 }
 
-export interface IRequiredFlag<T> extends IOptionFlagBase<T> {
-  required: true
-  multiple: false
-  default?: undefined
-}
+export type Definition<T> = (options?: Partial<IOptionFlag<T>>) => IOptionFlag<T>
 
-export interface IMultiOptionFlag<T> extends IOptionFlagBase<T> {
-  multiple: true
-  default?: undefined
-}
-
-export type IOptionFlag<T> = IOptionalFlag<T> | IRequiredFlag<T> | IMultiOptionFlag<T>
-
-export type FlagBuilder<T> = {
-  (options: Partial<IMultiOptionFlag<T>> & { multiple: true }): IMultiOptionFlag<T>
-  (options: Partial<IRequiredFlag<T>> & { required: true }): IRequiredFlag<T>
-  (options?: Partial<IOptionalFlag<T>>): IOptionalFlag<T>
-}
-function option<T = string>(defaults: Partial<IOptionFlag<T>> = {}): FlagBuilder<T> {
+export function option<T = string>(defaults: Partial<IOptionFlag<T>> = {}): Definition<T> {
   return (options?: any): any => {
     options = options || {}
     return {
@@ -59,24 +40,26 @@ function option<T = string>(defaults: Partial<IOptionFlag<T>> = {}): FlagBuilder
 
 export type IFlag<T> = IBooleanFlag | IOptionFlag<T>
 
-export const flags = {
-  boolean: (options: Partial<IBooleanFlag> = {}): IBooleanFlag => {
-    return {
-      ...options,
-      allowNo: !!options.allowNo,
-      type: 'boolean',
-    } as IBooleanFlag
-  },
-  integer: option<number>({
-    parse: input => {
-      if (!/^[0-9]+$/.test(input)) throw new Error(`Expected an integer but received: ${input}`)
-      return parseInt(input, 10)
-    },
-  }),
-  option,
-  string: option<string>(),
+export function boolean(options: Partial<IBooleanFlag> = {}): IBooleanFlag {
+  return {
+    ...options,
+    allowNo: !!options.allowNo,
+    type: 'boolean',
+  } as IBooleanFlag
 }
 
+export const integer = option<number>({
+  parse: input => {
+    if (!/^[0-9]+$/.test(input)) throw new Error(`Expected an integer but received: ${input}`)
+    return parseInt(input, 10)
+  },
+})
+
+const stringFlag = option<string>()
+export { stringFlag as string }
+
 export const defaultFlags = {
-  color: flags.boolean({ allowNo: true }),
+  color: boolean({ allowNo: true }),
 }
+
+export type Input = { [name: string]: IFlag<any> }

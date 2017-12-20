@@ -1,30 +1,16 @@
-export { IArg } from './args'
 export { ParserOutput, OutputArgs, OutputFlags } from './parse'
-export {
-  flags,
-  IFlag,
-  IBooleanFlag,
-  IRequiredFlag,
-  IOptionalFlag,
-  IOptionFlag,
-  IMultiOptionFlag,
-  FlagBuilder,
-} from './flags'
+import * as args from './args'
+export { args }
+import * as flags from './flags'
+export { flags }
 export { flagUsages } from './help'
-
-import { IArg } from './args'
-import { IFlag } from './flags'
 import { ParserOutput } from './parse'
-
-export type InputArgs = IArg<any>[]
-export type InputFlags = { [name: string]: IFlag<any> }
-
 import { deps } from './deps'
 
 export type ParserInput = {
   argv?: string[]
-  flags?: InputFlags
-  args?: InputArgs
+  flags?: flags.Input
+  args?: args.Input
   strict?: boolean
 }
 
@@ -34,7 +20,7 @@ export function parse(options: ParserInput): ParserOutput {
     argv: options.argv || process.argv.slice(2),
     flags: {
       color: deps.flags.defaultFlags.color,
-      ...((options.flags || {}) as InputFlags),
+      ...((options.flags || {}) as flags.Input),
     },
     strict: options.strict !== false,
   }

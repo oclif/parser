@@ -1,4 +1,4 @@
-import { flags } from './flags'
+import * as flags from './flags'
 import { flagUsages } from './help'
 
 describe('flagUsage', () => {
