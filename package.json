@@ -1,7 +1,7 @@
 {
   "name": "cli-flags",
   "description": "basic CLI flag parser",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "author": "Jeff Dickey",
   "bugs": "https://github.com/heroku/cli-flags/issues",
   "dependencies": {
@@ -9,12 +9,12 @@
     "ts-lodash": "^4.0.7"
   },
   "devDependencies": {
-    "chalk": "^2.3.0",
     "@types/chalk": "2.2.0",
     "@types/jest": "^21.1.8",
     "@types/lodash": "^4.14.91",
     "@types/node": "^8.5.1",
     "babel-core": "^6.26.0",
+    "chalk": "^2.3.0",
     "del-cli": "^1.1.0",
     "husky": "^0.14.3",
     "jest": "^22.0.3",
