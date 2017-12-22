@@ -1,4 +1,7 @@
+import chalk from 'chalk'
 import { flags, parse } from '.'
+
+chalk.enabled = false
 
 test('--bool', () => {
   const out = parse({

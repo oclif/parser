@@ -2,9 +2,11 @@ import args = require('./args')
 import flags = require('./flags')
 import parse = require('./parse')
 import validate = require('./validate')
+import errors = require('./errors')
 
 import chalk = require('chalk')
-import list = require('cli-ux/lib/list')
+import list = require('./list')
+import screen from './screen'
 
 export const deps = {
   // local
@@ -12,9 +14,11 @@ export const deps = {
   get flags(): typeof flags { return fetch('./flags') },
   get parse(): typeof parse { return fetch('./parse') },
   get validate(): typeof validate { return fetch('./validate') },
+  get screen(): typeof screen { return fetch('./screen').default },
+  get renderList(): typeof list.renderList { return fetch('./list').renderList },
+  get errors(): typeof errors { return fetch('./errors') },
 
   // remote
-  get renderList(): typeof list.renderList { return fetch('cli-ux/lib/list').renderList },
   get chalk(): typeof chalk.default | undefined {
     try {
       return fetch('chalk').default

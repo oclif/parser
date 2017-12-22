@@ -1,4 +1,4 @@
-import _ from 'ts-lodash'
+import lodash from 'ts-lodash'
 import { Arg } from './args'
 import * as Flags from './flags'
 
@@ -38,6 +38,7 @@ export class Parser {
   constructor(readonly input: ParserInput) {
     this.argv = input.argv.slice(0)
     this._setNames()
+    const _: typeof lodash = require('ts-lodash').default
     this.booleanFlags = _.pickBy(input.flags, (f: Flags.IFlag<any>) => f.type === 'boolean') as any
   }
 

@@ -1,5 +1,8 @@
 import * as flags from './flags'
 import { flagUsages } from './help'
+import chalk from 'chalk'
+
+chalk.enabled = false
 
 describe('flagUsage', () => {
   test('shows usages', () => {

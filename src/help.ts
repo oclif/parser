@@ -1,6 +1,6 @@
 import { IFlag } from './flags'
 import { deps } from './deps'
-import _ from 'ts-lodash'
+import lodash from 'ts-lodash'
 
 function dim(s: string): string {
   if (deps.chalk) return deps.chalk.dim(s)
@@ -24,6 +24,7 @@ export function flagUsage(flag: IFlag<any>, options: FlagUsageOptions = {}): [st
 
 export function flagUsages(flags: IFlag<any>[], options: FlagUsageOptions = {}): [string, string | undefined][] {
   if (!flags.length) return []
+  const _: typeof lodash = require('ts-lodash').default
   flags = _.sortBy(flags, f => [!f.char, f.char, f.name])
   return flags.map(f => flagUsage(f, options))
 }

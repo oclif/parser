@@ -1,4 +1,4 @@
-import { renderList } from 'cli-ux/lib/list'
+import { deps } from './deps'
 import { Arg } from './args'
 import { IFlag } from './flags'
 import { flagUsages } from './help'
@@ -28,7 +28,7 @@ export class RequiredArgsError extends CLIParseError {
     let message = `Missing ${args.length} required arg${args.length === 1 ? '' : 's'}`
     const namedArgs = args.filter(a => a.name)
     if (namedArgs.length) {
-      const list = renderList(namedArgs.map(a => [a.name, a.description] as [string, string]))
+      const list = deps.renderList(namedArgs.map(a => [a.name, a.description] as [string, string]))
       message += `:\n${list}`
     }
     super({ parse, message })
@@ -40,7 +40,7 @@ export class RequiredFlagError extends CLIParseError {
   public flags: IFlag<any>[]
 
   constructor({ flags, parse }: ICLIParseErrorOptions & { flags: IFlag<any>[] }) {
-    const usage = renderList(flagUsages(flags, { displayRequired: false }))
+    const usage = deps.renderList(flagUsages(flags, { displayRequired: false }))
     const message = `Missing required flag${flags.length === 1 ? '' : 's'}:\n${usage}`
     super({ parse, message })
     this.flags = flags
