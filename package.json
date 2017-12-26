@@ -22,10 +22,13 @@
     "prettier": "^1.9.2",
     "remap-istanbul": "^0.9.5",
     "ts-jest": "^22.0.0",
-    "ts-node": "^4.0.2",
+    "ts-node": "^4.1.0",
     "tslint": "^5.8.0",
     "tslint-config-prettier": "^1.6.0",
     "typescript": "^2.6.2"
+  },
+  "engines": {
+    "node": ">=6.0.0"
   },
   "files": [
     "lib"

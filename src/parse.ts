@@ -159,7 +159,8 @@ export class Parser {
         }
       }
     }
-    for (const [k, flag] of Object.entries(this.input.flags)) {
+    for (const k of Object.keys(this.input.flags)) {
+      const flag = this.input.flags[k]
       if (!flags[k]) {
         if (flag.type === 'option' && flag.default) {
           if (typeof flag.default === 'function') {
@@ -233,8 +234,8 @@ export class Parser {
   }
 
   private _setNames() {
-    for (const [name, flag] of Object.entries(this.input.flags)) {
-      flag.name = name
+    for (const k of Object.keys(this.input.flags)) {
+      this.input.flags[k].name = k
     }
   }
 }
