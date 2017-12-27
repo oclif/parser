@@ -5,6 +5,7 @@
   "author": "Jeff Dickey",
   "bugs": "https://github.com/heroku/cli-flags/issues",
   "dependencies": {
+    "@cli-engine/screen": "^0.0.0",
     "@heroku/linewrap": "^1.0.0",
     "ts-lodash": "^4.0.8"
   },
