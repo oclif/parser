@@ -5,7 +5,10 @@ import * as Flags from './flags'
 let debug: any
 try {
   // tslint:disable-next-line
-  debug = require('debug')('cli-flags')
+  if (process.env.CLI_FLAGS_DEBUG !== '1') debug = () => {}
+  else
+    // tslint:disable-next-line
+    debug = require('debug')('cli-flags')
 } catch (err) {
   // tslint:disable-next-line
   debug = () => {}
