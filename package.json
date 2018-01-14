@@ -12,7 +12,7 @@
     "@dxcli/dev": "^1.1.2",
     "@dxcli/dev-semantic-release": "^0.0.3",
     "@dxcli/dev-test": "^0.0.1",
-    "@dxcli/dev-tslint": "^0.0.6",
+    "@dxcli/dev-tslint": "^0.0.7",
     "@heroku/linewrap": "^1.0.0",
     "@types/chalk": "^2.2.0",
     "@types/node": "^9.3.0",
