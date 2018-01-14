@@ -1,4 +1,6 @@
-import { deps } from './deps'
+import * as _ from 'lodash'
+
+import {deps} from './deps'
 
 function linewrap(length: number, s: string): string {
   const lw = require('@heroku/linewrap')
@@ -13,8 +15,7 @@ export function renderList(items: IListItem[]): string {
   if (items.length === 0) {
     return ''
   }
-  const { default: _ } = require('ts-lodash')
-  const maxLength = (_.maxBy(items, '[0].length') as any)[0].length
+  const maxLength = (_.maxBy(items, '[0].length'))![0].length
   const lines = items.map(i => {
     let left = i[0]
     let right = i[1]

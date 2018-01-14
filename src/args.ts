@@ -9,7 +9,7 @@ export interface IArg<T = string> {
   default?: T | (() => T)
 }
 
-export type ArgBase<T> = {
+export interface ArgBase<T> {
   name?: string
   description?: string
   hidden?: boolean
@@ -31,7 +31,7 @@ export type OptionalArg<T> = ArgBase<T> & {
 export type Arg<T> = RequiredArg<T> | OptionalArg<T>
 
 export function newArg<T>(arg: IArg<T> & { Parse: ParseFn<T> }): Arg<T>
-export function newArg<T = string>(arg: IArg<string>): Arg<string>
+export function newArg(arg: IArg): Arg<string>
 export function newArg(arg: IArg<any>): any {
   return {
     parse: (i: string) => i,

@@ -1,13 +1,14 @@
-import { IFlag } from './flags'
-import { deps } from './deps'
-import lodash from 'ts-lodash'
+import * as _ from 'lodash'
+
+import {deps} from './deps'
+import {IFlag} from './flags'
 
 function dim(s: string): string {
   if (deps.chalk) return deps.chalk.dim(s)
   return s
 }
 
-export type FlagUsageOptions = { displayRequired?: boolean }
+export interface FlagUsageOptions { displayRequired?: boolean }
 export function flagUsage(flag: IFlag<any>, options: FlagUsageOptions = {}): [string, string | undefined] {
   const label = []
   if (flag.char) label.push(`-${flag.char}`)
@@ -19,12 +20,13 @@ export function flagUsage(flag: IFlag<any>, options: FlagUsageOptions = {}): [st
   if (options.displayRequired && flag.required) description = `(required) ${description}`
   description = description ? dim(description) : undefined
 
-  return [' ' + label.join(',').trim() + usage, description] as [string, string | undefined]
+  return [` ${label.join(',').trim()}${usage}`, description] as [string, string | undefined]
 }
 
 export function flagUsages(flags: IFlag<any>[], options: FlagUsageOptions = {}): [string, string | undefined][] {
   if (!flags.length) return []
-  const _: typeof lodash = require('ts-lodash').default
-  flags = _.sortBy(flags, f => [!f.char, f.char, f.name])
-  return flags.map(f => flagUsage(f, options))
+  return _(flags)
+    .sortBy(f => [!f.char, f.char, f.name])
+    .map(f => flagUsage(f, options))
+    .value()
 }

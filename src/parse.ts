@@ -1,5 +1,6 @@
-import lodash from 'ts-lodash'
-import { Arg } from './args'
+import * as _ from 'lodash'
+
+import {Arg} from './args'
 import * as Flags from './flags'
 
 let debug: any
@@ -9,25 +10,25 @@ try {
   else
     // tslint:disable-next-line
     debug = require('debug')('cli-flags')
-} catch (err) {
+} catch {
   // tslint:disable-next-line
   debug = () => {}
 }
 
-export type OutputArgs = { [k: string]: any }
-export type OutputFlags = { [k: string]: any }
-export type ParserOutput = {
+export interface OutputArgs { [k: string]: any }
+export interface OutputFlags { [k: string]: any }
+export interface ParserOutput {
   flags: OutputFlags
   args: { [k: string]: any }
   argv: string[]
   raw: ParsingToken[]
 }
 
-export type ArgToken = { type: 'arg'; input: string }
-export type FlagToken = { type: 'flag'; flag: string; input: string }
+export interface ArgToken { type: 'arg'; input: string }
+export interface FlagToken { type: 'flag'; flag: string; input: string }
 export type ParsingToken = ArgToken | FlagToken
 
-export type ParserInput = {
+export interface ParserInput {
   argv: string[]
   flags: Flags.Input
   args: Arg<any>[]
@@ -41,8 +42,7 @@ export class Parser {
   constructor(readonly input: ParserInput) {
     this.argv = input.argv.slice(0)
     this._setNames()
-    const _: typeof lodash = require('ts-lodash').default
-    this.booleanFlags = _.pickBy(input.flags, (f: Flags.IFlag<any>) => f.type === 'boolean') as any
+    this.booleanFlags = _.pickBy(input.flags, f => f.type === 'boolean') as any
   }
 
   public parse() {
@@ -91,9 +91,9 @@ export class Parser {
         if (!input) {
           throw new Error(`Flag --${name} expects a value`)
         }
-        this.raw.push({ type: 'flag', flag: flag.name!, input })
+        this.raw.push({type: 'flag', flag: flag.name, input})
       } else {
-        this.raw.push({ type: 'flag', flag: flag.name!, input: arg })
+        this.raw.push({type: 'flag', flag: flag.name, input: arg})
         // push the rest of the short characters back on the stack
         if (!long && arg.length > 2) {
           this.argv.unshift(`-${arg.slice(2)}`)
@@ -118,7 +118,7 @@ export class Parser {
       // not a flag, parse as arg
       const arg = this.input.args[this._argTokens.length]
       if (arg) arg.input = input
-      this.raw.push({ type: 'arg', input })
+      this.raw.push({type: 'arg', input})
     }
     const argv = this._argv()
     const args = this._args(argv)
@@ -164,14 +164,12 @@ export class Parser {
     }
     for (const k of Object.keys(this.input.flags)) {
       const flag = this.input.flags[k]
-      if (!flags[k]) {
-        if (flag.type === 'option' && flag.default) {
-          if (typeof flag.default === 'function') {
-            flags[k] = flag.default({ options: flag, flags })
-          } else {
-            flags[k] = flag.default
-          }
-        }
+      if (flags[k]) continue
+      if (flag.type !== 'option' || !flag.default) continue
+      if (typeof flag.default === 'function') {
+        flags[k] = flag.default({options: flag, flags})
+      } else {
+        flags[k] = flag.default
       }
     }
     return flags
@@ -219,14 +217,13 @@ export class Parser {
     if (this.input.args.length) {
       debug('available args: %s', this.input.args.map(a => a.name).join(' '))
     }
-    if (Object.keys(this.input.flags).length) {
-      debug(
-        'available flags: %s',
-        Object.keys(this.input.flags)
-          .map(f => `--${f}`)
-          .join(' '),
-      )
-    }
+    if (!Object.keys(this.input.flags).length) return
+    debug(
+      'available flags: %s',
+      Object.keys(this.input.flags)
+        .map(f => `--${f}`)
+        .join(' '),
+    )
   }
 
   private get _argTokens(): ArgToken[] {

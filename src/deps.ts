@@ -1,12 +1,12 @@
+import screen = require('@dxcli/screen')
+import chalk = require('chalk')
+
 import args = require('./args')
+import errors = require('./errors')
 import flags = require('./flags')
+import list = require('./list')
 import parse = require('./parse')
 import validate = require('./validate')
-import errors = require('./errors')
-
-import chalk = require('chalk')
-import list = require('./list')
-import screen = require('@cli-engine/screen')
 
 export const deps = {
   // local

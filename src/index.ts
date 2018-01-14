@@ -1,13 +1,13 @@
-export { ParserOutput, OutputArgs, OutputFlags } from './parse'
+export {ParserOutput, OutputArgs, OutputFlags} from './parse'
 import * as args from './args'
-export { args }
+export {args}
 import * as flags from './flags'
-export { flags }
-export { flagUsages } from './help'
-import { ParserOutput } from './parse'
-import { deps } from './deps'
+export {flags}
+export {flagUsages} from './help'
+import {deps} from './deps'
+import {ParserOutput} from './parse'
 
-export type ParserInput = {
+export interface ParserInput {
   argv?: string[]
   flags?: flags.Input
   args?: args.Input
@@ -20,12 +20,12 @@ export function parse(options: ParserInput): ParserOutput {
     argv: options.argv || process.argv.slice(2),
     flags: {
       color: deps.flags.defaultFlags.color,
-      ...((options.flags || {}) as flags.Input),
+      ...((options.flags || {})),
     },
     strict: options.strict !== false,
   }
   const parser = new deps.parse.Parser(input)
   const output = parser.parse()
-  deps.validate.validate({ input, output })
+  deps.validate.validate({input, output})
   return output
 }

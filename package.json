@@ -1,51 +1,63 @@
 {
-  "name": "cli-flags",
-  "description": "basic CLI flag parser",
-  "version": "2.0.7",
-  "author": "Jeff Dickey",
-  "bugs": "https://github.com/heroku/cli-flags/issues",
+  "name": "@dxcli/parser",
+  "description": "arg and flag parser for dxcli",
+  "version": "0.0.0",
+  "author": "Jeff Dickey @jdxcode",
   "dependencies": {
-    "@cli-engine/screen": "^0.0.0",
-    "@heroku/linewrap": "^1.0.0",
-    "ts-lodash": "^4.0.8"
+    "@dxcli/screen": "^0.0.0",
+    "chalk": "^2.3.0",
+    "lodash": "^4.17.4"
   },
   "devDependencies": {
-    "@types/chalk": "2.2.0",
-    "@types/jest": "^22.0.0",
-    "@types/lodash": "^4.14.91",
-    "@types/node": "^8.5.2",
-    "babel-core": "^6.26.0",
-    "chalk": "^2.3.0",
-    "del-cli": "^1.1.0",
+    "@dxcli/dev": "^1.1.2",
+    "@dxcli/dev-semantic-release": "^0.0.3",
+    "@dxcli/dev-test": "^0.0.1",
+    "@dxcli/dev-tslint": "^0.0.6",
+    "@heroku/linewrap": "^1.0.0",
+    "@types/chalk": "^2.2.0",
+    "@types/node": "^9.3.0",
+    "eslint": "^4.15.0",
+    "eslint-config-dxcli": "^1.1.4",
     "husky": "^0.14.3",
-    "jest": "^22.0.4",
-    "lint-staged": "^6.0.0",
-    "prettier": "^1.9.2",
-    "ts-jest": "^22.0.0",
+    "mocha": "^4.1.0",
+    "nyc": "^11.4.1",
     "ts-node": "^4.1.0",
-    "tslint": "^5.8.0",
-    "tslint-config-prettier": "^1.6.0",
     "typescript": "^2.6.2"
   },
+  "dxcli": {
+    "workflows": {
+      "test": [
+        "eslint .",
+        "tsc",
+        "tslint -p .",
+        "commitlint --from master",
+        "tsc -p test --noEmit",
+        "mocha \"test/**/*.ts\""
+      ],
+      "lint": [
+        "eslint .",
+        "tsc",
+        "tslint -p .",
+        "commitlint --from master",
+        "tsc -p test --noEmit"
+      ]
+    }
+  },
   "engines": {
-    "node": ">=6.0.0"
+    "node": ">=8.0.0"
   },
   "files": [
-    "lib"
+    "/lib"
   ],
-  "homepage": "https://github.com/heroku/cli-flags",
-  "keywords": [
-    "cli"
-  ],
-  "license": "ISC",
-  "main": "./lib/index.js",
-  "repository": "heroku/cli-flags",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "repository": "dxcli/parser",
   "scripts": {
-    "posttest": "tslint -p .",
-    "precommit": "lint-staged",
-    "prepare": "del lib && tsc && del 'lib/**/*.test.js' 'lib/**/*.test.d.ts'",
-    "pretest": "tsc",
-    "test": "jest"
+    "commitmsg": "dxcli-dev-commitmsg",
+    "lint": "dxcli-dev lint",
+    "precommit": "dxcli-dev lint",
+    "prepare": "rm -rf lib && tsc",
+    "test": "dxcli-dev test"
   },
-  "types": "./lib/index.d.ts"
+  "types": "lib/index.d.ts"
 }

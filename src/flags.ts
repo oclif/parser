@@ -1,6 +1,6 @@
-import { AlphabetLowercase, AlphabetUppercase } from './alphabet'
+import {AlphabetLowercase, AlphabetUppercase} from './alphabet'
 
-export type DefaultContext<T> = { options: IOptionFlag<T>; flags: { [k: string]: string } }
+export interface DefaultContext<T> { options: IOptionFlag<T>; flags: { [k: string]: string } }
 
 export interface IFlagBase {
   name: string
@@ -18,8 +18,8 @@ export interface IBooleanFlag extends IFlagBase {
 export interface IOptionFlag<T = string> extends IFlagBase {
   type: 'option'
   default?: T | ((context: DefaultContext<T>) => T | undefined)
-  parse: (input: string) => T
   multiple: boolean
+  parse(input: string): T
 }
 
 export type Definition<T> = (options?: Partial<IOptionFlag<T>>) => IOptionFlag<T>
@@ -55,11 +55,11 @@ export const integer = option<number>({
   },
 })
 
-const stringFlag = option<string>()
-export { stringFlag as string }
+const stringFlag = option()
+export {stringFlag as string}
 
 export const defaultFlags = {
-  color: boolean({ allowNo: true }),
+  color: boolean({allowNo: true}),
 }
 
-export type Input = { [name: string]: IFlag<any> }
+export interface Input { [name: string]: IFlag<any> }
