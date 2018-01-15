@@ -36,9 +36,9 @@ export interface ParserInput {
 }
 
 export class Parser {
-  private argv: string[]
-  private raw: ParsingToken[] = []
-  private booleanFlags: { [k: string]: Flags.IBooleanFlag }
+  private readonly argv: string[]
+  private readonly raw: ParsingToken[] = []
+  private readonly booleanFlags: { [k: string]: Flags.IBooleanFlag }
   constructor(readonly input: ParserInput) {
     this.argv = input.argv.slice(0)
     this._setNames()
