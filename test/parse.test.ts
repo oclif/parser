@@ -214,7 +214,7 @@ See more help with --help`)
             foo: flags.string(),
           },
         })
-        expect(out.flags.foo!.toUpperCase()).to.equal('C')
+        expect(out.flags.foo.toUpperCase()).to.equal('C')
         expect(out.flags.bar.join('|')).to.equal('a|b')
       })
     })
