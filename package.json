@@ -3,43 +3,27 @@
   "description": "arg and flag parser for dxcli",
   "version": "0.0.2",
   "author": "Jeff Dickey @jdxcode",
+  "bugs": "https://github.com/dxcli/parser/issues",
   "dependencies": {
     "@dxcli/screen": "^0.0.0",
     "chalk": "^2.3.0",
     "lodash": "^4.17.4"
   },
   "devDependencies": {
-    "@dxcli/dev": "^1.1.3",
     "@dxcli/dev-semantic-release": "^0.0.3",
-    "@dxcli/dev-test": "^0.1.1",
-    "@dxcli/dev-tslint": "^0.0.9",
+    "@dxcli/dev-test": "^0.5.1",
+    "@dxcli/dev-tslint": "^0.0.15",
     "@heroku/linewrap": "^1.0.0",
-    "@types/chalk": "^2.2.0",
     "@types/node": "^9.3.0",
-    "eslint": "^4.15.0",
+    "eslint": "^4.16.0",
     "eslint-config-dxcli": "^1.1.4",
     "husky": "^0.14.3",
-    "mocha": "^4.1.0",
+    "mocha": "^5.0.0",
+    "nps": "^5.7.1",
+    "nps-utils": "^1.5.0",
     "nyc": "^11.4.1",
     "ts-node": "^4.1.0",
     "typescript": "^2.6.2"
-  },
-  "dxcli": {
-    "workflows": {
-      "test": [
-        "eslint .",
-        "tsc -p test --noEmit",
-        "tslint -p test",
-        "commitlint --from origin/master",
-        "mocha \"test/**/*.ts\""
-      ],
-      "lint": [
-        "eslint .",
-        "tsc -p test --noEmit",
-        "tslint -p test",
-        "commitlint --from origin/master"
-      ]
-    }
   },
   "engines": {
     "node": ">=8.0.0"
@@ -47,15 +31,18 @@
   "files": [
     "/lib"
   ],
+  "homepage": "https://github.com/dxcli/parser",
+  "keywords": [
+    "dxcli"
+  ],
   "license": "MIT",
   "main": "lib/index.js",
   "repository": "dxcli/parser",
   "scripts": {
     "commitmsg": "dxcli-dev-commitmsg",
-    "lint": "dxcli-dev lint",
-    "precommit": "dxcli-dev lint",
-    "prepare": "rm -rf lib && tsc",
-    "test": "dxcli-dev test"
+    "precommit": "nps lint",
+    "prepare": "nps build",
+    "test": "nps test"
   },
   "types": "lib/index.d.ts"
 }
