@@ -68,7 +68,7 @@ module.exports = {
         hiddenFromHelp: true,
       },
       release: {
-        script: 'yarn --frozen-lockfile && dxcli-dev-semantic-release',
+        script: 'dxcli-dev-semantic-release',
         hiddenFromHelp: true,
       },
     },
