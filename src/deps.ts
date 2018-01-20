@@ -14,7 +14,7 @@ export const deps = {
   get flags(): typeof flags { return fetch('./flags') },
   get parse(): typeof parse { return fetch('./parse') },
   get validate(): typeof validate { return fetch('./validate') },
-  get screen(): typeof screen { return fetch('@cli-engine/screen')},
+  get screen(): typeof screen { return fetch('@dxcli/screen')},
   get renderList(): typeof list.renderList { return fetch('./list').renderList },
   get errors(): typeof errors { return fetch('./errors') },
 
