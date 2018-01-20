@@ -1,3 +1,11 @@
+<a name="0.0.3"></a>
+## [0.0.3](https://github.com/dxcli/parser/compare/93ed6e1f76da7c5ad3a6d738f781d2a146587cb3...v0.0.3) (2018-01-20)
+
+
+### Bug Fixes
+
+* fixed reference to screen ([f516f33](https://github.com/dxcli/parser/commit/f516f33))
+
 <a name="0.0.2"></a>
 ## [0.0.2](https://github.com/dxcli/parser/compare/e4cc5eb833cda05c55791c475352db5707b3d13e...v0.0.2) (2018-01-16)
 
