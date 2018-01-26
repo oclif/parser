@@ -1,4 +1,4 @@
-import {describe, expect} from '@dxcli/dev-test'
+import {expect} from 'chai'
 import chalk from 'chalk'
 
 import * as flags from '../src/flags'
