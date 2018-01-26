@@ -1,3 +1,11 @@
+<a name="0.0.5"></a>
+## [0.0.5](https://github.com/dxcli/parser/compare/02b2109bb9c98a5d5745fd9ad798e745e23ab26d...v0.0.5) (2018-01-26)
+
+
+### Bug Fixes
+
+* updated deps ([8923a8c](https://github.com/dxcli/parser/commit/8923a8c))
+
 <a name="0.0.4"></a>
 ## [0.0.4](https://github.com/dxcli/parser/compare/f516f3375e942fabfcffe5d3e105729a3ec3762e...v0.0.4) (2018-01-20)
 
