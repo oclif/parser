@@ -5,7 +5,7 @@
   "author": "Jeff Dickey @jdxcode",
   "bugs": "https://github.com/dxcli/parser/issues",
   "dependencies": {
-    "@dxcli/screen": "^0.0.1",
+    "@dxcli/screen": "^0.0.2",
     "chalk": "^2.3.0",
     "lodash": "^4.17.4"
   },
