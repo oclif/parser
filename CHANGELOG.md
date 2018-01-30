@@ -1,3 +1,11 @@
+<a name="0.1.1"></a>
+## [0.1.1](https://github.com/dxcli/parser/compare/b75d73855fa22808ad9b2777c32734c65f4cf7e6...v0.1.1) (2018-01-30)
+
+
+### Bug Fixes
+
+* added helpValue ([24fea65](https://github.com/dxcli/parser/commit/24fea65))
+
 <a name="0.1.0"></a>
 # [0.1.0](https://github.com/dxcli/parser/compare/967cd55130b1117021ac8d76f82b0b97806a637d...v0.1.0) (2018-01-30)
 
