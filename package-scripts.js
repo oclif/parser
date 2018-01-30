@@ -13,7 +13,7 @@ setColors(['dim'])
 const script = (script, description) => description ? {script, description} : {script}
 
 const linters = {
-  eslint: script('eslint .', 'lint js files'),
+  eslint: script(series('nps build', 'eslint .'), 'lint js files'),
   commitlint: script('commitlint --from origin/master', 'ensure that commits are in valid conventional-changelog format'),
   tsc: script('tsc -p test --noEmit', 'syntax check with tsc'),
   tslint: script('tslint -p test', 'lint ts files'),

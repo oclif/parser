@@ -18,6 +18,7 @@ export interface IBooleanFlag<T> extends IFlagBase<T, boolean> {
 
 export interface IOptionFlag<T> extends IFlagBase<T, string> {
   type: 'option'
+  optionType: string
   default?: T | ((context: DefaultContext<T>) => T | undefined)
   multiple: boolean
   input: string[]
@@ -28,6 +29,12 @@ export interface Definition<T> {
   (options: {required: true} & Partial<IOptionFlag<T>>): IOptionFlag<T>
   (options?: Partial<IOptionFlag<T>>): IOptionFlag<T | undefined>
 }
+
+export interface EnumFlagOptions<T> extends Partial<IOptionFlag<T>> {
+  options: string[]
+}
+
+export type IFlag<T> = IBooleanFlag<T> | IOptionFlag<T>
 
 export function build<T>(defaults: {parse: IOptionFlag<T>['parse']} & Partial<IOptionFlag<T>>): Definition<T>
 export function build(defaults: Partial<IOptionFlag<string>>): Definition<string>
@@ -44,8 +51,6 @@ export function build<T>(defaults: Partial<IOptionFlag<T>>): Definition<T> {
   }
 }
 
-export type IFlag<T> = IBooleanFlag<T> | IOptionFlag<T>
-
 export function boolean<T = boolean>(options: Partial<IBooleanFlag<T>> = {}): IBooleanFlag<T> {
   return {
     parse: b => b,
@@ -56,15 +61,12 @@ export function boolean<T = boolean>(options: Partial<IBooleanFlag<T>> = {}): IB
 }
 
 export const integer = build({
+  optionType: 'integer',
   parse: input => {
     if (!/^[0-9]+$/.test(input)) throw new Error(`Expected an integer but received: ${input}`)
     return parseInt(input, 10)
   },
 })
-
-export interface EnumFlagOptions<T> extends Partial<IOptionFlag<T>> {
-  options: string[]
-}
 
 const _enum = <T = string>(opts: EnumFlagOptions<T>) => build<T>({
   parse(input) {
@@ -72,14 +74,15 @@ const _enum = <T = string>(opts: EnumFlagOptions<T>) => build<T>({
     return input
   },
   ...opts as any,
+  optionType: 'enum',
 })
 export {_enum as enum}
 
 export function option<T>(options: {parse: IOptionFlag<T>['parse']} & Partial<IOptionFlag<T>>) {
-  return build<T>(options)()
+  return build<T>({optionType: 'custom', ...options})()
 }
 
-const stringFlag = build({})
+const stringFlag = build({optionType: 'string'})
 export {stringFlag as string}
 
 export const defaultFlags = {
