@@ -1,7 +1,7 @@
 import {deps} from './deps'
 import {ParserInput, ParserOutput} from './parse'
 
-export function validate(parse: { input: ParserInput; output: ParserOutput }) {
+export function validate(parse: { input: ParserInput; output: ParserOutput<any, any> }) {
   function validateArgs() {
     const maxArgs = parse.input.args.length
     if (parse.input.strict && parse.output.argv.length > maxArgs) {

@@ -208,13 +208,15 @@ See more help with --help`)
     describe('multiple flags', () => {
       it('parses multiple flags', () => {
         const out = parse({
-          argv: ['--bar', 'a', '--bar=b', '--foo=c'],
+          argv: ['--bar', 'a', '--bar=b', '--foo=c', '--baz=d'],
           flags: {
-            bar: flags.string({multiple: true}),
             foo: flags.string(),
+            bar: flags.string({multiple: true}),
+            baz: flags.string({required: true}),
           },
         })
-        expect(out.flags.foo.toUpperCase()).to.equal('C')
+        expect(out.flags.foo!.toUpperCase()).to.equal('C')
+        expect(out.flags.baz.toUpperCase()).to.equal('D')
         expect(out.flags.bar.join('|')).to.equal('a|b')
       })
     })
@@ -341,8 +343,27 @@ See more help with --help`)
   })
 
   describe('custom option', () => {
+    it('can pass parse fn', () => {
+      const foo = flags.option({char: 'f', parse: () => 100})
+      const out = parse({
+        argv: ['-f', 'bar'],
+        flags: {foo},
+      })
+      expect(out.flags).to.deep.include({foo: 100})
+    })
+  })
+
+  describe('build', () => {
+    it('can pass parse fn', () => {
+      const foo = flags.build({char: 'f', parse: () => 100})
+      const out = parse({
+        argv: ['-f', 'bar'],
+        flags: {foo: foo()},
+      })
+      expect(out.flags).to.deep.include({foo: 100})
+    })
     it('does not require parse fn', () => {
-      const foo = flags.option({char: 'f'})
+      const foo = flags.build({char: 'f'})
       const out = parse({
         argv: ['-f', 'bar'],
         flags: {foo: foo()},

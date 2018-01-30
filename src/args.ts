@@ -40,4 +40,5 @@ export function newArg(arg: IArg<any>): any {
   }
 }
 
+export interface Output {[name: string]: any}
 export type Input = IArg<any>[]

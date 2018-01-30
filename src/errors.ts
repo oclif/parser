@@ -7,7 +7,7 @@ import {ParserInput, ParserOutput} from './parse'
 export interface ICLIParseErrorOptions {
   parse: {
     input: ParserInput
-    output: ParserOutput
+    output: ParserOutput<any, any>
   }
 }
 

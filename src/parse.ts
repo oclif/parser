@@ -15,11 +15,11 @@ try {
   debug = () => {}
 }
 
-export interface OutputArgs { [k: string]: any }
-export interface OutputFlags { [k: string]: any }
-export interface ParserOutput {
-  flags: OutputFlags
-  args: { [k: string]: any }
+export type OutputArgs<T extends ParserInput['args']> = { [P in keyof T]: any }
+export type OutputFlags<T extends ParserInput['flags']> = { [P in keyof T]: any }
+export interface ParserOutput<TFlags extends OutputFlags<any>, TArgs extends OutputArgs<any>> {
+  flags: TFlags
+  args: TArgs
   argv: string[]
   raw: ParsingToken[]
 }
@@ -30,16 +30,16 @@ export type ParsingToken = ArgToken | FlagToken
 
 export interface ParserInput {
   argv: string[]
-  flags: Flags.Input
+  flags: Flags.Input<any>
   args: Arg<any>[]
   strict: boolean
 }
 
-export class Parser {
+export class Parser<T extends ParserInput, TFlags extends OutputFlags<T['flags']>, TArgs extends OutputArgs<T['args']>> {
   private readonly argv: string[]
   private readonly raw: ParsingToken[] = []
-  private readonly booleanFlags: { [k: string]: Flags.IBooleanFlag }
-  constructor(readonly input: ParserInput) {
+  private readonly booleanFlags: { [k: string]: Flags.IBooleanFlag<any> }
+  constructor(readonly input: T) {
     this.argv = input.argv.slice(0)
     this._setNames()
     this.booleanFlags = _.pickBy(input.flags, f => f.type === 'boolean') as any
@@ -132,8 +132,8 @@ export class Parser {
     }
   }
 
-  private _args(argv: any[]): OutputArgs {
-    const args: OutputArgs = {}
+  private _args(argv: any[]): TArgs {
+    const args = {} as any
     for (let i = 0; i < this.input.args.length; i++) {
       const arg = this.input.args[i]
       args[arg.name!] = argv[i]
@@ -141,8 +141,8 @@ export class Parser {
     return args
   }
 
-  private _flags(): OutputFlags {
-    const flags: OutputFlags = {}
+  private _flags(): TFlags {
+    const flags = {} as any
     for (const token of this._flagTokens) {
       const flag = this.input.flags[token.flag]
       if (!flag) throw new Error(`Unexpected flag ${token.flag}`)
