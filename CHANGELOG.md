@@ -1,3 +1,11 @@
+<a name="0.0.6"></a>
+## [0.0.6](https://github.com/dxcli/parser/compare/8923a8c098c8d7dc1a6ccb2d18e3a625cb7b5c8c...v0.0.6) (2018-01-30)
+
+
+### Bug Fixes
+
+* add typing to flag output ([967cd55](https://github.com/dxcli/parser/commit/967cd55))
+
 <a name="0.0.5"></a>
 ## [0.0.5](https://github.com/dxcli/parser/compare/02b2109bb9c98a5d5745fd9ad798e745e23ab26d...v0.0.5) (2018-01-26)
 
