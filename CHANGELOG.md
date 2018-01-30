@@ -1,3 +1,16 @@
+<a name="0.1.0"></a>
+# [0.1.0](https://github.com/dxcli/parser/compare/967cd55130b1117021ac8d76f82b0b97806a637d...v0.1.0) (2018-01-30)
+
+
+### Bug Fixes
+
+* added optionType ([b75d738](https://github.com/dxcli/parser/commit/b75d738))
+
+
+### Features
+
+* added enum flag ([643aea7](https://github.com/dxcli/parser/commit/643aea7))
+
 <a name="0.0.6"></a>
 ## [0.0.6](https://github.com/dxcli/parser/compare/8923a8c098c8d7dc1a6ccb2d18e3a625cb7b5c8c...v0.0.6) (2018-01-30)
 
