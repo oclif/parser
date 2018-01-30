@@ -19,6 +19,7 @@ export interface IBooleanFlag<T> extends IFlagBase<T, boolean> {
 export interface IOptionFlag<T> extends IFlagBase<T, string> {
   type: 'option'
   optionType: string
+  helpValue?: string
   default?: T | ((context: DefaultContext<T>) => T | undefined)
   multiple: boolean
   input: string[]
