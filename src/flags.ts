@@ -74,6 +74,7 @@ const _enum = <T = string>(opts: EnumFlagOptions<T>) => build<T>({
     if (!opts.options.includes(input)) throw new Error(`Expected --${this.name}=${input} to be one of: ${opts.options.join(', ')}`)
     return input
   },
+  helpValue: `(${opts.options.join('|')})`,
   ...opts as any,
   optionType: 'enum',
 })
