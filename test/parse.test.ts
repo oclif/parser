@@ -371,4 +371,25 @@ See more help with --help`)
       expect(out.flags).to.deep.include({foo: 'bar'})
     })
   })
+
+  describe('enum', () => {
+    it('accepts valid option', () => {
+      const foo = flags.enum<'myopt' | 'myotheropt'>({options: ['myopt', 'myotheropt']})
+      const out = parse({
+        argv: ['--foo', 'myotheropt'],
+        flags: {foo: foo()},
+      })
+      expect(out.flags.foo).to.equal('myotheropt')
+    })
+
+    it('fails when invalid', () => {
+      const foo = flags.enum({options: ['myopt', 'myotheropt']})
+      expect(() => {
+        parse({
+          argv: ['--foo', 'bar'],
+          flags: {foo: foo()},
+        })
+      }).to.throw('Expected --foo=bar to be one of: myopt, myotheropt')
+    })
+  })
 })

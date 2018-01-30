@@ -154,7 +154,7 @@
   version "4.1.2"
   resolved "https://registry.yarnpkg.com/@types/chai/-/chai-4.1.2.tgz#f1af664769cfb50af805431c407425ed619daa21"
 
-"@types/lodash@^4.14.97":
+"@types/lodash@^4.14.97", "@types/lodash@^4.14.98":
   version "4.14.98"
   resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.98.tgz#aaf012ae443e657e7885e605a4c1b340db160609"
 

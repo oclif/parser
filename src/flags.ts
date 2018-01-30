@@ -62,6 +62,19 @@ export const integer = build({
   },
 })
 
+export interface EnumFlagOptions<T> extends Partial<IOptionFlag<T>> {
+  options: string[]
+}
+
+const _enum = <T = string>(opts: EnumFlagOptions<T>) => build<T>({
+  parse(input) {
+    if (!opts.options.includes(input)) throw new Error(`Expected --${this.name}=${input} to be one of: ${opts.options.join(', ')}`)
+    return input
+  },
+  ...opts as any,
+})
+export {_enum as enum}
+
 export function option<T>(options: {parse: IOptionFlag<T>['parse']} & Partial<IOptionFlag<T>>) {
   return build<T>(options)()
 }
