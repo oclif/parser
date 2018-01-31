@@ -2,9 +2,9 @@
 # yarn lockfile v1
 
 
-"@anycli/screen@^0.0.2":
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/@anycli/screen/-/screen-0.0.2.tgz#e3000a4a66a42ee4d7d2c5b68289a2f43553050c"
+"@anycli/screen@^0.0.3":
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/@anycli/screen/-/screen-0.0.3.tgz#f0afd970c3ed725702948a45a874ede1fdd9362e"
 
 "@anycli/tslint@^0.1.3":
   version "0.1.4"
