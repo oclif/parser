@@ -1,3 +1,5 @@
+// tslint:disable interface-over-type-literal
+
 import * as _ from 'lodash'
 
 import {Arg} from './args'
@@ -17,15 +19,15 @@ try {
 
 export type OutputArgs<T extends ParserInput['args']> = { [P in keyof T]: any }
 export type OutputFlags<T extends ParserInput['flags']> = { [P in keyof T]: any }
-export interface ParserOutput<TFlags extends OutputFlags<any>, TArgs extends OutputArgs<any>> {
+export type ParserOutput<TFlags extends OutputFlags<any>, TArgs extends OutputArgs<any>> = {
   flags: TFlags
   args: TArgs
   argv: string[]
   raw: ParsingToken[]
 }
 
-export interface ArgToken { type: 'arg'; input: string }
-export interface FlagToken { type: 'flag'; flag: string; input: string }
+export type ArgToken = { type: 'arg'; input: string }
+export type FlagToken = { type: 'flag'; flag: string; input: string }
 export type ParsingToken = ArgToken | FlagToken
 
 export interface ParserInput {
