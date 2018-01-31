@@ -1,3 +1,5 @@
+// tslint:disable interface-over-type-literal
+
 import * as args from './args'
 import {OutputArgs, OutputFlags, ParserOutput} from './parse'
 export {args}
@@ -6,7 +8,7 @@ export {flags}
 export {flagUsages} from './help'
 import {deps} from './deps'
 
-export interface ParserInput<TFlags extends flags.Output> {
+export type ParserInput<TFlags extends flags.Output> = {
   flags?: flags.Input<TFlags>
   args?: args.Input
   argv?: string[]

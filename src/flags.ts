@@ -1,3 +1,5 @@
+// tslint:disable interface-over-type-literal
+
 import {AlphabetLowercase, AlphabetUppercase} from './alphabet'
 
 export interface DefaultContext<T> { options: IOptionFlag<T>; flags: { [k: string]: string } }
@@ -91,5 +93,5 @@ export const defaultFlags = {
   color: boolean({allowNo: true}),
 }
 
-export interface Output {[name: string]: any}
+export type Output = {[name: string]: any}
 export type Input<T extends Output> = { [P in keyof T]: IFlag<T[P]> }
