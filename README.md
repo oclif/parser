@@ -1,16 +1,16 @@
-@dxcli/parser
+@anycli/parser
 =============
 
-arg and flag parser for dxcli
+arg and flag parser for anycli
 
-[![Version](https://img.shields.io/npm/v/@dxcli/parser.svg)](https://npmjs.org/package/@dxcli/parser)
-[![CircleCI](https://circleci.com/gh/dxcli/parser/tree/master.svg?style=svg)](https://circleci.com/gh/dxcli/parser/tree/master)
-[![Appveyor CI](https://ci.appveyor.com/api/projects/status/github/dxcli/parser?branch=master&svg=true)](https://ci.appveyor.com/project/heroku/parser/branch/master)
-[![Codecov](https://codecov.io/gh/dxcli/parser/branch/master/graph/badge.svg)](https://codecov.io/gh/dxcli/parser)
-[![Greenkeeper](https://badges.greenkeeper.io/dxcli/parser.svg)](https://greenkeeper.io/)
-[![Known Vulnerabilities](https://snyk.io/test/npm/@dxcli/parser/badge.svg)](https://snyk.io/test/npm/@dxcli/parser)
-[![Downloads/week](https://img.shields.io/npm/dw/@dxcli/parser.svg)](https://npmjs.org/package/@dxcli/parser)
-[![License](https://img.shields.io/npm/l/@dxcli/parser.svg)](https://github.com/dxcli/parser/blob/master/package.json)
+[![Version](https://img.shields.io/npm/v/@anycli/parser.svg)](https://npmjs.org/package/@anycli/parser)
+[![CircleCI](https://circleci.com/gh/anycli/parser/tree/master.svg?style=svg)](https://circleci.com/gh/anycli/parser/tree/master)
+[![Appveyor CI](https://ci.appveyor.com/api/projects/status/github/anycli/parser?branch=master&svg=true)](https://ci.appveyor.com/project/heroku/parser/branch/master)
+[![Codecov](https://codecov.io/gh/anycli/parser/branch/master/graph/badge.svg)](https://codecov.io/gh/anycli/parser)
+[![Greenkeeper](https://badges.greenkeeper.io/anycli/parser.svg)](https://greenkeeper.io/)
+[![Known Vulnerabilities](https://snyk.io/test/npm/@anycli/parser/badge.svg)](https://snyk.io/test/npm/@anycli/parser)
+[![Downloads/week](https://img.shields.io/npm/dw/@anycli/parser.svg)](https://npmjs.org/package/@anycli/parser)
+[![License](https://img.shields.io/npm/l/@anycli/parser.svg)](https://github.com/anycli/parser/blob/master/package.json)
 
 CLI flag parser.
 
