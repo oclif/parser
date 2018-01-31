@@ -1,3 +1,11 @@
+<a name="0.1.2"></a>
+## [0.1.2](https://github.com/anycli/parser/compare/ad33c1f50901a6e42d2f0f1706b0ca8f74a8069c...v0.1.2) (2018-01-31)
+
+
+### Bug Fixes
+
+* anycli rename ([185c751](https://github.com/anycli/parser/commit/185c751))
+
 <a name="0.1.1"></a>
 ## [0.1.1](https://github.com/dxcli/parser/compare/b75d73855fa22808ad9b2777c32734c65f4cf7e6...v0.1.1) (2018-01-30)
 
