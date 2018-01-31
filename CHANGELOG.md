@@ -1,3 +1,12 @@
+<a name="0.1.4"></a>
+## [0.1.4](https://github.com/anycli/parser/compare/d13cd8c60bd97be956f17d6127583254300c3bdf...v0.1.4) (2018-01-31)
+
+
+### Bug Fixes
+
+* use type aliases ([b5070b5](https://github.com/anycli/parser/commit/b5070b5))
+* use type aliases ([ad1e4d4](https://github.com/anycli/parser/commit/ad1e4d4))
+
 <a name="0.1.3"></a>
 ## [0.1.3](https://github.com/anycli/parser/compare/185c7510312c5fda963665f5a68dfb19702f1193...v0.1.3) (2018-01-31)
 
