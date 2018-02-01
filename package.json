@@ -1,7 +1,7 @@
 {
   "name": "@anycli/parser",
   "description": "arg and flag parser for anycli",
-  "version": "0.1.4",
+  "version": "3.0.0",
   "author": "Jeff Dickey @jdxcode",
   "bugs": "https://github.com/anycli/parser/issues",
   "dependencies": {
