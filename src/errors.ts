@@ -58,8 +58,6 @@ export class UnexpectedArgsError extends CLIParseError {
 }
 
 export class FlagInvalidOptionError extends CLIParseError {
-  public args: string[]
-
   constructor(flag: flags.IOptionFlag<any>, input: string) {
     const message = `Expected --${flag.name}=${input} to be one of: ${flag.options!.join(', ')}`
     super({parse: {}, message})
@@ -67,8 +65,6 @@ export class FlagInvalidOptionError extends CLIParseError {
 }
 
 export class ArgInvalidOptionError extends CLIParseError {
-  public args: string[]
-
   constructor(arg: Arg<any>, input: string) {
     const message = `Expected ${input} to be one of: ${arg.options!.join(', ')}`
     super({parse: {}, message})
