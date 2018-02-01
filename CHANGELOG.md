@@ -1,3 +1,11 @@
+<a name="3.0.3"></a>
+## [3.0.3](https://github.com/anycli/parser/compare/7696da86d829776267d2a41f02c4fdad41a8cbc4...v3.0.3) (2018-02-01)
+
+
+### Bug Fixes
+
+* added options to flags/args ([6a33b06](https://github.com/anycli/parser/commit/6a33b06))
+
 <a name="3.0.2"></a>
 ## [3.0.2](https://github.com/anycli/parser/compare/014b773c2ef72cd23e4d2aef03f3584aaf5cf9cc...v3.0.2) (2018-02-01)
 
