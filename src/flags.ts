@@ -25,6 +25,7 @@ export type IOptionFlag<T> = IFlagBase<T, string> & {
   default?: T | ((context: DefaultContext<T>) => T | undefined)
   multiple: boolean
   input: string[]
+  options?: string[]
 }
 
 export type Definition<T> = {
@@ -70,17 +71,6 @@ export const integer = build({
     return parseInt(input, 10)
   },
 })
-
-const _enum = <T = string>(opts: EnumFlagOptions<T>) => build<T>({
-  parse(input) {
-    if (!opts.options.includes(input)) throw new Error(`Expected --${this.name}=${input} to be one of: ${opts.options.join(', ')}`)
-    return input
-  },
-  helpValue: `(${opts.options.join('|')})`,
-  ...opts as any,
-  optionType: 'enum',
-})
-export {_enum as enum}
 
 export function option<T>(options: {parse: IOptionFlag<T>['parse']} & Partial<IOptionFlag<T>>) {
   return build<T>({optionType: 'custom', ...options})()

@@ -3,6 +3,7 @@
 import * as _ from 'lodash'
 
 import {Arg} from './args'
+import * as Errors from './errors'
 import * as Flags from './flags'
 
 let debug: any
@@ -41,7 +42,7 @@ export class Parser<T extends ParserInput, TFlags extends OutputFlags<T['flags']
   private readonly argv: string[]
   private readonly raw: ParsingToken[] = []
   private readonly booleanFlags: { [k: string]: Flags.IBooleanFlag<any> }
-  constructor(readonly input: T) {
+  constructor(private readonly input: T) {
     this.argv = input.argv.slice(0)
     this._setNames()
     this.booleanFlags = _.pickBy(input.flags, f => f.type === 'boolean') as any
@@ -155,7 +156,11 @@ export class Parser<T extends ParserInput, TFlags extends OutputFlags<T['flags']
           flags[token.flag] = true
         }
       } else {
-        const value = flag.parse ? flag.parse(token.input) : token.input
+        const input = token.input
+        if (flag.options && !flag.options.includes(input)) {
+          throw new Errors.FlagInvalidOptionError(flag, input)
+        }
+        const value = flag.parse ? flag.parse(input) : input
         if (flag.multiple) {
           flags[token.flag] = flags[token.flag] || []
           flags[token.flag].push(value)
@@ -185,6 +190,9 @@ export class Parser<T extends ParserInput, TFlags extends OutputFlags<T['flags']
       const arg = this.input.args[i]
       if (token) {
         if (arg) {
+          if (arg.options && !arg.options.includes(token.input)) {
+            throw new Errors.ArgInvalidOptionError(arg, token.input)
+          }
           args[i] = arg.parse(token.input)
         } else {
           args[i] = token.input

@@ -338,22 +338,37 @@ See more help with --help`)
     })
   })
 
-  describe('enum', () => {
+  describe('flag options', () => {
     it('accepts valid option', () => {
-      const foo = flags.enum<'myopt' | 'myotheropt'>({options: ['myopt', 'myotheropt']})
       const out = parse(['--foo', 'myotheropt'], {
-        flags: {foo: foo()},
+        flags: {foo: flags.string({options: ['myopt', 'myotheropt']})},
       })
       expect(out.flags.foo).to.equal('myotheropt')
     })
 
     it('fails when invalid', () => {
-      const foo = flags.enum({options: ['myopt', 'myotheropt']})
       expect(() => {
-        parse(['--foo', 'bar'], {
-          flags: {foo: foo()},
+        parse(['--foo', 'invalidopt'], {
+          flags: {foo: flags.string({options: ['myopt', 'myotheropt']})},
         })
-      }).to.throw('Expected --foo=bar to be one of: myopt, myotheropt')
+      }).to.throw('Expected --foo=invalidopt to be one of: myopt, myotheropt')
+    })
+  })
+
+  describe('arg options', () => {
+    it('accepts valid option', () => {
+      const out = parse(['myotheropt'], {
+        args: [{name: 'foo', options: ['myopt', 'myotheropt']}],
+      })
+      expect(out.args.foo).to.equal('myotheropt')
+    })
+
+    it('fails when invalid', () => {
+      expect(() => {
+        parse(['invalidopt'], {
+          args: [{name: 'foo', options: ['myopt', 'myotheropt']}],
+        })
+      }).to.throw('Expected invalidopt to be one of: myopt, myotheropt')
     })
   })
 })
