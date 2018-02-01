@@ -2,9 +2,9 @@
 
 import {AlphabetLowercase, AlphabetUppercase} from './alphabet'
 
-export interface DefaultContext<T> { options: IOptionFlag<T>; flags: { [k: string]: string } }
+export type DefaultContext<T> = { options: IOptionFlag<T>; flags: { [k: string]: string } }
 
-export interface IFlagBase<T, I> {
+export type IFlagBase<T, I> = {
   name: string
   char?: AlphabetLowercase | AlphabetUppercase
   description?: string
@@ -13,12 +13,12 @@ export interface IFlagBase<T, I> {
   parse(input: I): T
 }
 
-export interface IBooleanFlag<T> extends IFlagBase<T, boolean> {
+export type IBooleanFlag<T> = IFlagBase<T, boolean> & {
   type: 'boolean'
   allowNo: boolean
 }
 
-export interface IOptionFlag<T> extends IFlagBase<T, string> {
+export type IOptionFlag<T> = IFlagBase<T, string> & {
   type: 'option'
   optionType: string
   helpValue?: string
@@ -27,13 +27,13 @@ export interface IOptionFlag<T> extends IFlagBase<T, string> {
   input: string[]
 }
 
-export interface Definition<T> {
+export type Definition<T> = {
   (options: {multiple: true} & Partial<IOptionFlag<T>>): IOptionFlag<T[]>
   (options: {required: true} & Partial<IOptionFlag<T>>): IOptionFlag<T>
   (options?: Partial<IOptionFlag<T>>): IOptionFlag<T | undefined>
 }
 
-export interface EnumFlagOptions<T> extends Partial<IOptionFlag<T>> {
+export type EnumFlagOptions<T> = Partial<IOptionFlag<T>> & {
   options: string[]
 }
 
