@@ -155,6 +155,7 @@ export class Parser<T extends ParserInput, TFlags extends OutputFlags<T['flags']
         } else {
           flags[token.flag] = true
         }
+        flags[token.flag] = flag.parse(flags[token.flag])
       } else {
         const input = token.input
         if (flag.options && !flag.options.includes(input)) {
