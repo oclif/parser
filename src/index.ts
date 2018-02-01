@@ -14,7 +14,7 @@ export type ParserInput<TFlags extends flags.Output> = {
   strict?: boolean
 }
 
-export function parse<TFlags, TArgs>(argv: string[], options: ParserInput<TFlags>): ParserOutput<TFlags, TArgs> {
+export function parse<TFlags, TArgs extends {[name: string]: string}>(argv: string[], options: ParserInput<TFlags>): ParserOutput<TFlags, TArgs> {
   const input = {
     argv,
     args: (options.args || []).map((a: any) => deps.args.newArg(a as any)),
