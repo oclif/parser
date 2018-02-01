@@ -1,3 +1,11 @@
+<a name="3.0.1"></a>
+## [3.0.1](https://github.com/anycli/parser/compare/17e930cc32fb75f359fc9de987618e8f0e721e87...v3.0.1) (2018-02-01)
+
+
+### Bug Fixes
+
+* testing release ([014b773](https://github.com/anycli/parser/commit/014b773))
+
 <a name="0.1.4"></a>
 ## [0.1.4](https://github.com/anycli/parser/compare/d13cd8c60bd97be956f17d6127583254300c3bdf...v0.1.4) (2018-01-31)
 
