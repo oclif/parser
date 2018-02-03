@@ -49,7 +49,7 @@ export function build(defaults: Partial<IOptionFlag<string>>): Definition<string
 export function build<T>(defaults: Partial<IOptionFlag<T>>): Definition<T> {
   return (options: any = {}): any => {
     return {
-      parse: (i: string) => i,
+      parse: (i: string, _: any) => i,
       ...defaults,
       ...options,
       input: [] as string[],
@@ -61,7 +61,7 @@ export function build<T>(defaults: Partial<IOptionFlag<T>>): Definition<T> {
 
 export function boolean<T = boolean>(options: Partial<IBooleanFlag<T>> = {}): IBooleanFlag<T> {
   return {
-    parse: b => b,
+    parse: (b, _) => b,
     ...options,
     allowNo: !!options.allowNo,
     type: 'boolean',
