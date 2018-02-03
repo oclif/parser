@@ -371,4 +371,15 @@ See more help with --help`)
       }).to.throw('Expected invalidopt to be one of: myopt, myotheropt')
     })
   })
+
+  describe('env', () => {
+    it('accepts as environment variable', () => {
+      process.env.TEST_FOO = '101'
+      const out = parse([], {
+        flags: {foo: flags.string({env: 'TEST_FOO'})},
+      })
+      expect(out.flags.foo).to.equal('101')
+      delete process.env.TEST_FOO
+    })
+  })
 })

@@ -172,12 +172,17 @@ export class Parser<T extends ParserInput, TFlags extends OutputFlags<T['flags']
     }
     for (const k of Object.keys(this.input.flags)) {
       const flag = this.input.flags[k]
-      if (flags[k]) continue
-      if (flag.type !== 'option' || !flag.default) continue
-      if (typeof flag.default === 'function') {
-        flags[k] = flag.default({options: flag, flags})
-      } else {
-        flags[k] = flag.default
+      if (flags[k] || flag.type !== 'option') continue
+      if (flag.env) {
+        let input = process.env[flag.env]
+        if (input) flags[k] = flag.parse(input)
+      }
+      if (!flags[k] && flag.default) {
+        if (typeof flag.default === 'function') {
+          flags[k] = flag.default({options: flag, flags})
+        } else {
+          flags[k] = flag.default
+        }
       }
     }
     return flags
