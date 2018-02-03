@@ -1,3 +1,11 @@
+<a name="3.1.0"></a>
+# [3.1.0](https://github.com/anycli/parser/compare/b5a7d6d5e4df2f270a900f83e01b8ac7836cd556...v3.1.0) (2018-02-03)
+
+
+### Features
+
+* added env to flags ([56be8c8](https://github.com/anycli/parser/commit/56be8c8))
+
 <a name="3.0.4"></a>
 ## [3.0.4](https://github.com/anycli/parser/compare/6a33b0633c9e422b18ec33d9a1dd4202c97adf28...v3.0.4) (2018-02-01)
 
