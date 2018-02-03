@@ -1,3 +1,11 @@
+<a name="3.2.1"></a>
+## [3.2.1](https://github.com/anycli/parser/compare/66ffd65db6fcaf1be306194bb65e73c973979e3c...v3.2.1) (2018-02-03)
+
+
+### Bug Fixes
+
+* rename ParserInput to Input and ParserOutput to Output ([f46fa41](https://github.com/anycli/parser/commit/f46fa41))
+
 <a name="3.2.0"></a>
 # [3.2.0](https://github.com/anycli/parser/compare/85c1e06baa2f10cc1ae3186aec1480a3a543d75c...v3.2.0) (2018-02-03)
 
