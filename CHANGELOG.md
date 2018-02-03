@@ -1,3 +1,12 @@
+<a name="3.2.2"></a>
+## [3.2.2](https://github.com/anycli/parser/compare/f46fa41bdb4ddaee05f5f1800e723dcb1e8e98ef...v3.2.2) (2018-02-03)
+
+
+### Bug Fixes
+
+* make ts happy ([9e6a13d](https://github.com/anycli/parser/commit/9e6a13d))
+* ran generator ([71dd89f](https://github.com/anycli/parser/commit/71dd89f))
+
 <a name="3.2.1"></a>
 ## [3.2.1](https://github.com/anycli/parser/compare/66ffd65db6fcaf1be306194bb65e73c973979e3c...v3.2.1) (2018-02-03)
 
