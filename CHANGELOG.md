@@ -1,3 +1,11 @@
+<a name="3.2.0"></a>
+# [3.2.0](https://github.com/anycli/parser/compare/85c1e06baa2f10cc1ae3186aec1480a3a543d75c...v3.2.0) (2018-02-03)
+
+
+### Features
+
+* allow disabling "--" ([66ffd65](https://github.com/anycli/parser/commit/66ffd65))
+
 <a name="3.1.1"></a>
 ## [3.1.1](https://github.com/anycli/parser/compare/56be8c82683f4b657bdf05ade5db54390abb5d67...v3.1.1) (2018-02-03)
 
