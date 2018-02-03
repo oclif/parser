@@ -1,3 +1,12 @@
+<a name="3.1.1"></a>
+## [3.1.1](https://github.com/anycli/parser/compare/56be8c82683f4b657bdf05ade5db54390abb5d67...v3.1.1) (2018-02-03)
+
+
+### Bug Fixes
+
+* add context fo parse ([85c1e06](https://github.com/anycli/parser/commit/85c1e06))
+* append context to default ([50bf003](https://github.com/anycli/parser/commit/50bf003))
+
 <a name="3.1.0"></a>
 # [3.1.0](https://github.com/anycli/parser/compare/b5a7d6d5e4df2f270a900f83e01b8ac7836cd556...v3.1.0) (2018-02-03)
 
