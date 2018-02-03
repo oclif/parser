@@ -1,14 +1,14 @@
 // tslint:disable interface-over-type-literal
 
 import * as args from './args'
-import {OutputArgs, OutputFlags, ParserOutput} from './parse'
+import {OutputArgs, OutputFlags, ParserOutput as Output} from './parse'
 export {args}
 import * as flags from './flags'
 export {flags}
 export {flagUsages} from './help'
 import {deps} from './deps'
 
-export type ParserInput<TFlags extends flags.Output> = {
+export type Input<TFlags extends flags.Output> = {
   flags?: flags.Input<TFlags>
   args?: args.Input
   strict?: boolean
@@ -16,7 +16,7 @@ export type ParserInput<TFlags extends flags.Output> = {
   '--'?: boolean
 }
 
-export function parse<TFlags, TArgs extends {[name: string]: string}>(argv: string[], options: ParserInput<TFlags>): ParserOutput<TFlags, TArgs> {
+export function parse<TFlags, TArgs extends {[name: string]: string}>(argv: string[], options: Input<TFlags>): Output<TFlags, TArgs> {
   const input = {
     argv,
     context: options.context,
@@ -34,4 +34,4 @@ export function parse<TFlags, TArgs extends {[name: string]: string}>(argv: stri
   return output as any
 }
 
-export {OutputFlags, OutputArgs, ParserOutput}
+export {OutputFlags, OutputArgs, Output}
