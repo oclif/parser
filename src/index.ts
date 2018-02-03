@@ -12,11 +12,13 @@ export type ParserInput<TFlags extends flags.Output> = {
   flags?: flags.Input<TFlags>
   args?: args.Input
   strict?: boolean
+  context?: any
 }
 
 export function parse<TFlags, TArgs extends {[name: string]: string}>(argv: string[], options: ParserInput<TFlags>): ParserOutput<TFlags, TArgs> {
   const input = {
     argv,
+    context,
     args: (options.args || []).map((a: any) => deps.args.newArg(a as any)),
     flags: {
       color: deps.flags.defaultFlags.color,

@@ -36,13 +36,16 @@ export interface ParserInput {
   flags: Flags.Input<any>
   args: Arg<any>[]
   strict: boolean
+  context: any
 }
 
 export class Parser<T extends ParserInput, TFlags extends OutputFlags<T['flags']>, TArgs extends OutputArgs<T['args']>> {
   private readonly argv: string[]
   private readonly raw: ParsingToken[] = []
   private readonly booleanFlags: { [k: string]: Flags.IBooleanFlag<any> }
+  private readonly context: any
   constructor(private readonly input: T) {
+    this.context = input.context || {}
     this.argv = input.argv.slice(0)
     this._setNames()
     this.booleanFlags = _.pickBy(input.flags, f => f.type === 'boolean') as any
@@ -179,7 +182,7 @@ export class Parser<T extends ParserInput, TFlags extends OutputFlags<T['flags']
       }
       if (!flags[k] && flag.default) {
         if (typeof flag.default === 'function') {
-          flags[k] = flag.default({options: flag, flags})
+          flags[k] = flag.default({options: flag, flags, ...this.context})
         } else {
           flags[k] = flag.default
         }
