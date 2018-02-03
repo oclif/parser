@@ -382,4 +382,16 @@ See more help with --help`)
       delete process.env.TEST_FOO
     })
   })
+
+  describe('flag context', () => {
+    it('accepts context in parse', () => {
+      const out = parse(['--foo'], {
+        context: {a: 101},
+        flags: {foo: flags.boolean({
+          parse: (_: any, ctx: any) => ctx.a
+        })},
+      })
+      expect(out.flags.foo).to.equal(101)
+    })
+  })
 })

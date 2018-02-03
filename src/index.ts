@@ -18,7 +18,7 @@ export type ParserInput<TFlags extends flags.Output> = {
 export function parse<TFlags, TArgs extends {[name: string]: string}>(argv: string[], options: ParserInput<TFlags>): ParserOutput<TFlags, TArgs> {
   const input = {
     argv,
-    context,
+    context: options.context,
     args: (options.args || []).map((a: any) => deps.args.newArg(a as any)),
     flags: {
       color: deps.flags.defaultFlags.color,

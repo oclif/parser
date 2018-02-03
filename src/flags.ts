@@ -14,7 +14,7 @@ export type IFlagBase<T, I> = {
    * also accept an environment variable as input
    */
   env?: string
-  parse(input: I): T
+  parse(input: I, context: any): T
 }
 
 export type IBooleanFlag<T> = IFlagBase<T, boolean> & {

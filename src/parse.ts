@@ -158,13 +158,13 @@ export class Parser<T extends ParserInput, TFlags extends OutputFlags<T['flags']
         } else {
           flags[token.flag] = true
         }
-        flags[token.flag] = flag.parse(flags[token.flag])
+        flags[token.flag] = flag.parse(flags[token.flag], this.context)
       } else {
         const input = token.input
         if (flag.options && !flag.options.includes(input)) {
           throw new Errors.FlagInvalidOptionError(flag, input)
         }
-        const value = flag.parse ? flag.parse(input) : input
+        const value = flag.parse ? flag.parse(input, this.context) : input
         if (flag.multiple) {
           flags[token.flag] = flags[token.flag] || []
           flags[token.flag].push(value)
@@ -178,7 +178,7 @@ export class Parser<T extends ParserInput, TFlags extends OutputFlags<T['flags']
       if (flags[k] || flag.type !== 'option') continue
       if (flag.env) {
         let input = process.env[flag.env]
-        if (input) flags[k] = flag.parse(input)
+        if (input) flags[k] = flag.parse(input, this.context)
       }
       if (!flags[k] && flag.default) {
         if (typeof flag.default === 'function') {
