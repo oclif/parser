@@ -212,6 +212,18 @@ See more help with --help`)
         expect(out.args).to.deep.equal({argOne: 'foo'})
       })
 
+      describe('--: false', () => {
+        it('can be disabled', () => {
+          const out = parse(['foo', 'bar', '--', '--myflag'], {
+            args: [{name: 'argOne'}],
+            strict: false,
+            '--': false,
+          })
+          expect(out.argv).to.deep.equal(['foo', 'bar', '--', '--myflag'])
+          expect(out.args).to.deep.equal({argOne: 'foo'})
+        })
+      })
+
       it('does not repeat arguments', () => {
         const out = parse(['foo', '--myflag=foo bar'], {
           strict: false,

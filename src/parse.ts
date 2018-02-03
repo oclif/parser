@@ -37,6 +37,7 @@ export interface ParserInput {
   args: Arg<any>[]
   strict: boolean
   context: any
+  '--'?: boolean
 }
 
 export class Parser<T extends ParserInput, TFlags extends OutputFlags<T['flags']>, TArgs extends OutputArgs<T['args']>> {
@@ -112,7 +113,7 @@ export class Parser<T extends ParserInput, TFlags extends OutputFlags<T['flags']
       const input = this.argv.shift() as string
       if (parsingFlags && input.startsWith('-')) {
         // attempt to parse as arg
-        if (input === '--') {
+        if (this.input['--'] !== false && input === '--') {
           parsingFlags = false
           continue
         }

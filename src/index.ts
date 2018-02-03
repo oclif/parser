@@ -13,6 +13,7 @@ export type ParserInput<TFlags extends flags.Output> = {
   args?: args.Input
   strict?: boolean
   context?: any
+  '--'?: boolean
 }
 
 export function parse<TFlags, TArgs extends {[name: string]: string}>(argv: string[], options: ParserInput<TFlags>): ParserOutput<TFlags, TArgs> {
@@ -20,6 +21,7 @@ export function parse<TFlags, TArgs extends {[name: string]: string}>(argv: stri
     argv,
     context: options.context,
     args: (options.args || []).map((a: any) => deps.args.newArg(a as any)),
+    '--': options['--'],
     flags: {
       color: deps.flags.defaultFlags.color,
       ...((options.flags || {})) as any,
