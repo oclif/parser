@@ -24,7 +24,6 @@ export type IBooleanFlag<T> = IFlagBase<T, boolean> & {
 
 export type IOptionFlag<T> = IFlagBase<T, string> & {
   type: 'option'
-  optionType: string
   helpValue?: string
   default?: T | ((context: DefaultContext<T>) => T | undefined)
   multiple: boolean
@@ -69,7 +68,6 @@ export function boolean<T = boolean>(options: Partial<IBooleanFlag<T>> = {}): IB
 }
 
 export const integer = build({
-  optionType: 'integer',
   parse: input => {
     if (!/^[0-9]+$/.test(input)) throw new Error(`Expected an integer but received: ${input}`)
     return parseInt(input, 10)
@@ -77,10 +75,10 @@ export const integer = build({
 })
 
 export function option<T>(options: {parse: IOptionFlag<T>['parse']} & Partial<IOptionFlag<T>>) {
-  return build<T>({optionType: 'custom', ...options})()
+  return build<T>(options)()
 }
 
-const stringFlag = build({optionType: 'string'})
+const stringFlag = build({})
 export {stringFlag as string}
 
 export const defaultFlags = {
