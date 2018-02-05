@@ -8,13 +8,11 @@ import * as Flags from './flags'
 
 let debug: any
 try {
-  // tslint:disable-next-line
   if (process.env.CLI_FLAGS_DEBUG !== '1') debug = () => {}
   else
-    // tslint:disable-next-line
-    debug = require('debug')('cli-flags')
+    // tslint:disable-next-line no-implicit-dependencies
+    debug = require('debug')('@anycli/parser')
 } catch {
-  // tslint:disable-next-line
   debug = () => {}
 }
 

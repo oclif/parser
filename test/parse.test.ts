@@ -406,4 +406,11 @@ See more help with --help`)
       expect(out.flags.foo).to.equal(101)
     })
   })
+
+  it('parses multiple flags', () => {
+    const out = parse(['--foo=a', '--foo', 'b'], {
+      flags: {foo: flags.string()},
+    })
+    expect(out.flags.foo).to.equal('b')
+  })
 })

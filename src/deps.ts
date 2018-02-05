@@ -1,3 +1,4 @@
+// tslint:disable no-implicit-dependencies
 import screen = require('@anycli/screen')
 import chalk = require('chalk')
 
@@ -22,7 +23,7 @@ export const deps = {
   get chalk(): typeof chalk.default | undefined {
     try {
       return fetch('chalk').default
-      // tslint:disable-next-line
+      // tslint:disable-next-line no-unused
     } catch (err) {}
   },
 }
