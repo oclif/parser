@@ -1,3 +1,11 @@
+<a name="3.2.5"></a>
+## [3.2.5](https://github.com/anycli/parser/compare/595a4faa0a0377bec9e9e630ea53db20c0eea735...v3.2.5) (2018-02-05)
+
+
+### Bug Fixes
+
+* remove optionType ([15bb0d0](https://github.com/anycli/parser/commit/15bb0d0))
+
 <a name="3.2.4"></a>
 ## [3.2.4](https://github.com/anycli/parser/compare/840676d3d18cc0b7b128212c3fec77f8396cfde2...v3.2.4) (2018-02-05)
 
