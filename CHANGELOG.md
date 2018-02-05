@@ -1,3 +1,11 @@
+<a name="3.2.3"></a>
+## [3.2.3](https://github.com/anycli/parser/compare/965be3c309ee0559be298f0a42ffa8f934195070...v3.2.3) (2018-02-05)
+
+
+### Bug Fixes
+
+* optionally require chalk ([840676d](https://github.com/anycli/parser/commit/840676d))
+
 <a name="3.2.2"></a>
 ## [3.2.2](https://github.com/anycli/parser/compare/f46fa41bdb4ddaee05f5f1800e723dcb1e8e98ef...v3.2.2) (2018-02-03)
 
