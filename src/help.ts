@@ -1,7 +1,6 @@
-import * as _ from 'lodash'
-
 import {deps} from './deps'
 import {IFlag} from './flags'
+import {sortBy} from './util'
 
 function dim(s: string): string {
   if (deps.chalk) return deps.chalk.dim(s)
@@ -25,8 +24,6 @@ export function flagUsage(flag: IFlag<any>, options: FlagUsageOptions = {}): [st
 
 export function flagUsages(flags: IFlag<any>[], options: FlagUsageOptions = {}): [string, string | undefined][] {
   if (!flags.length) return []
-  return _(flags)
-    .sortBy(f => [!f.char, f.char, f.name])
-    .map(f => flagUsage(f, options))
-    .value()
+  return sortBy(flags, f => [f.char ? -1 : 1, f.char, f.name])
+  .map(f => flagUsage(f, options))
 }

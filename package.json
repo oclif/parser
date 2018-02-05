@@ -4,15 +4,11 @@
   "version": "3.2.3",
   "author": "Jeff Dickey @jdxcode",
   "bugs": "https://github.com/anycli/parser/issues",
-  "dependencies": {
-    "@anycli/screen": "^0.0.3",
-    "lodash": "^4.17.4"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@anycli/tslint": "^0.2.5",
     "@heroku/linewrap": "^1.0.0",
     "@types/chai": "^4.1.2",
-    "@types/lodash": "^4.14.100",
     "@types/mocha": "^2.2.48",
     "@types/nock": "^9.1.2",
     "@types/node": "^9.4.0",

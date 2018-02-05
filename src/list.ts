@@ -1,10 +1,9 @@
-import * as _ from 'lodash'
-
-import {deps} from './deps'
+import {stdtermwidth} from './screen'
+import {maxBy} from './util'
 
 function linewrap(length: number, s: string): string {
   const lw = require('@heroku/linewrap')
-  return lw(length, deps.screen.stdtermwidth, {
+  return lw(length, stdtermwidth, {
     skipScheme: 'ansi-color',
   })(s).trim()
 }
@@ -15,14 +14,14 @@ export function renderList(items: IListItem[]): string {
   if (items.length === 0) {
     return ''
   }
-  const maxLength = (_.maxBy(items, '[0].length'))![0].length
+  const maxLength = (maxBy(items, i => i[0].length))![0].length
   const lines = items.map(i => {
     let left = i[0]
     let right = i[1]
     if (!right) {
       return left
     }
-    left = `${_.padEnd(left, maxLength)}`
+    left = left.padEnd(maxLength)
     right = linewrap(maxLength + 2, right)
     return `${left}  ${right}`
   })

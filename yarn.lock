@@ -2,10 +2,6 @@
 # yarn lockfile v1
 
 
-"@anycli/screen@^0.0.3":
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/@anycli/screen/-/screen-0.0.3.tgz#f0afd970c3ed725702948a45a874ede1fdd9362e"
-
 "@anycli/tslint@^0.2.5":
   version "0.2.5"
   resolved "https://registry.yarnpkg.com/@anycli/tslint/-/tslint-0.2.5.tgz#63feeb981b11f36326e0cb745c62f51d55c2ed67"
@@ -20,10 +16,6 @@
 "@types/chai@^4.1.2":
   version "4.1.2"
   resolved "https://registry.yarnpkg.com/@types/chai/-/chai-4.1.2.tgz#f1af664769cfb50af805431c407425ed619daa21"
-
-"@types/lodash@^4.14.100":
-  version "4.14.100"
-  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.100.tgz#f353dd9d3a9785638b6cb8023e6639097bd31969"
 
 "@types/mocha@^2.2.48":
   version "2.2.48"

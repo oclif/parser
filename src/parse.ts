@@ -1,10 +1,9 @@
 // tslint:disable interface-over-type-literal
 
-import * as _ from 'lodash'
-
 import {Arg} from './args'
 import * as Errors from './errors'
 import * as Flags from './flags'
+import {pickBy} from './util'
 
 let debug: any
 try {
@@ -47,7 +46,7 @@ export class Parser<T extends ParserInput, TFlags extends OutputFlags<T['flags']
     this.context = input.context || {}
     this.argv = input.argv.slice(0)
     this._setNames()
-    this.booleanFlags = _.pickBy(input.flags, f => f.type === 'boolean') as any
+    this.booleanFlags = pickBy(input.flags, f => f.type === 'boolean') as any
   }
 
   public parse() {
