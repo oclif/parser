@@ -1,3 +1,11 @@
+<a name="3.2.4"></a>
+## [3.2.4](https://github.com/anycli/parser/compare/840676d3d18cc0b7b128212c3fec77f8396cfde2...v3.2.4) (2018-02-05)
+
+
+### Bug Fixes
+
+* remove dependencies ([595a4fa](https://github.com/anycli/parser/commit/595a4fa))
+
 <a name="3.2.3"></a>
 ## [3.2.3](https://github.com/anycli/parser/compare/965be3c309ee0559be298f0a42ffa8f934195070...v3.2.3) (2018-02-05)
 
