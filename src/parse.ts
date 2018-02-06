@@ -1,5 +1,7 @@
 // tslint:disable interface-over-type-literal
 
+import {CLIError} from '@anycli/errors'
+
 import {Arg} from './args'
 import * as Errors from './errors'
 import * as Flags from './flags'
@@ -93,7 +95,7 @@ export class Parser<T extends ParserInput, TFlags extends OutputFlags<T['flags']
           input = arg.slice(arg[2] === '=' ? 3 : 2)
         }
         if (!input) {
-          throw new Error(`Flag --${name} expects a value`)
+          throw new CLIError(`Flag --${name} expects a value`)
         }
         this.raw.push({type: 'flag', flag: flag.name, input})
       } else {
@@ -149,7 +151,7 @@ export class Parser<T extends ParserInput, TFlags extends OutputFlags<T['flags']
     const flags = {} as any
     for (const token of this._flagTokens) {
       const flag = this.input.flags[token.flag]
-      if (!flag) throw new Error(`Unexpected flag ${token.flag}`)
+      if (!flag) throw new CLIError(`Unexpected flag ${token.flag}`)
       if (flag.type === 'boolean') {
         if (token.input === `--no-${flag.name}`) {
           flags[token.flag] = false

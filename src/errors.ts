@@ -1,3 +1,5 @@
+import {CLIError} from '@anycli/errors'
+
 import {Arg} from './args'
 import {deps} from './deps'
 import * as flags from './flags'
@@ -11,7 +13,7 @@ export interface ICLIParseErrorOptions {
   }
 }
 
-export class CLIParseError extends Error {
+export class CLIParseError extends CLIError {
   public parse: ICLIParseErrorOptions['parse']
 
   constructor(options: ICLIParseErrorOptions & { message: string }) {
