@@ -1,3 +1,11 @@
+<a name="3.2.6"></a>
+## [3.2.6](https://github.com/anycli/parser/compare/15bb0d0e7ac8d7b933f3a6731f3988ae5786e129...v3.2.6) (2018-02-06)
+
+
+### Bug Fixes
+
+* use [@anycli](https://github.com/anycli)/errors ([b227608](https://github.com/anycli/parser/commit/b227608))
+
 <a name="3.2.5"></a>
 ## [3.2.5](https://github.com/anycli/parser/compare/595a4faa0a0377bec9e9e630ea53db20c0eea735...v3.2.5) (2018-02-05)
 
