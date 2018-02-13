@@ -1,3 +1,11 @@
+<a name="3.2.8"></a>
+## [3.2.8](https://github.com/oclif/parser/compare/v3.2.7...v3.2.8) (2018-02-13)
+
+
+### Bug Fixes
+
+* testing release ([ad84785](https://github.com/oclif/parser/commit/ad84785))
+
 <a name="3.2.6"></a>
 ## [3.2.6](https://github.com/anycli/parser/compare/15bb0d0e7ac8d7b933f3a6731f3988ae5786e129...v3.2.6) (2018-02-06)
 
