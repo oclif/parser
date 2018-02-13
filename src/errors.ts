@@ -1,4 +1,4 @@
-import {CLIError} from '@anycli/errors'
+import {CLIError} from '@oclif/errors'
 
 import {Arg} from './args'
 import {deps} from './deps'

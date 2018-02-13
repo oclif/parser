@@ -1,6 +1,6 @@
 // tslint:disable interface-over-type-literal
 
-import {CLIError} from '@anycli/errors'
+import {CLIError} from '@oclif/errors'
 
 import {Arg} from './args'
 import * as Errors from './errors'
@@ -12,7 +12,7 @@ try {
   if (process.env.CLI_FLAGS_DEBUG !== '1') debug = () => {}
   else
     // tslint:disable-next-line no-implicit-dependencies
-    debug = require('debug')('@anycli/parser')
+    debug = require('debug')('@oclif/parser')
 } catch {
   debug = () => {}
 }
