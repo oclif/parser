@@ -1,3 +1,11 @@
+<a name="3.2.9"></a>
+## [3.2.9](https://github.com/oclif/parser/compare/ad8478519221909d4dacdd79d84bce1db8e5c9f7...v3.2.9) (2018-02-14)
+
+
+### Bug Fixes
+
+* add linewrap ([46152df](https://github.com/oclif/parser/commit/46152df))
+
 <a name="3.2.8"></a>
 ## [3.2.8](https://github.com/oclif/parser/compare/v3.2.7...v3.2.8) (2018-02-13)
 
