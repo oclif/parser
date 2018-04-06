@@ -1,3 +1,11 @@
+<a name="3.2.10"></a>
+## [3.2.10](https://github.com/oclif/parser/compare/46152dffa795ff241945b3c1ac3276b73f8ba86a...v3.2.10) (2018-04-06)
+
+
+### Bug Fixes
+
+* Remove lazy loading of libraries in `deps` ([e6e881f](https://github.com/oclif/parser/commit/e6e881f))
+
 <a name="3.2.9"></a>
 ## [3.2.9](https://github.com/oclif/parser/compare/ad8478519221909d4dacdd79d84bce1db8e5c9f7...v3.2.9) (2018-02-14)
 
