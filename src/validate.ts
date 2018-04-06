@@ -1,4 +1,4 @@
-import {deps} from './deps'
+import {RequiredArgsError, RequiredFlagError, UnexpectedArgsError} from './errors'
 import {ParserInput, ParserOutput} from './parse'
 
 export function validate(parse: { input: ParserInput; output: ParserOutput<any, any> }) {
@@ -6,12 +6,12 @@ export function validate(parse: { input: ParserInput; output: ParserOutput<any, 
     const maxArgs = parse.input.args.length
     if (parse.input.strict && parse.output.argv.length > maxArgs) {
       const extras = parse.output.argv.slice(maxArgs)
-      throw new deps.errors.UnexpectedArgsError({parse, args: extras})
+      throw new UnexpectedArgsError({parse, args: extras})
     }
     const requiredArgs = parse.input.args.filter(a => a.required)
     const missingRequiredArgs = requiredArgs.slice(parse.output.argv.length)
     if (missingRequiredArgs.length) {
-      throw new deps.errors.RequiredArgsError({parse, args: missingRequiredArgs})
+      throw new RequiredArgsError({parse, args: missingRequiredArgs})
     }
   }
 
@@ -19,7 +19,7 @@ export function validate(parse: { input: ParserInput; output: ParserOutput<any, 
     const flags = Object.keys(parse.input.flags)
       .map(f => parse.input.flags[f])
       .filter(f => f.required && !parse.output.flags[f.name])
-    if (flags.length) throw new deps.errors.RequiredFlagError({parse, flags})
+    if (flags.length) throw new RequiredFlagError({parse, flags})
   }
 
   validateArgs()

@@ -1,9 +1,10 @@
-import {deps} from './deps'
+import chalk from 'chalk'
+
 import {IFlag} from './flags'
 import {sortBy} from './util'
 
 function dim(s: string): string {
-  if (deps.chalk) return deps.chalk.dim(s)
+  if (chalk) return chalk.dim(s)
   return s
 }
 
