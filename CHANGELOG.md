@@ -1,3 +1,11 @@
+<a name="3.2.11"></a>
+## [3.2.11](https://github.com/oclif/parser/compare/e6e881fd2f1f7161830be965cf194dc5b99ba3ff...v3.2.11) (2018-04-06)
+
+
+### Bug Fixes
+
+* clean up requires ([9c5fb0f](https://github.com/oclif/parser/commit/9c5fb0f))
+
 <a name="3.2.10"></a>
 ## [3.2.10](https://github.com/oclif/parser/compare/46152dffa795ff241945b3c1ac3276b73f8ba86a...v3.2.10) (2018-04-06)
 
