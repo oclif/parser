@@ -415,6 +415,15 @@ See more help with --help`)
   })
 
   describe('dependsOn', () => {
+    it('ignores', () => {
+      parse([], {
+        flags: {
+          foo: flags.string({dependsOn: ['bar']}),
+          bar: flags.string({char: 'b'}),
+        },
+      })
+    })
+
     it('succeeds', () => {
       const out = parse(['--foo', 'a', '-bb'], {
         flags: {

@@ -19,13 +19,14 @@ export function validate(parse: { input: ParserInput; output: ParserOutput<any, 
 
   function validateFlags() {
     for (let [name, flag] of Object.entries(parse.input.flags)) {
-      if (flag.required && !parse.output.flags[name]) {
-        throw new RequiredFlagError({parse, flag})
-      }
-      for (let also of flag.dependsOn || []) {
-        if (!parse.output.flags[also]) {
-          throw new CLIError(`--${also}= must also be provided when using --${name}=`)
+      if (parse.output.flags[name]) {
+        for (let also of flag.dependsOn || []) {
+          if (!parse.output.flags[also]) {
+            throw new CLIError(`--${also}= must also be provided when using --${name}=`)
+          }
         }
+      } else {
+        if (flag.required) throw new RequiredFlagError({parse, flag})
       }
     }
   }
