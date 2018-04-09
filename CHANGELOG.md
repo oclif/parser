@@ -1,3 +1,11 @@
+<a name="3.2.13"></a>
+## [3.2.13](https://github.com/oclif/parser/compare/fbbfbf09ed7b2b48a0b51325256166c9c5bd169a...v3.2.13) (2018-04-09)
+
+
+### Bug Fixes
+
+* move [@heroku](https://github.com/heroku)/linewrap to [@oclif](https://github.com/oclif)/linewrap ([d3136fd](https://github.com/oclif/parser/commit/d3136fd))
+
 <a name="3.2.12"></a>
 ## [3.2.12](https://github.com/oclif/parser/compare/9c5fb0ff7b17b10a6b15def83dddb00944ff4867...v3.2.12) (2018-04-09)
 
