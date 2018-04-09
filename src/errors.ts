@@ -46,13 +46,13 @@ export class RequiredArgsError extends CLIParseError {
 }
 
 export class RequiredFlagError extends CLIParseError {
-  public flags: flags.IFlag<any>[]
+  public flag: flags.IFlag<any>
 
-  constructor({flags, parse}: ICLIParseErrorOptions & { flags: flags.IFlag<any>[] }) {
-    const usage = m.list.renderList(m.help.flagUsages(flags, {displayRequired: false}))
-    const message = `Missing required flag${flags.length === 1 ? '' : 's'}:\n${usage}`
+  constructor({flag, parse}: ICLIParseErrorOptions & { flag: flags.IFlag<any> }) {
+    const usage = m.list.renderList(m.help.flagUsages([flag], {displayRequired: false}))
+    const message = `Missing required flag:\n${usage}`
     super({parse, message})
-    this.flags = flags
+    this.flag = flag
   }
 }
 

@@ -1,3 +1,5 @@
+import {CLIError} from '@oclif/errors'
+
 import {RequiredArgsError, RequiredFlagError, UnexpectedArgsError} from './errors'
 import {ParserInput, ParserOutput} from './parse'
 
@@ -16,10 +18,16 @@ export function validate(parse: { input: ParserInput; output: ParserOutput<any, 
   }
 
   function validateFlags() {
-    const flags = Object.keys(parse.input.flags)
-      .map(f => parse.input.flags[f])
-      .filter(f => f.required && !parse.output.flags[f.name])
-    if (flags.length) throw new RequiredFlagError({parse, flags})
+    for (let [name, flag] of Object.entries(parse.input.flags)) {
+      if (flag.required && !parse.output.flags[name]) {
+        throw new RequiredFlagError({parse, flag})
+      }
+      for (let also of flag.alsoRequire || []) {
+        if (!parse.output.flags[also]) {
+          throw new CLIError(`--${also}= must also be provided when using --${name}=`)
+        }
+      }
+    }
   }
 
   validateArgs()

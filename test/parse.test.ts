@@ -413,4 +413,28 @@ See more help with --help`)
     })
     expect(out.flags.foo).to.equal('b')
   })
+
+  describe('alsoRequired', () => {
+    it('succeeds', () => {
+      const out = parse(['--foo', 'a', '-bb'], {
+        flags: {
+          foo: flags.string({alsoRequire: ['bar']}),
+          bar: flags.string({char: 'b'}),
+        },
+      })
+      expect(out.flags.foo).to.equal('a')
+      expect(out.flags.bar).to.equal('b')
+    })
+
+    it('fails', () => {
+      expect(() => {
+        parse(['--foo', 'a'], {
+          flags: {
+            foo: flags.string({alsoRequire: ['bar']}),
+            bar: flags.string({char: 'b'}),
+          },
+        })
+      }).to.throw('--bar= must also be provided when using --foo=')
+    })
+  })
 })
