@@ -2,7 +2,7 @@ import {stdtermwidth} from './screen'
 import {maxBy} from './util'
 
 function linewrap(length: number, s: string): string {
-  const lw = require('@heroku/linewrap')
+  const lw = require('@oclif/linewrap')
   return lw(length, stdtermwidth, {
     skipScheme: 'ansi-color',
   })(s).trim()
