@@ -1,3 +1,11 @@
+<a name="3.2.12"></a>
+## [3.2.12](https://github.com/oclif/parser/compare/9c5fb0ff7b17b10a6b15def83dddb00944ff4867...v3.2.12) (2018-04-09)
+
+
+### Performance Improvements
+
+* lazy-load deps ([fbbfbf0](https://github.com/oclif/parser/commit/fbbfbf0))
+
 <a name="3.2.11"></a>
 ## [3.2.11](https://github.com/oclif/parser/compare/e6e881fd2f1f7161830be965cf194dc5b99ba3ff...v3.2.11) (2018-04-06)
 
