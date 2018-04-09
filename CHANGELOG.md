@@ -1,3 +1,11 @@
+<a name="3.3.1"></a>
+## [3.3.1](https://github.com/oclif/parser/compare/a48f523e1aea6d0d18eb415274f670a509425aa9...v3.3.1) (2018-04-09)
+
+
+### Bug Fixes
+
+* alsoRequire -> dependsOn ([38b53d0](https://github.com/oclif/parser/commit/38b53d0))
+
 <a name="3.3.0"></a>
 # [3.3.0](https://github.com/oclif/parser/compare/d3136fd2cc0d239893b8304788dfafc6a56de651...v3.3.0) (2018-04-09)
 
