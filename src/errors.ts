@@ -1,10 +1,17 @@
 import {CLIError} from '@oclif/errors'
 
 import {Arg} from './args'
+import Deps from './deps'
 import * as flags from './flags'
-import {flagUsages} from './help'
-import {renderList} from './list'
+import * as Help from './help'
+import * as List from './list'
 import {ParserInput, ParserOutput} from './parse'
+
+export {CLIError} from '@oclif/errors'
+
+const m = Deps()
+.add('help', () => require('./help') as typeof Help)
+.add('list', () => require('./list') as typeof List)
 
 export interface ICLIParseErrorOptions {
   parse: {
@@ -30,7 +37,7 @@ export class RequiredArgsError extends CLIParseError {
     let message = `Missing ${args.length} required arg${args.length === 1 ? '' : 's'}`
     const namedArgs = args.filter(a => a.name)
     if (namedArgs.length) {
-      const list = renderList(namedArgs.map(a => [a.name, a.description] as [string, string]))
+      const list = m.list.renderList(namedArgs.map(a => [a.name, a.description] as [string, string]))
       message += `:\n${list}`
     }
     super({parse, message})
@@ -42,7 +49,7 @@ export class RequiredFlagError extends CLIParseError {
   public flags: flags.IFlag<any>[]
 
   constructor({flags, parse}: ICLIParseErrorOptions & { flags: flags.IFlag<any>[] }) {
-    const usage = renderList(flagUsages(flags, {displayRequired: false}))
+    const usage = m.list.renderList(m.help.flagUsages(flags, {displayRequired: false}))
     const message = `Missing required flag${flags.length === 1 ? '' : 's'}:\n${usage}`
     super({parse, message})
     this.flags = flags

@@ -1,11 +1,14 @@
 // tslint:disable interface-over-type-literal
 
-import {CLIError} from '@oclif/errors'
-
 import {Arg} from './args'
+import Deps from './deps'
 import * as Errors from './errors'
 import * as Flags from './flags'
-import {pickBy} from './util'
+import * as Util from './util'
+
+const m = Deps()
+.add('errors', () => require('./errors') as typeof Errors)
+.add('util', () => require('./util') as typeof Util)
 
 let debug: any
 try {
@@ -45,6 +48,7 @@ export class Parser<T extends ParserInput, TFlags extends OutputFlags<T['flags']
   private readonly booleanFlags: { [k: string]: Flags.IBooleanFlag<any> }
   private readonly context: any
   constructor(private readonly input: T) {
+    const {pickBy} = m.util
     this.context = input.context || {}
     this.argv = input.argv.slice(0)
     this._setNames()
@@ -95,7 +99,7 @@ export class Parser<T extends ParserInput, TFlags extends OutputFlags<T['flags']
           input = arg.slice(arg[2] === '=' ? 3 : 2)
         }
         if (!input) {
-          throw new CLIError(`Flag --${name} expects a value`)
+          throw new m.errors.CLIError(`Flag --${name} expects a value`)
         }
         this.raw.push({type: 'flag', flag: flag.name, input})
       } else {
@@ -151,7 +155,7 @@ export class Parser<T extends ParserInput, TFlags extends OutputFlags<T['flags']
     const flags = {} as any
     for (const token of this._flagTokens) {
       const flag = this.input.flags[token.flag]
-      if (!flag) throw new CLIError(`Unexpected flag ${token.flag}`)
+      if (!flag) throw new m.errors.CLIError(`Unexpected flag ${token.flag}`)
       if (flag.type === 'boolean') {
         if (token.input === `--no-${flag.name}`) {
           flags[token.flag] = false
@@ -162,7 +166,7 @@ export class Parser<T extends ParserInput, TFlags extends OutputFlags<T['flags']
       } else {
         const input = token.input
         if (flag.options && !flag.options.includes(input)) {
-          throw new Errors.FlagInvalidOptionError(flag, input)
+          throw new m.errors.FlagInvalidOptionError(flag, input)
         }
         const value = flag.parse ? flag.parse(input, this.context) : input
         if (flag.multiple) {
@@ -200,7 +204,7 @@ export class Parser<T extends ParserInput, TFlags extends OutputFlags<T['flags']
       if (token) {
         if (arg) {
           if (arg.options && !arg.options.includes(token.input)) {
-            throw new Errors.ArgInvalidOptionError(arg, token.input)
+            throw new m.errors.ArgInvalidOptionError(arg, token.input)
           }
           args[i] = arg.parse(token.input)
         } else {

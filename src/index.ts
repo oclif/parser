@@ -4,9 +4,13 @@ import * as args from './args'
 import {OutputArgs, OutputFlags, Parser, ParserOutput as Output} from './parse'
 export {args}
 import * as flags from './flags'
-import {validate} from './validate'
+import * as Validate from './validate'
 export {flags}
 export {flagUsages} from './help'
+import Deps from './deps'
+
+const m = Deps()
+.add('validate', () => require('./validate').validate as typeof Validate.validate)
 
 export type Input<TFlags extends flags.Output> = {
   flags?: flags.Input<TFlags>
@@ -30,7 +34,7 @@ export function parse<TFlags, TArgs extends {[name: string]: string}>(argv: stri
   }
   const parser = new Parser(input)
   const output = parser.parse()
-  validate({input, output})
+  m.validate({input, output})
   return output as any
 }
 
