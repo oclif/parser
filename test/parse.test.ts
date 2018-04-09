@@ -414,11 +414,11 @@ See more help with --help`)
     expect(out.flags.foo).to.equal('b')
   })
 
-  describe('alsoRequired', () => {
+  describe('dependsOn', () => {
     it('succeeds', () => {
       const out = parse(['--foo', 'a', '-bb'], {
         flags: {
-          foo: flags.string({alsoRequire: ['bar']}),
+          foo: flags.string({dependsOn: ['bar']}),
           bar: flags.string({char: 'b'}),
         },
       })
@@ -430,7 +430,7 @@ See more help with --help`)
       expect(() => {
         parse(['--foo', 'a'], {
           flags: {
-            foo: flags.string({alsoRequire: ['bar']}),
+            foo: flags.string({dependsOn: ['bar']}),
             bar: flags.string({char: 'b'}),
           },
         })

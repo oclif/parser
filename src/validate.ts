@@ -22,7 +22,7 @@ export function validate(parse: { input: ParserInput; output: ParserOutput<any, 
       if (flag.required && !parse.output.flags[name]) {
         throw new RequiredFlagError({parse, flag})
       }
-      for (let also of flag.alsoRequire || []) {
+      for (let also of flag.dependsOn || []) {
         if (!parse.output.flags[also]) {
           throw new CLIError(`--${also}= must also be provided when using --${name}=`)
         }
