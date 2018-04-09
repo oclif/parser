@@ -1,3 +1,11 @@
+<a name="3.3.2"></a>
+## [3.3.2](https://github.com/oclif/parser/compare/38b53d041f6c5311ffbb1766598659d78dc173f1...v3.3.2) (2018-04-09)
+
+
+### Bug Fixes
+
+* fixed case when not calling dependsOn flag ([76c1c5a](https://github.com/oclif/parser/commit/76c1c5a))
+
 <a name="3.3.1"></a>
 ## [3.3.1](https://github.com/oclif/parser/compare/a48f523e1aea6d0d18eb415274f670a509425aa9...v3.3.1) (2018-04-09)
 
