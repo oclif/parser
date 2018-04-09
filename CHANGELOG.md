@@ -1,3 +1,11 @@
+<a name="3.3.0"></a>
+# [3.3.0](https://github.com/oclif/parser/compare/d3136fd2cc0d239893b8304788dfafc6a56de651...v3.3.0) (2018-04-09)
+
+
+### Features
+
+* added alsoRequire to flags ([a48f523](https://github.com/oclif/parser/commit/a48f523))
+
 <a name="3.2.13"></a>
 ## [3.2.13](https://github.com/oclif/parser/compare/fbbfbf09ed7b2b48a0b51325256166c9c5bd169a...v3.2.13) (2018-04-09)
 
