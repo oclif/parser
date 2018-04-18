@@ -1,3 +1,11 @@
+<a name="3.3.3"></a>
+## [3.3.3](https://github.com/oclif/parser/compare/76c1c5a9af1a1a998b4a0368a5cb759d4686ecc8...v3.3.3) (2018-04-18)
+
+
+### Bug Fixes
+
+* updated chalk ([e31965f](https://github.com/oclif/parser/commit/e31965f))
+
 <a name="3.3.2"></a>
 ## [3.3.2](https://github.com/oclif/parser/compare/38b53d041f6c5311ffbb1766598659d78dc173f1...v3.3.2) (2018-04-09)
 
