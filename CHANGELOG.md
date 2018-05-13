@@ -1,3 +1,11 @@
+<a name="3.4.0"></a>
+# [3.4.0](https://github.com/oclif/parser/compare/e31965f8c104c2858b73fa673d148f6638fc657c...v3.4.0) (2018-05-13)
+
+
+### Features
+
+* exclusive ([a24c135](https://github.com/oclif/parser/commit/a24c135))
+
 <a name="3.3.3"></a>
 ## [3.3.3](https://github.com/oclif/parser/compare/76c1c5a9af1a1a998b4a0368a5cb759d4686ecc8...v3.3.3) (2018-04-18)
 
