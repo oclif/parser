@@ -11,6 +11,7 @@ export type IFlagBase<T, I> = {
   hidden?: boolean
   required?: boolean
   dependsOn?: string[],
+  exclusive?: string[],
   /**
    * also accept an environment variable as input
    */

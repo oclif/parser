@@ -446,4 +446,36 @@ See more help with --help`)
       }).to.throw('--bar= must also be provided when using --foo=')
     })
   })
+
+  describe('exclusive', () => {
+    it('ignores', () => {
+      parse([], {
+        flags: {
+          foo: flags.string({exclusive: ['bar']}),
+          bar: flags.string({char: 'b'}),
+        },
+      })
+    })
+
+    it('succeeds', () => {
+      const out = parse(['--foo', 'a'], {
+        flags: {
+          foo: flags.string({exclusive: ['bar']}),
+          bar: flags.string({char: 'b'}),
+        },
+      })
+      expect(out.flags.foo).to.equal('a')
+    })
+
+    it('fails', () => {
+      expect(() => {
+        parse(['--foo', 'a', '-bb'], {
+          flags: {
+            foo: flags.string({exclusive: ['bar']}),
+            bar: flags.string({char: 'b'}),
+          },
+        })
+      }).to.throw('--bar= cannot also be provided when using --foo=')
+    })
+  })
 })

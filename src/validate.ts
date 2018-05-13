@@ -25,6 +25,11 @@ export function validate(parse: { input: ParserInput; output: ParserOutput<any, 
             throw new CLIError(`--${also}= must also be provided when using --${name}=`)
           }
         }
+        for (let also of flag.exclusive || []) {
+          if (parse.output.flags[also]) {
+            throw new CLIError(`--${also}= cannot also be provided when using --${name}=`)
+          }
+        }
       } else {
         if (flag.required) throw new RequiredFlagError({parse, flag})
       }
