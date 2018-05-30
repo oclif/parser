@@ -266,6 +266,14 @@ See more help with --help`)
       expect(out.argv).to.deep.equal([100])
     })
 
+    it('flag multiple without flag in the middle', () => {
+      const out = parse(['--foo=bar', '100'], {
+        args: [{name: 'num', parse: i => parseInt(i, 10)}],
+        flags: {foo: flags.string({multiple: true})},
+      })
+      expect(out.flags).to.deep.include({foo: ['bar', '100']})
+    })
+
     // it('gets arg/flag in context', () => {
     //   const out = parse({
     //     args: [{ name: 'num', parse: (_, ctx) => ctx.arg.name!.toUpperCase() }],
