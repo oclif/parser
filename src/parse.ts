@@ -126,10 +126,11 @@ export class Parser<T extends ParserInput, TFlags extends OutputFlags<T['flags']
         if (parseFlag(input)) {
           continue
         }
-        if (this.currentFlag && this.currentFlag.multiple) {
-          this.raw.push({type: 'flag', flag: this.currentFlag.name, input})
-        }
         // not actually a flag if it reaches here so parse as an arg
+      }
+      if (this.currentFlag && this.currentFlag.multiple) {
+        this.raw.push({type: 'flag', flag: this.currentFlag.name, input})
+        continue
       }
       // not a flag, parse as arg
       const arg = this.input.args[this._argTokens.length]
