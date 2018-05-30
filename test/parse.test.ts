@@ -2,6 +2,7 @@ import {expect} from 'chai'
 import chalk from 'chalk'
 
 import {flags, parse} from '../src'
+import { describe } from 'mocha';
 
 chalk.enabled = false
 
@@ -265,6 +266,25 @@ See more help with --help`)
       expect(out.args).to.deep.include({num: 100})
       expect(out.argv).to.deep.equal([100])
     })
+  })
+
+  describe('flags with multiple inputs', () => {
+    it('flag multiple without flag in the middle', () => {
+      const out = parse(['--foo=bar', '100', '200', '3000', '--hello', 'world'], {
+        args: [{name: 'num', parse: i => parseInt(i, 10)}],
+        flags: {foo: flags.string({multiple: true}), hello: flags.string()},
+      })
+      expect(out.flags).to.deep.include({foo: ['bar', '100', '200', '3000']})
+      expect(out.flags).to.deep.include({hello: 'world'})
+    })
+    it('flag multiple without flag in the middle', () => {
+      const out = parse(['--foo=bar', '100', '200'], {
+        args: [{name: 'num', parse: i => parseInt(i, 10)}],
+        flags: {foo: flags.string({multiple: true})},
+      })
+      expect(out.flags).to.deep.include({foo: ['bar', '100', '200']})
+    })
+  })
 
     // it('gets arg/flag in context', () => {
     //   const out = parse({
@@ -275,7 +295,6 @@ See more help with --help`)
     //   expect(out.flags).to.deep.include({ foo: 'FOO' })
     //   expect(out.args).to.deep.include({ num: 'NUM' })
     // })
-  })
 
   describe('defaults', () => {
     it('defaults', () => {
