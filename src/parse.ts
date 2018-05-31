@@ -47,8 +47,10 @@ export class Parser<T extends ParserInput, TFlags extends OutputFlags<T['flags']
   private readonly raw: ParsingToken[] = []
   private readonly booleanFlags: { [k: string]: Flags.IBooleanFlag<any> }
   private readonly context: any
+  private _currentFlag: Flags.IOptionFlag<any> | null
   constructor(private readonly input: T) {
     const {pickBy} = m.util
+    this._currentFlag = null
     this.context = input.context || {}
     this.argv = input.argv.slice(0)
     this._setNames()
@@ -92,6 +94,7 @@ export class Parser<T extends ParserInput, TFlags extends OutputFlags<T['flags']
       }
       const flag = this.input.flags[name]
       if (flag.type === 'option') {
+        this._currentFlag = flag
         let input
         if (long || arg.length < 3) {
           input = this.argv.shift()
@@ -124,6 +127,10 @@ export class Parser<T extends ParserInput, TFlags extends OutputFlags<T['flags']
           continue
         }
         // not actually a flag if it reaches here so parse as an arg
+      }
+      if (parsingFlags && this._currentFlag && this._currentFlag.multiple) {
+        this.raw.push({type: 'flag', flag: this._currentFlag.name, input})
+        continue
       }
       // not a flag, parse as arg
       const arg = this.input.args[this._argTokens.length]
