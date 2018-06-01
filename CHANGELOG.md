@@ -1,3 +1,11 @@
+<a name="3.4.1"></a>
+## [3.4.1](https://github.com/oclif/parser/compare/a24c135b91d1902ad9d50636444dc2c14d98c25e...v3.4.1) (2018-05-31)
+
+
+### Bug Fixes
+
+* typescript 2.9 ([#26](https://github.com/oclif/parser/issues/26)) ([d1b77f1](https://github.com/oclif/parser/commit/d1b77f1))
+
 <a name="3.4.0"></a>
 # [3.4.0](https://github.com/oclif/parser/compare/e31965f8c104c2858b73fa673d148f6638fc657c...v3.4.0) (2018-05-13)
 
