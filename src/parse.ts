@@ -47,10 +47,10 @@ export class Parser<T extends ParserInput, TFlags extends OutputFlags<T['flags']
   private readonly raw: ParsingToken[] = []
   private readonly booleanFlags: { [k: string]: Flags.IBooleanFlag<any> }
   private readonly context: any
-  private currentFlag: Flags.IOptionFlag<any> | null
+  private currentFlag: Flags.IOptionFlag<any> | undefined
   constructor(private readonly input: T) {
     const {pickBy} = m.util
-    this.currentFlag = null
+    this.currentFlag = undefined
     this.context = input.context || {}
     this.argv = input.argv.slice(0)
     this._setNames()
