@@ -277,6 +277,33 @@ See more help with --help`)
     // })
   })
 
+  describe('flag with multiple inputs', () => {
+    it('flag multiple with flag in the middle', () => {
+      const out = parse(['--foo=bar', '--foo', '100', '--hello', 'world'], {
+        flags: {foo: flags.string({multiple: true}), hello: flags.string()},
+      })
+      expect(out.flags).to.deep.include({foo: ['bar', '100']})
+      expect(out.flags).to.deep.include({hello: 'world'})
+    })
+
+    it('flag multiple without flag in the middle', () => {
+      const out = parse(['--foo', './a.txt', './b.txt', './c.txt', '--hello', 'world'], {
+        flags: {foo: flags.string({multiple: true}), hello: flags.string()},
+      })
+      expect(out.flags).to.deep.include({foo: ['./a.txt', './b.txt', './c.txt']})
+      expect(out.flags).to.deep.include({hello: 'world'})
+    })
+
+    it('flag multiple with arguments', () => {
+      const out = parse(['--foo', './a.txt', './b.txt', './c.txt', '--', '15'], {
+        args: [{name: 'num'}],
+        flags: {foo: flags.string({multiple: true})},
+      })
+      expect(out.flags).to.deep.include({foo: ['./a.txt', './b.txt', './c.txt']})
+      expect(out.args).to.deep.include({num: '15'})
+    })
+  })
+
   describe('defaults', () => {
     it('defaults', () => {
       const out = parse([], {
