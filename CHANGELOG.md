@@ -1,3 +1,11 @@
+<a name="3.5.0"></a>
+# [3.5.0](https://github.com/oclif/parser/compare/d1b77f1c20d7a1263e2222728400f6c3b91d3341...v3.5.0) (2018-06-01)
+
+
+### Features
+
+* Handle flags with multiple inputs without the flag before each input ([#25](https://github.com/oclif/parser/issues/25)) ([c636d74](https://github.com/oclif/parser/commit/c636d74))
+
 <a name="3.4.1"></a>
 ## [3.4.1](https://github.com/oclif/parser/compare/a24c135b91d1902ad9d50636444dc2c14d98c25e...v3.4.1) (2018-05-31)
 
