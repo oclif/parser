@@ -1,3 +1,11 @@
+<a name="3.5.1"></a>
+## [3.5.1](https://github.com/oclif/parser/compare/v3.5.0...v3.5.1) (2018-06-01)
+
+
+### Bug Fixes
+
+* update semantic-release ([#27](https://github.com/oclif/parser/issues/27)) ([6d8d7df](https://github.com/oclif/parser/commit/6d8d7df))
+
 <a name="3.5.0"></a>
 # [3.5.0](https://github.com/oclif/parser/compare/d1b77f1c20d7a1263e2222728400f6c3b91d3341...v3.5.0) (2018-06-01)
 
