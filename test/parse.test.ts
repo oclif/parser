@@ -77,15 +77,6 @@ describe('parse', () => {
         expect(!!out.flags.myflag).to.equal(true)
         expect(!!out.flags.force).to.equal(true)
       })
-
-      it('knows "w" is a character', () => {
-        const out = parse(['-w'], {
-          flags: {
-            wobble: flags.boolean({char: 'w'}),
-          }
-        })
-        expect(!!out.flags.wobble).to.equal(true)
-      })
     })
     it('parses flag value with "=" to separate', () => {
       const out = parse(['--myflag=foo'], {
