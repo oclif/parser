@@ -1,3 +1,11 @@
+<a name="3.5.2"></a>
+## [3.5.2](https://github.com/oclif/parser/compare/v3.5.1...v3.5.2) (2018-06-15)
+
+
+### Bug Fixes
+
+* add w to alphabet enums ([#28](https://github.com/oclif/parser/issues/28)) ([e78f250](https://github.com/oclif/parser/commit/e78f250))
+
 <a name="3.5.1"></a>
 ## [3.5.1](https://github.com/oclif/parser/compare/v3.5.0...v3.5.1) (2018-06-01)
 
