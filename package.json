@@ -19,7 +19,7 @@
     "@types/read-pkg": "^3.0.0",
     "chai": "^4.1.2",
     "concurrently": "^3.5.1",
-    "eslint": "^4.19.1",
+    "eslint": "^5.0.0",
     "eslint-config-oclif": "^1.5.1",
     "mocha": "^5.2.0",
     "ts-node": "^6.0.5",
