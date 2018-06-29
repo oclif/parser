@@ -1,3 +1,11 @@
+<a name="3.5.3"></a>
+## [3.5.3](https://github.com/oclif/parser/compare/v3.5.2...v3.5.3) (2018-06-29)
+
+
+### Bug Fixes
+
+* add tslib ([05f89e0](https://github.com/oclif/parser/commit/05f89e0))
+
 <a name="3.5.2"></a>
 ## [3.5.2](https://github.com/oclif/parser/compare/v3.5.1...v3.5.2) (2018-06-15)
 
