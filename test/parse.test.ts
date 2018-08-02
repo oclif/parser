@@ -15,6 +15,25 @@ describe('parse', () => {
     expect(out).to.deep.include({flags: {bool: true}})
   })
 
+  it('--no-bool works by default', () => {
+    const out = parse(['--no-bool'], {
+      flags: {
+        bool: flags.boolean(),
+      },
+    })
+    expect(out).to.deep.include({flags: {bool: false}})
+  })
+
+  it('--no-bool is disabled with allowNo', () => {
+    expect(() => {
+      parse(['--no-bool'], {
+        flags: {
+          bool: flags.boolean({allowNo: false}),
+        },
+      })
+    }).to.throw(/Unexpected argument: --no-bool/)
+  })
+
   it('arg1', () => {
     const out = parse(['arg1'], {
       args: [{name: 'foo'}],

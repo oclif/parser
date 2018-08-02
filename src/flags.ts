@@ -64,7 +64,7 @@ export function boolean<T = boolean>(options: Partial<IBooleanFlag<T>> = {}): IB
   return {
     parse: (b, _) => b,
     ...options,
-    allowNo: !!options.allowNo,
+    allowNo: options.allowNo !== false,
     type: 'boolean',
   } as IBooleanFlag<T>
 }
