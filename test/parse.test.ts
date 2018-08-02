@@ -315,6 +315,16 @@ See more help with --help`)
       expect(out.flags).to.deep.include({foo: 'bar'})
     })
 
+    it('--bool (default: true)', () => {
+      const out = parse(['--bool'], {
+        flags: {
+          bool: flags.boolean(),
+          yes: flags.boolean({default: true})
+        },
+      })
+      expect(out).to.deep.include({flags: {bool: true, yes: true}})
+    })
+
     it('default as function', () => {
       const out = parse([], {
         args: [{name: 'baz', default: () => 'BAZ'}],
