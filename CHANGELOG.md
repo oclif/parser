@@ -1,3 +1,11 @@
+<a name="3.6.0"></a>
+# [3.6.0](https://github.com/oclif/parser/compare/v3.5.3...v3.6.0) (2018-08-17)
+
+
+### Features
+
+* typescript 3 ([62969e3](https://github.com/oclif/parser/commit/62969e3))
+
 <a name="3.5.3"></a>
 ## [3.5.3](https://github.com/oclif/parser/compare/v3.5.2...v3.5.3) (2018-06-29)
 
