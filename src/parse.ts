@@ -100,7 +100,7 @@ export class Parser<T extends ParserInput, TFlags extends OutputFlags<T['flags']
         } else {
           input = arg.slice(arg[2] === '=' ? 3 : 2)
         }
-        if (!input) {
+        if (typeof input !== 'string') {
           throw new m.errors.CLIError(`Flag --${name} expects a value`)
         }
         this.raw.push({type: 'flag', flag: flag.name, input})

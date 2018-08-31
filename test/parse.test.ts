@@ -105,6 +105,15 @@ describe('parse', () => {
       expect(out.flags).to.deep.equal({myflag: 'foo'})
     })
 
+    it('parses value of ""', () => {
+      const out = parse(['-m', ''], {
+        flags: {
+          myflag: flags.string({char: 'm'}),
+        },
+      })
+      expect(out.flags).to.deep.equal({myflag: ''})
+    })
+
     it('requires required flag', () => {
       expect(() => {
         parse([], {
