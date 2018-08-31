@@ -1,3 +1,11 @@
+<a name="3.6.1"></a>
+## [3.6.1](https://github.com/oclif/parser/compare/v3.6.0...v3.6.1) (2018-08-31)
+
+
+### Bug Fixes
+
+* allow value of "" ([d027934](https://github.com/oclif/parser/commit/d027934))
+
 <a name="3.6.0"></a>
 # [3.6.0](https://github.com/oclif/parser/compare/v3.5.3...v3.6.0) (2018-08-17)
 
