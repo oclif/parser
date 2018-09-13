@@ -1,9 +1,9 @@
 export function pickBy<T>(obj: T, fn: (i: T[keyof T]) => boolean): Partial<T> {
   return Object.entries(obj)
-  .reduce((o, [k, v]) => {
-    if (fn(v)) o[k] = v
-    return o
-  }, {} as any)
+    .reduce((o, [k, v]) => {
+      if (fn(v)) o[k] = v
+      return o
+    }, {} as any)
 }
 
 export function maxBy<T>(arr: T[], fn: (i: T) => number): T | undefined {

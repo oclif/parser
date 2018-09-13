@@ -154,17 +154,17 @@ describe('parse', () => {
               },
             ],
           })
-      }).to.throw(`Missing 2 required args:
+        }).to.throw(`Missing 2 required args:
 arg2  arg2 desc
 arg3  arg3 desc
 See more help with --help`)
-        })
+      })
       it('too many args', () => {
         expect(() => {
           parse(['arg1', 'arg2'], {
             args: [{name: 'arg1', required: true}],
           })
-      }).to.throw('Unexpected argument: arg2\nSee more help with --help')
+        }).to.throw('Unexpected argument: arg2\nSee more help with --help')
       })
 
       it('parses args', () => {

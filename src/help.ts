@@ -27,5 +27,5 @@ export function flagUsages(flags: IFlag<any>[], options: FlagUsageOptions = {}):
   if (!flags.length) return []
   const {sortBy} = m.util
   return sortBy(flags, f => [f.char ? -1 : 1, f.char, f.name])
-  .map(f => flagUsage(f, options))
+    .map(f => flagUsage(f, options))
 }
