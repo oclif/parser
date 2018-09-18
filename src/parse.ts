@@ -217,7 +217,7 @@ export class Parser<T extends ParserInput, TFlags extends OutputFlags<T['flags']
           args[i] = token.input
         }
       } else {
-        if (arg.default) {
+        if ('default' in arg) {
           if (typeof arg.default === 'function') {
             args[i] = arg.default()
           } else {
