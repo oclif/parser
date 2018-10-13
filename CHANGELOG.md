@@ -1,3 +1,10 @@
+## [3.6.2](https://github.com/oclif/parser/compare/v3.6.1...v3.6.2) (2018-10-13)
+
+
+### Bug Fixes
+
+* remove greenkeeper badge ([baf99f1](https://github.com/oclif/parser/commit/baf99f1))
+
 <a name="3.6.1"></a>
 ## [3.6.1](https://github.com/oclif/parser/compare/v3.6.0...v3.6.1) (2018-08-31)
 
