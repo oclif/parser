@@ -1,3 +1,10 @@
+# [3.7.0](https://github.com/oclif/parser/compare/v3.6.3...v3.7.0) (2018-10-17)
+
+
+### Features
+
+* Allow a default to be specified for boolean flags ([#41](https://github.com/oclif/parser/issues/41)) ([f5053a5](https://github.com/oclif/parser/commit/f5053a5))
+
 ## [3.6.3](https://github.com/oclif/parser/compare/v3.6.2...v3.6.3) (2018-10-17)
 
 
