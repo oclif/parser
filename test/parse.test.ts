@@ -359,6 +359,53 @@ See more help with --help`)
     })
   })
 
+  describe('boolean defaults', () => {
+    it('default is true', () => {
+      const out = parse([], {
+        flags: {
+          color: flags.boolean({default: true})
+        }
+      })
+      expect(out).to.deep.include({flags: {color: true}})
+    })
+
+    it('default is false', () => {
+      const out = parse([], {
+        flags: {
+          color: flags.boolean({default: false})
+        }
+      })
+      expect(out).to.deep.include({flags: {color: false}})
+    })
+
+    it('default as function', () => {
+      const out = parse([], {
+        flags: {
+          color: flags.boolean({default: () => true})
+        }
+      })
+      expect(out).to.deep.include({flags: {color: true}})
+    })
+
+    it('overridden true default', () => {
+      const out = parse(['--no-color'], {
+        flags: {
+          color: flags.boolean({allowNo: true, default: true})
+        }
+      })
+      expect(out).to.deep.include({flags: {color: false}})
+    })
+
+    it('overridden false default', () => {
+      const out = parse(['--color'], {
+        flags: {
+          color: flags.boolean({default: false})
+        }
+      })
+      expect(out).to.deep.include({flags: {color: true}})
+    })
+  })
+
   describe('custom option', () => {
     it('can pass parse fn', () => {
       const foo = flags.option({char: 'f', parse: () => 100})

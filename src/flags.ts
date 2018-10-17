@@ -22,6 +22,10 @@ export type IFlagBase<T, I> = {
 export type IBooleanFlag<T> = IFlagBase<T, boolean> & {
   type: 'boolean'
   allowNo: boolean
+  /**
+   * specifying a default of false is the same not specifying a default
+   */
+  default?: boolean | ((context: DefaultContext<boolean>) => boolean)
 }
 
 export type IOptionFlag<T> = IFlagBase<T, string> & {
