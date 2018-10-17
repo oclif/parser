@@ -521,4 +521,31 @@ See more help with --help`)
       }).to.throw('--bar= cannot also be provided when using --foo=')
     })
   })
+
+  describe('allowNo', () => {
+    it('is undefined if not set', () => {
+      const out = parse([], {
+        flags: {
+          foo: flags.boolean({allowNo: true}),
+        },
+      })
+      expect(out.flags.foo).to.equal(undefined)
+    })
+    it('is false', () => {
+      const out = parse(['--no-foo'], {
+        flags: {
+          foo: flags.boolean({allowNo: true}),
+        },
+      })
+      expect(out.flags.foo).to.equal(false)
+    })
+    it('is true', () => {
+      const out = parse(['--foo'], {
+        flags: {
+          foo: flags.boolean({allowNo: true}),
+        },
+      })
+      expect(out.flags.foo).to.equal(true)
+    })
+  })
 })
