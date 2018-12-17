@@ -1,5 +1,6 @@
 import {CLIError} from '@oclif/errors'
 
+import {Arg} from './args'
 import {RequiredArgsError, RequiredFlagError, UnexpectedArgsError} from './errors'
 import {ParserInput, ParserOutput} from './parse'
 
@@ -10,8 +11,17 @@ export function validate(parse: { input: ParserInput; output: ParserOutput<any, 
       const extras = parse.output.argv.slice(maxArgs)
       throw new UnexpectedArgsError({parse, args: extras})
     }
-    const requiredArgs = parse.input.args.filter(a => a.required)
-    const missingRequiredArgs = requiredArgs.slice(parse.output.argv.length)
+
+    let missingRequiredArgs: Arg<any>[] = []
+
+    parse.input.args.forEach((arg, index) => {
+      if (arg.required) {
+        if (!parse.output.argv[index]) {
+          missingRequiredArgs.push(arg)
+        }
+      }
+    })
+
     if (missingRequiredArgs.length) {
       throw new RequiredArgsError({parse, args: missingRequiredArgs})
     }
