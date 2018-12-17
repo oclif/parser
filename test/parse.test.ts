@@ -159,6 +159,20 @@ arg2  arg2 desc
 arg3  arg3 desc
 See more help with --help`)
       })
+
+      it('requires required arg followed by optional arg that has a default', () => {
+        expect(() => {
+          parse([], {
+            args: [
+              {name: 'arg1', required: true},
+              {name: 'arg2', required: false, default: 'some_default'},
+            ],
+          })
+        }).to.throw(`Missing 1 required arg:
+arg1
+See more help with --help`)
+      })
+
       it('too many args', () => {
         expect(() => {
           parse(['arg1', 'arg2'], {
