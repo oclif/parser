@@ -231,11 +231,10 @@ See more help with --help`)
           })
         }).to.not.throw()
       })
+    })
 
-      // these set of permutations are not practical (first arg not required, but second is)
-      // they however are are included for coverage
-
-      it('two args: only second is required, only second has a default', () => {
+    describe('optional args should always be after required args', () => {
+      it('required arg after optional arg', () => {
         expect(() => {
           parse([], {
             args: [
@@ -243,31 +242,28 @@ See more help with --help`)
               {name: 'arg2', required: true, default: 'some_default'},
             ],
           })
-        }).to.not.throw()
-      })
-
-      it('two args: only second is required, only first has a default', () => {
-        expect(() => {
-          parse([], {
-            args: [
-              {name: 'arg1', required: false, default: 'my_default'},
-              {name: 'arg2', required: true},
-            ],
-          })
-        }).to.throw(`Missing 1 required arg:
-arg2
+        }).to.throw(`Invalid argument spec:
+arg1 (optional)
+arg2 (required)
 See more help with --help`)
       })
 
-      it('two args: both have a default, only second is required', () => {
+      it('required arg after multiple optional args', () => {
         expect(() => {
           parse([], {
             args: [
-              {name: 'arg1', required: false, default: 'my_default'},
-              {name: 'arg2', required: true, default: 'some_default'},
+              {name: 'arg1', required: false},
+              {name: 'arg2', required: false, default: 'my_default'},
+              {name: 'arg3', required: false},
+              {name: 'arg4', required: true},
             ],
           })
-        }).to.not.throw()
+        }).to.throw(`Invalid argument spec:
+arg1 (optional)
+arg2 (optional)
+arg3 (optional)
+arg4 (required)
+See more help with --help`)
       })
     })
 
