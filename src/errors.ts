@@ -30,6 +30,21 @@ export class CLIParseError extends CLIError {
   }
 }
 
+export class InvalidArgsSpecError extends CLIParseError {
+  public args: Arg<any>[]
+
+  constructor({args, parse}: ICLIParseErrorOptions & { args: Arg<any>[] }) {
+    let message = 'Invalid argument spec'
+    const namedArgs = args.filter(a => a.name)
+    if (namedArgs.length) {
+      const list = m.list.renderList(namedArgs.map(a => [`${a.name} (${a.required ? 'required' : 'optional'})`, a.description] as [string, string]))
+      message += `:\n${list}`
+    }
+    super({parse, message})
+    this.args = args
+  }
+}
+
 export class RequiredArgsError extends CLIParseError {
   public args: Arg<any>[]
 

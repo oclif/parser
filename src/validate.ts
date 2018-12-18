@@ -1,6 +1,7 @@
 import {CLIError} from '@oclif/errors'
 
-import {RequiredArgsError, RequiredFlagError, UnexpectedArgsError} from './errors'
+import {Arg} from './args'
+import {InvalidArgsSpecError, RequiredArgsError, RequiredFlagError, UnexpectedArgsError} from './errors'
 import {ParserInput, ParserOutput} from './parse'
 
 export function validate(parse: { input: ParserInput; output: ParserOutput<any, any> }) {
@@ -10,8 +11,25 @@ export function validate(parse: { input: ParserInput; output: ParserOutput<any, 
       const extras = parse.output.argv.slice(maxArgs)
       throw new UnexpectedArgsError({parse, args: extras})
     }
-    const requiredArgs = parse.input.args.filter(a => a.required)
-    const missingRequiredArgs = requiredArgs.slice(parse.output.argv.length)
+
+    let missingRequiredArgs: Arg<any>[] = []
+    let hasOptional = false
+
+    parse.input.args.forEach((arg, index) => {
+      if (!arg.required) {
+        hasOptional = true
+      } else if (hasOptional) { // (required arg) check whether an optional has occured before
+        // optionals should follow required, not before
+        throw new InvalidArgsSpecError({parse, args: parse.input.args})
+      }
+
+      if (arg.required) {
+        if (!parse.output.argv[index]) {
+          missingRequiredArgs.push(arg)
+        }
+      }
+    })
+
     if (missingRequiredArgs.length) {
       throw new RequiredArgsError({parse, args: missingRequiredArgs})
     }

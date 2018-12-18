@@ -159,6 +159,7 @@ arg2  arg2 desc
 arg3  arg3 desc
 See more help with --help`)
       })
+
       it('too many args', () => {
         expect(() => {
           parse(['arg1', 'arg2'], {
@@ -192,6 +193,77 @@ See more help with --help`)
           args: [{name: 'myarg'}],
         })
         expect(out.argv).to.deep.equal(['--foo'])
+      })
+    })
+
+    describe('args - no args passed in, with defaults', () => {
+      it('two args: only first is required, only second has a default', () => {
+        expect(() => {
+          parse([], {
+            args: [
+              {name: 'arg1', required: true},
+              {name: 'arg2', required: false, default: 'some_default'},
+            ],
+          })
+        }).to.throw(`Missing 1 required arg:
+arg1
+See more help with --help`)
+      })
+
+      it('two args: only first is required, only first has a default', () => {
+        expect(() => {
+          parse([], {
+            args: [
+              {name: 'arg1', required: true, default: 'my_default'},
+              {name: 'arg2', required: false},
+            ],
+          })
+        }).to.not.throw()
+      })
+
+      it('two args: both have a default, only first is required', () => {
+        expect(() => {
+          parse([], {
+            args: [
+              {name: 'arg1', required: true, default: 'my_default'},
+              {name: 'arg2', required: false, default: 'some_default'},
+            ],
+          })
+        }).to.not.throw()
+      })
+    })
+
+    describe('optional args should always be after required args', () => {
+      it('required arg after optional arg', () => {
+        expect(() => {
+          parse([], {
+            args: [
+              {name: 'arg1', required: false},
+              {name: 'arg2', required: true, default: 'some_default'},
+            ],
+          })
+        }).to.throw(`Invalid argument spec:
+arg1 (optional)
+arg2 (required)
+See more help with --help`)
+      })
+
+      it('required arg after multiple optional args', () => {
+        expect(() => {
+          parse([], {
+            args: [
+              {name: 'arg1', required: false},
+              {name: 'arg2', required: false, default: 'my_default'},
+              {name: 'arg3', required: false},
+              {name: 'arg4', required: true},
+            ],
+          })
+        }).to.throw(`Invalid argument spec:
+arg1 (optional)
+arg2 (optional)
+arg3 (optional)
+arg4 (required)
+See more help with --help`)
       })
     })
 
