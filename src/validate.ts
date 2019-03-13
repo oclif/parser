@@ -44,6 +44,9 @@ export function validate(parse: { input: ParserInput; output: ParserOutput<any, 
           }
         }
         for (let also of flag.exclusive || []) {
+          // do not enforce exclusivity for flags that were defaulted
+          if (parse.output.metadata.flags[also] && parse.output.metadata.flags[also].setFromDefault) continue
+          if (parse.output.metadata.flags[name] && parse.output.metadata.flags[name].setFromDefault) continue
           if (parse.output.flags[also]) {
             throw new CLIError(`--${also}= cannot also be provided when using --${name}=`)
           }

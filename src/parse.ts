@@ -26,7 +26,8 @@ export type ParserOutput<TFlags extends OutputFlags<any>, TArgs extends OutputAr
   flags: TFlags
   args: TArgs
   argv: string[]
-  raw: ParsingToken[]
+  raw: ParsingToken[],
+  metadata: any
 }
 
 export type ArgToken = { type: 'arg'; input: string }
@@ -47,13 +48,16 @@ export class Parser<T extends ParserInput, TFlags extends OutputFlags<T['flags']
   private readonly raw: ParsingToken[] = []
   private readonly booleanFlags: { [k: string]: Flags.IBooleanFlag<any> }
   private readonly context: any
+  private readonly metaData: any
   private currentFlag?: Flags.IOptionFlag<any>
+
   constructor(private readonly input: T) {
     const {pickBy} = m.util
     this.context = input.context || {}
     this.argv = input.argv.slice(0)
     this._setNames()
     this.booleanFlags = pickBy(input.flags, f => f.type === 'boolean') as any
+    this.metaData = {}
   }
 
   public parse() {
@@ -145,6 +149,7 @@ export class Parser<T extends ParserInput, TFlags extends OutputFlags<T['flags']
       argv,
       flags,
       raw: this.raw,
+      metadata: this.metaData
     }
   }
 
@@ -159,6 +164,7 @@ export class Parser<T extends ParserInput, TFlags extends OutputFlags<T['flags']
 
   private _flags(): TFlags {
     const flags = {} as any
+    this.metaData.flags = {} as any
     for (const token of this._flagTokens) {
       const flag = this.input.flags[token.flag]
       if (!flag) throw new m.errors.CLIError(`Unexpected flag ${token.flag}`)
@@ -191,6 +197,7 @@ export class Parser<T extends ParserInput, TFlags extends OutputFlags<T['flags']
         if (input) flags[k] = flag.parse(input, this.context)
       }
       if (!(k in flags) && flag.default !== undefined) {
+        this.metaData.flags[k] = {setFromDefault: true}
         if (typeof flag.default === 'function') {
           flags[k] = flag.default({options: flag, flags, ...this.context})
         } else {
