@@ -1,5 +1,5 @@
 export type Metadata = {
-  flags: { [P in keyof any]: MetadataFlag }
+  flags: { [key string]: MetadataFlag }
 }
 
 type MetadataFlag = {
