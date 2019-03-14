@@ -4,6 +4,7 @@ import {Arg} from './args'
 import Deps from './deps'
 import * as Errors from './errors'
 import * as Flags from './flags'
+import {Metadata} from './metadata'
 import * as Util from './util'
 
 const m = Deps()
@@ -27,7 +28,7 @@ export type ParserOutput<TFlags extends OutputFlags<any>, TArgs extends OutputAr
   args: TArgs
   argv: string[]
   raw: ParsingToken[],
-  metadata: any
+  metadata: Metadata
 }
 
 export type ArgToken = { type: 'arg'; input: string }
