@@ -386,6 +386,21 @@ See more help with --help`)
   })
 
   describe('defaults', () => {
+    it('generates metadata for defaults', () => {
+      const out = parse(['-n', 'heroku'], {
+        flags: {
+          name: flags.string({
+            char: 'n'
+          }),
+          startup: flags.string({
+            char: 's',
+            default: 'apero'
+          }),
+        },
+      })
+      expect(out.metadata.flags).to.deep.equal({startup: {setFromDefault: true}})
+    })
+
     it('defaults', () => {
       const out = parse([], {
         args: [{name: 'baz', default: 'BAZ'}],
