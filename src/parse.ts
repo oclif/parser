@@ -66,12 +66,13 @@ export class Parser<T extends ParserInput, TFlags extends OutputFlags<T['flags']
 
     const findLongFlag = (arg: string) => {
       const name = arg.slice(2)
-      if (this.input.flags[name]) {
+      const flag = this.input.flags[name]
+      if (flag && !flag.charOnly) {
         return name
       }
       if (arg.startsWith('--no-')) {
         const flag = this.booleanFlags[arg.slice(5)]
-        if (flag && flag.allowNo) return flag.name
+        if (flag && flag.allowNo && !flag.charOnly) return flag.name
       }
     }
 

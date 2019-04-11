@@ -105,6 +105,39 @@ describe('parse', () => {
       expect(out.flags).to.deep.equal({myflag: 'foo'})
     })
 
+    it('parses short flags only', () => {
+      const out = parse(['-m=foo'], {
+        flags: {
+          myflag: flags.string({char: 'm', charOnly: true}),
+        },
+      })
+      expect(out.flags).to.deep.equal({myflag: 'foo'})
+    })
+
+    it('fails when only short flag is accepted and given long flag', () => {
+      expect(() => {
+        parse(['--myflag=foo'], {
+          flags: {
+            myflag: flags.string({char: 'm', charOnly: true}),
+          },
+        })
+      }).to.throw('Unexpected argument: --myflag=foo')
+    })
+
+    it('fails when only short flag is accepted and given long flag with no', () => {
+      expect(() => {
+        parse(['--no-myflag'], {
+          flags: {
+            myflag: flags.boolean({
+              char: 'm',
+              charOnly: true,
+              allowNo: true
+            }),
+          },
+        })
+      }).to.throw('Unexpected argument: --no-myflag')
+    })
+
     it('parses value of ""', () => {
       const out = parse(['-m', ''], {
         flags: {

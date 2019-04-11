@@ -1,13 +1,14 @@
 // tslint:disable interface-over-type-literal
 
 import * as args from './args'
-import {OutputArgs, OutputFlags, Parser, ParserOutput as Output} from './parse'
-export {args}
+import Deps from './deps'
 import * as flags from './flags'
+import {OutputArgs, OutputFlags, Parser, ParserOutput as Output} from './parse'
 import * as Validate from './validate'
+
+export {args}
 export {flags}
 export {flagUsages} from './help'
-import Deps from './deps'
 
 const m = Deps()
 .add('validate', () => require('./validate').validate as typeof Validate.validate)

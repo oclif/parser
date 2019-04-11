@@ -7,6 +7,7 @@ export type DefaultContext<T> = { options: IOptionFlag<T>; flags: { [k: string]:
 export type IFlagBase<T, I> = {
   name: string
   char?: AlphabetLowercase | AlphabetUppercase
+  charOnly?: boolean
   description?: string
   hidden?: boolean
   required?: boolean
