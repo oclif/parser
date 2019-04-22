@@ -8,6 +8,7 @@ export type IFlagBase<T, I> = {
   name: string
   char?: AlphabetLowercase | AlphabetUppercase
   description?: string
+  helpLabel?: string
   hidden?: boolean
   required?: boolean
   dependsOn?: string[],
