@@ -5,7 +5,6 @@ import Deps from './deps'
 import * as flags from './flags'
 import {OutputArgs, OutputFlags, Parser, ParserOutput as Output} from './parse'
 import * as Validate from './validate'
-
 export {args}
 export {flags}
 export {flagUsages} from './help'
