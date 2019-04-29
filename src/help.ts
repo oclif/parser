@@ -11,8 +11,13 @@ const m = Deps()
 export interface FlagUsageOptions { displayRequired?: boolean }
 export function flagUsage(flag: IFlag<any>, options: FlagUsageOptions = {}): [string, string | undefined] {
   const label = []
-  if (flag.char) label.push(`-${flag.char}`)
-  if (flag.name) label.push(` --${flag.name}`)
+
+  if (flag.helpLabel) {
+    label.push(flag.helpLabel)
+  } else {
+    if (flag.char) label.push(`-${flag.char}`)
+    if (flag.name) label.push(` --${flag.name}`)
+  }
 
   const usage = flag.type === 'option' ? ` ${flag.name.toUpperCase()}` : ''
 
