@@ -1,3 +1,12 @@
+# [3.8.0](https://github.com/oclif/parser/compare/v3.7.3...v3.8.0) (2019-04-30)
+
+
+### Features
+
+* Add 'helpLabel' flag option ([#49](https://github.com/oclif/parser/issues/49)) ([769ec91](https://github.com/oclif/parser/commit/769ec91))
+
+
+
 ## [3.7.3](https://github.com/oclif/parser/compare/v3.7.2...v3.7.3) (2019-03-15)
 
 
@@ -160,7 +169,7 @@
 
 ### Bug Fixes
 
-* move [@heroku](https://github.com/heroku)/linewrap to [@oclif](https://github.com/oclif)/linewrap ([d3136fd](https://github.com/oclif/parser/commit/d3136fd))
+* move @heroku/linewrap to @oclif/linewrap ([d3136fd](https://github.com/oclif/parser/commit/d3136fd))
 
 
 
@@ -218,7 +227,7 @@
 
 ### Bug Fixes
 
-* use [@anycli](https://github.com/anycli)/errors ([b227608](https://github.com/oclif/parser/commit/b227608))
+* use @anycli/errors ([b227608](https://github.com/oclif/parser/commit/b227608))
 
 
 
