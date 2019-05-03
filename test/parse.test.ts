@@ -335,6 +335,22 @@ See more help with --help`)
         expect(out.flags).to.deep.include({int: -123})
       })
 
+      it('does not parse floats', () => {
+        expect(() => {
+          parse(['--int', '3.14'], {
+            flags: {int: flags.integer()},
+          })
+        }).to.throw('Expected an integer but received: 3.14')
+      })
+
+      it('does not parse fractions', () => {
+        expect(() => {
+          parse(['--int', '3/4'], {
+            flags: {int: flags.integer()},
+          })
+        }).to.throw('Expected an integer but received: 3/4')
+      })
+
       it('does not parse strings', () => {
         expect(() => {
           parse(['--int', 's10'], {
