@@ -107,4 +107,33 @@ describe('validate', () => {
     validate({input, output})
   })
 
+  it('throws when required flag is undefined', () => {
+    const input = {
+      argv: [],
+      flags: {
+        foobar: {
+          description: 'foobar flag',
+          required: true,
+        },
+      },
+      args: [],
+      strict: true,
+      context: {},
+      '--': true
+    }
+
+    const output = {
+      args: {},
+      argv: [],
+      flags: {foobar: undefined},
+      raw: [],
+      metadata: {
+        flags: {}
+      }
+    }
+
+    // @ts-ignore
+    expect(validate.bind({input, output})).to.throw()
+  })
+
 })
