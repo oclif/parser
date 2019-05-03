@@ -321,6 +321,13 @@ See more help with --help`)
         expect(out.flags).to.deep.include({int: 100})
       })
 
+      it('parses negative integers', () => {
+        const out = parse(['--int', '-100'], {
+          flags: {int: flags.integer(), s: flags.string()},
+        })
+        expect(out.flags).to.deep.include({int: -100})
+      })
+
       it('does not parse strings', () => {
         expect(() => {
           parse(['--int', 's10'], {

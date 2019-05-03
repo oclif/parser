@@ -37,7 +37,7 @@ export function validate(parse: { input: ParserInput; output: ParserOutput<any, 
 
   function validateFlags() {
     for (let [name, flag] of Object.entries(parse.input.flags)) {
-      if (parse.output.flags[name]) {
+      if (parse.output.flags[name] !== undefined) {
         for (let also of flag.dependsOn || []) {
           if (!parse.output.flags[also]) {
             throw new CLIError(`--${also}= must also be provided when using --${name}=`)

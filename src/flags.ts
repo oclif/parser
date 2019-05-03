@@ -76,7 +76,7 @@ export function boolean<T = boolean>(options: Partial<IBooleanFlag<T>> = {}): IB
 
 export const integer = build({
   parse: input => {
-    if (!/^[0-9]+$/.test(input)) throw new Error(`Expected an integer but received: ${input}`)
+    if (!/^-?[0-9]+$/.test(input)) throw new Error(`Expected an integer but received: ${input}`)
     return parseInt(input, 10)
   },
 })

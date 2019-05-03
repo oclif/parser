@@ -77,4 +77,34 @@ describe('validate', () => {
     // @ts-ignore
     validate({input, output})
   })
+
+  it('allows zero for integer', () => {
+    const input = {
+      argv: [],
+      flags: {
+        int: {
+          description: 'zero as integer',
+          required: true,
+        },
+      },
+      args: [],
+      strict: true,
+      context: {},
+      '--': true
+    }
+
+    const output = {
+      args: {},
+      argv: [],
+      flags: {int: 0},
+      raw: [],
+      metadata: {
+        flags: {}
+      }
+    }
+
+    // @ts-ignore
+    validate({input, output})
+  })
+
 })
