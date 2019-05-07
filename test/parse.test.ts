@@ -321,11 +321,34 @@ See more help with --help`)
         expect(out.flags).to.deep.include({int: 100})
       })
 
-      it('parses negative integers', () => {
-        const out = parse(['--int', '-100'], {
+      it('parses zero', () => {
+        const out = parse(['--int', '0'], {
           flags: {int: flags.integer(), s: flags.string()},
         })
-        expect(out.flags).to.deep.include({int: -100})
+        expect(out.flags).to.deep.include({int: 0})
+      })
+
+      it('parses negative integers', () => {
+        const out = parse(['--int', '-123'], {
+          flags: {int: flags.integer(), s: flags.string()},
+        })
+        expect(out.flags).to.deep.include({int: -123})
+      })
+
+      it('does not parse floats', () => {
+        expect(() => {
+          parse(['--int', '3.14'], {
+            flags: {int: flags.integer()},
+          })
+        }).to.throw('Expected an integer but received: 3.14')
+      })
+
+      it('does not parse fractions', () => {
+        expect(() => {
+          parse(['--int', '3/4'], {
+            flags: {int: flags.integer()},
+          })
+        }).to.throw('Expected an integer but received: 3/4')
       })
 
       it('does not parse strings', () => {
