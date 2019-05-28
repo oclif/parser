@@ -77,4 +77,63 @@ describe('validate', () => {
     // @ts-ignore
     validate({input, output})
   })
+
+  it('allows zero for integer', () => {
+    const input = {
+      argv: [],
+      flags: {
+        int: {
+          description: 'zero as integer',
+          required: true,
+        },
+      },
+      args: [],
+      strict: true,
+      context: {},
+      '--': true
+    }
+
+    const output = {
+      args: {},
+      argv: [],
+      flags: {int: 0},
+      raw: [],
+      metadata: {
+        flags: {}
+      }
+    }
+
+    // @ts-ignore
+    validate({input, output})
+  })
+
+  it('throws when required flag is undefined', () => {
+    const input = {
+      argv: [],
+      flags: {
+        foobar: {
+          description: 'foobar flag',
+          required: true,
+        },
+      },
+      args: [],
+      strict: true,
+      context: {},
+      '--': true
+    }
+
+    const output = {
+      args: {},
+      argv: [],
+      flags: {foobar: undefined},
+      raw: [],
+      metadata: {
+        flags: {}
+      }
+    }
+
+    // @ts-ignore
+    expect(validate.bind({input, output})).to.throw()
+  })
+
 })
