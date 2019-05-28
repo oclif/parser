@@ -1,3 +1,12 @@
+## [3.8.1](https://github.com/oclif/parser/compare/v3.8.0...v3.8.1) (2019-05-28)
+
+
+### Bug Fixes
+
+* edge cases for integers flags ([#50](https://github.com/oclif/parser/issues/50)) ([f233ee5](https://github.com/oclif/parser/commit/f233ee5))
+
+
+
 # [3.8.0](https://github.com/oclif/parser/compare/v3.7.3...v3.8.0) (2019-04-30)
 
 
