@@ -280,6 +280,14 @@ See more help with --help`)
         expect(out.flags.baz.toUpperCase()).to.equal('D')
         expect(out.flags.bar.join('|')).to.equal('a|b')
       })
+
+      it('throws on incorrect flag after multiple flags', () => {
+        expect(() => parse(['--bar', 'a', '--bar', 'b', '--invalid', 'abc'], {
+          flags: {
+            bar: flags.string({multiple: true}),
+          },
+        })).to.throw()
+      })
     })
 
     describe('strict: false', () => {
