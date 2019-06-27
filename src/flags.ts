@@ -4,6 +4,8 @@ import {AlphabetLowercase, AlphabetUppercase} from './alphabet'
 
 export type DefaultContext<T> = { options: IOptionFlag<T>; flags: { [k: string]: string } }
 
+export type Default<T> = T | ((context: DefaultContext<T>) => T)
+
 export type IFlagBase<T, I> = {
   name: string
   char?: AlphabetLowercase | AlphabetUppercase
@@ -26,13 +28,13 @@ export type IBooleanFlag<T> = IFlagBase<T, boolean> & {
   /**
    * specifying a default of false is the same not specifying a default
    */
-  default?: boolean | ((context: DefaultContext<boolean>) => boolean)
+  default?: Default<boolean>
 }
 
 export type IOptionFlag<T> = IFlagBase<T, string> & {
   type: 'option'
   helpValue?: string
-  default?: T | ((context: DefaultContext<T>) => T | undefined)
+  default?: Default<T | undefined>
   multiple: boolean
   input: string[]
   options?: string[]
@@ -40,7 +42,7 @@ export type IOptionFlag<T> = IFlagBase<T, string> & {
 
 export type Definition<T> = {
   (options: {multiple: true} & Partial<IOptionFlag<T>>): IOptionFlag<T[]>
-  (options: ({required: true} | {default: T}) & Partial<IOptionFlag<T>>): IOptionFlag<T>
+  (options: ({required: true} | {default: Default<T>}) & Partial<IOptionFlag<T>>): IOptionFlag<T>
   (options?: Partial<IOptionFlag<T>>): IOptionFlag<T | undefined>
 }
 
