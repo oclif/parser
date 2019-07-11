@@ -461,7 +461,6 @@ See more help with --help`)
     it('default has options', () => {
       const out = parse([], {
         // args: [{ name: 'baz', default: () => 'BAZ' }],
-        // test ci
         flags: {foo: flags.string({description: 'bar', default: ({options}) => options.description})},
       })
       // expect(out.args).to.deep.include({ baz: 'BAZ' })
