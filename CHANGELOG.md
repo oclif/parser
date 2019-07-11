@@ -1,3 +1,7 @@
+## [3.8.2](https://github.com/oclif/parser/compare/v3.8.1...v3.8.2) (2019-07-11)
+
+
+
 ## [3.8.1](https://github.com/oclif/parser/compare/v3.8.0...v3.8.1) (2019-05-28)
 
 
