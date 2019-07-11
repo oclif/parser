@@ -43,4 +43,3 @@ console.log(`input arg: ${args.input}`)
 // output file is: myexample.txt
 // input arg: myinput
 ```
-test ci
