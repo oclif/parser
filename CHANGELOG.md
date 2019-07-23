@@ -1,3 +1,16 @@
+## [3.8.3](https://github.com/oclif/parser/compare/v3.8.2...v3.8.3) (2019-07-12)
+
+
+### Bug Fixes
+
+* better type for flags with default value ([#53](https://github.com/oclif/parser/issues/53)) ([044806a](https://github.com/oclif/parser/commit/044806a))
+
+
+
+## [3.8.2](https://github.com/oclif/parser/compare/v3.8.1...v3.8.2) (2019-07-11)
+
+
+
 ## [3.8.1](https://github.com/oclif/parser/compare/v3.8.0...v3.8.1) (2019-05-28)
 
 

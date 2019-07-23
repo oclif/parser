@@ -467,9 +467,10 @@ See more help with --help`)
     })
 
     it('default has options', () => {
+      const def: flags.Default<string | undefined> = ({options}) => options.description
       const out = parse([], {
         // args: [{ name: 'baz', default: () => 'BAZ' }],
-        flags: {foo: flags.string({description: 'bar', default: ({options}) => options.description})},
+        flags: {foo: flags.string({description: 'bar', default: def})},
       })
       // expect(out.args).to.deep.include({ baz: 'BAZ' })
       // expect(out.argv).to.deep.include(['BAZ'])
@@ -477,12 +478,11 @@ See more help with --help`)
     })
 
     it('can default to a different flag', () => {
+      const def: flags.Default<string | undefined> = opts => opts.flags.foo
       const out = parse(['--foo=bar'], {
         flags: {
           bar: flags.string({
-            default: opts => {
-              return opts.flags.foo
-            },
+            default: def,
           }),
           foo: flags.string(),
         },
