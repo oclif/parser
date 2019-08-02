@@ -1,3 +1,12 @@
+## [3.8.4](https://github.com/oclif/parser/compare/v3.8.3...v3.8.4) (2019-08-02)
+
+
+### Bug Fixes
+
+* `default` should be `T[]` when `multiple: true` ([#56](https://github.com/oclif/parser/issues/56)) ([bab7447](https://github.com/oclif/parser/commit/bab7447))
+
+
+
 ## [3.8.3](https://github.com/oclif/parser/compare/v3.8.2...v3.8.3) (2019-07-12)
 
 
