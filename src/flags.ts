@@ -41,7 +41,7 @@ export type IOptionFlag<T> = IFlagBase<T, string> & {
 }
 
 export type Definition<T> = {
-  (options: {multiple: true} & Partial<IOptionFlag<T>>): IOptionFlag<T[]>
+  (options: {multiple: true} & Partial<IOptionFlag<T[]>>): IOptionFlag<T[]>
   (options: ({required: true} | {default: Default<T>}) & Partial<IOptionFlag<T>>): IOptionFlag<T>
   (options?: Partial<IOptionFlag<T>>): IOptionFlag<T | undefined>
 }
