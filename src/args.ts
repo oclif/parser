@@ -8,6 +8,7 @@ export interface IArg<T = string> {
   parse?: ParseFn<T>
   default?: T | (() => T)
   options?: string[]
+  stopParsing?: boolean
 }
 
 export interface ArgBase<T> {
@@ -18,6 +19,7 @@ export interface ArgBase<T> {
   default?: T | (() => T)
   input?: string
   options?: string[]
+  stopParsing?: boolean
 }
 
 export type RequiredArg<T> = ArgBase<T> & {
