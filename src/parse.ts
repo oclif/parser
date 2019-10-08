@@ -195,6 +195,9 @@ export class Parser<T extends ParserInput, TFlags extends OutputFlags<T['flags']
       if (flags[k]) continue
       if (flag.type === 'option' && flag.env) {
         let input = process.env[flag.env]
+        if (flag.options && input && !flag.options.includes(input)) {
+          throw new m.errors.FlagInvalidOptionError(flag, input)
+        }
         if (input) flags[k] = flag.parse(input, this.context)
       }
       if (!(k in flags) && flag.default !== undefined) {
