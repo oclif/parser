@@ -140,6 +140,10 @@ export class Parser<T extends ParserInput, TFlags extends OutputFlags<T['flags']
       const arg = this.input.args[this._argTokens.length]
       if (arg) arg.input = input
       this.raw.push({type: 'arg', input})
+      if (arg && arg.stopParsing) {
+        parsingFlags = false
+        continue
+      }
     }
     const argv = this._argv()
     const args = this._args(argv)
