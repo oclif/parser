@@ -167,7 +167,18 @@ export class Parser<T extends ParserInput, TFlags extends OutputFlags<T['flags']
     const args = {} as any
     for (let i = 0; i < this.input.args.length; i++) {
       const arg = this.input.args[i]
-      args[arg.name!] = argv[i]
+
+      if (arg.multiple) {
+        args[arg.name!] = []
+
+        const minLeft = this.input.args.length - i
+        while (i + minLeft < this.input.args.length) {
+          args[arg.name!].push(argv[i])
+          i++
+        }
+      } else {
+        args[arg.name!] = argv[i]
+      }
     }
     return args
   }
