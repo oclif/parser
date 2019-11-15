@@ -11,7 +11,6 @@
   },
   "devDependencies": {
     "@oclif/errors": "^1.2.2",
-    "@oclif/tslint": "^3.1.1",
     "@types/chai": "^4.1.7",
     "@types/mocha": "^5.2.6",
     "@types/nock": "^9.3.1",
@@ -20,11 +19,11 @@
     "@types/read-pkg": "^4.0.0",
     "chai": "^4.2.0",
     "conventional-changelog-cli": "^2.0.17",
-    "eslint": "^5.16.0",
+    "eslint": "^6.6.0",
     "eslint-config-oclif": "^3.1.0",
+    "eslint-config-oclif-typescript": "^0.1.0",
     "mocha": "^6.1.4",
     "ts-node": "^8.1.0",
-    "tslint": "^5.16.0",
     "typescript": "^3.4.5"
   },
   "engines": {
