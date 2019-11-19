@@ -7,15 +7,19 @@ import * as Flags from './flags'
 import {Metadata} from './metadata'
 import * as Util from './util'
 
+// eslint-disable-next-line new-cap
 const m = Deps()
+// eslint-disable-next-line node/no-missing-require
 .add('errors', () => require('./errors') as typeof Errors)
+// eslint-disable-next-line node/no-missing-require
 .add('util', () => require('./util') as typeof Util)
 
 let debug: any
 try {
+  // eslint-disable-next-line no-negated-condition
   if (process.env.CLI_FLAGS_DEBUG !== '1') debug = () => {}
   else
-    // tslint:disable-next-line no-implicit-dependencies
+    // eslint-disable-next-line node/no-extraneous-require
     debug = require('debug')('@oclif/parser')
 } catch {
   debug = () => {}
@@ -24,11 +28,11 @@ try {
 export type OutputArgs<T extends ParserInput['args']> = { [P in keyof T]: any }
 export type OutputFlags<T extends ParserInput['flags']> = { [P in keyof T]: any }
 export type ParserOutput<TFlags extends OutputFlags<any>, TArgs extends OutputArgs<any>> = {
-  flags: TFlags
-  args: TArgs
-  argv: string[]
-  raw: ParsingToken[],
-  metadata: Metadata
+  flags: TFlags;
+  args: TArgs;
+  argv: string[];
+  raw: ParsingToken[];
+  metadata: Metadata;
 }
 
 export type ArgToken = { type: 'arg'; input: string }
@@ -36,20 +40,25 @@ export type FlagToken = { type: 'flag'; flag: string; input: string }
 export type ParsingToken = ArgToken | FlagToken
 
 export interface ParserInput {
-  argv: string[]
-  flags: Flags.Input<any>
-  args: Arg<any>[]
-  strict: boolean
-  context: any
-  '--'?: boolean
+  argv: string[];
+  flags: Flags.Input<any>;
+  args: Arg<any>[];
+  strict: boolean;
+  context: any;
+  '--'?: boolean;
 }
 
 export class Parser<T extends ParserInput, TFlags extends OutputFlags<T['flags']>, TArgs extends OutputArgs<T['args']>> {
   private readonly argv: string[]
+
   private readonly raw: ParsingToken[] = []
+
   private readonly booleanFlags: { [k: string]: Flags.IBooleanFlag<any> }
+
   private readonly context: any
+
   private readonly metaData: any
+
   private currentFlag?: Flags.IOptionFlag<any>
 
   constructor(private readonly input: T) {
@@ -150,7 +159,7 @@ export class Parser<T extends ParserInput, TFlags extends OutputFlags<T['flags']
       argv,
       flags,
       raw: this.raw,
-      metadata: this.metaData
+      metadata: this.metaData,
     }
   }
 
@@ -194,7 +203,7 @@ export class Parser<T extends ParserInput, TFlags extends OutputFlags<T['flags']
       const flag = this.input.flags[k]
       if (flags[k]) continue
       if (flag.type === 'option' && flag.env) {
-        let input = process.env[flag.env]
+        const input = process.env[flag.env]
         if (input) flags[k] = flag.parse(input, this.context)
       }
       if (!(k in flags) && flag.default !== undefined) {
@@ -224,13 +233,11 @@ export class Parser<T extends ParserInput, TFlags extends OutputFlags<T['flags']
         } else {
           args[i] = token.input
         }
-      } else {
-        if ('default' in arg) {
-          if (typeof arg.default === 'function') {
-            args[i] = arg.default()
-          } else {
-            args[i] = arg.default
-          }
+      } else if ('default' in arg) {
+        if (typeof arg.default === 'function') {
+          args[i] = arg.default()
+        } else {
+          args[i] = arg.default
         }
       }
     }
@@ -238,34 +245,35 @@ export class Parser<T extends ParserInput, TFlags extends OutputFlags<T['flags']
   }
 
   private _debugOutput(args: any, flags: any, argv: any) {
-    if (argv.length) {
+    if (argv.length > 0) {
       debug('argv: %o', argv)
     }
-    if (Object.keys(args).length) {
+    if (Object.keys(args).length > 0) {
       debug('args: %o', args)
     }
-    if (Object.keys(flags).length) {
+    if (Object.keys(flags).length > 0) {
       debug('flags: %o', flags)
     }
   }
 
   private _debugInput() {
     debug('input: %s', this.argv.join(' '))
-    if (this.input.args.length) {
+    if (this.input.args.length > 0) {
       debug('available args: %s', this.input.args.map(a => a.name).join(' '))
     }
-    if (!Object.keys(this.input.flags).length) return
+    if (Object.keys(this.input.flags).length === 0) return
     debug(
       'available flags: %s',
       Object.keys(this.input.flags)
-        .map(f => `--${f}`)
-        .join(' '),
+      .map(f => `--${f}`)
+      .join(' '),
     )
   }
 
   private get _argTokens(): ArgToken[] {
     return this.raw.filter(o => o.type === 'arg') as ArgToken[]
   }
+
   private get _flagTokens(): FlagToken[] {
     return this.raw.filter(o => o.type === 'flag') as FlagToken[]
   }

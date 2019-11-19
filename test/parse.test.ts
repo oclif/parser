@@ -1,3 +1,4 @@
+/* eslint-disable max-nested-callbacks */
 import {expect} from 'chai'
 import chalk from 'chalk'
 
@@ -63,8 +64,8 @@ describe('parse', () => {
         const out = parse(['--myflag', '--myflag2'], {
           flags: {myflag: flags.boolean(), myflag2: flags.boolean()},
         })
-        expect(!!out.flags.myflag).to.equal(true)
-        expect(!!out.flags.myflag2).to.equal(true)
+        expect(Boolean(out.flags.myflag)).to.equal(true)
+        expect(Boolean(out.flags.myflag2)).to.equal(true)
       })
 
       it('parses short flags', () => {
@@ -74,8 +75,8 @@ describe('parse', () => {
             myflag: flags.boolean({char: 'm'}),
           },
         })
-        expect(!!out.flags.myflag).to.equal(true)
-        expect(!!out.flags.force).to.equal(true)
+        expect(Boolean(out.flags.myflag)).to.equal(true)
+        expect(Boolean(out.flags.force)).to.equal(true)
       })
     })
     it('parses flag value with "=" to separate', () => {
@@ -420,11 +421,11 @@ See more help with --help`)
       const out = parse(['-n', 'heroku'], {
         flags: {
           name: flags.string({
-            char: 'n'
+            char: 'n',
           }),
           startup: flags.string({
             char: 's',
-            default: 'apero'
+            default: 'apero',
           }),
         },
       })
@@ -487,8 +488,8 @@ See more help with --help`)
     it('default is true', () => {
       const out = parse([], {
         flags: {
-          color: flags.boolean({default: true})
-        }
+          color: flags.boolean({default: true}),
+        },
       })
       expect(out).to.deep.include({flags: {color: true}})
     })
@@ -496,8 +497,8 @@ See more help with --help`)
     it('default is false', () => {
       const out = parse([], {
         flags: {
-          color: flags.boolean({default: false})
-        }
+          color: flags.boolean({default: false}),
+        },
       })
       expect(out).to.deep.include({flags: {color: false}})
     })
@@ -505,8 +506,8 @@ See more help with --help`)
     it('default as function', () => {
       const out = parse([], {
         flags: {
-          color: flags.boolean({default: () => true})
-        }
+          color: flags.boolean({default: () => true}),
+        },
       })
       expect(out).to.deep.include({flags: {color: true}})
     })
@@ -514,8 +515,8 @@ See more help with --help`)
     it('overridden true default', () => {
       const out = parse(['--no-color'], {
         flags: {
-          color: flags.boolean({allowNo: true, default: true})
-        }
+          color: flags.boolean({allowNo: true, default: true}),
+        },
       })
       expect(out).to.deep.include({flags: {color: false}})
     })
@@ -523,8 +524,8 @@ See more help with --help`)
     it('overridden false default', () => {
       const out = parse(['--color'], {
         flags: {
-          color: flags.boolean({default: false})
-        }
+          color: flags.boolean({default: false}),
+        },
       })
       expect(out).to.deep.include({flags: {color: true}})
     })
@@ -607,7 +608,7 @@ See more help with --help`)
       const out = parse(['--foo'], {
         context: {a: 101},
         flags: {foo: flags.boolean({
-          parse: (_: any, ctx: any) => ctx.a
+          parse: (_: any, ctx: any) => ctx.a,
         })},
       })
       expect(out.flags.foo).to.equal(101)

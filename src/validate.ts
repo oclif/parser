@@ -12,7 +12,7 @@ export function validate(parse: { input: ParserInput; output: ParserOutput<any, 
       throw new UnexpectedArgsError({parse, args: extras})
     }
 
-    let missingRequiredArgs: Arg<any>[] = []
+    const missingRequiredArgs: Arg<any>[] = []
     let hasOptional = false
 
     parse.input.args.forEach((arg, index) => {
@@ -30,20 +30,20 @@ export function validate(parse: { input: ParserInput; output: ParserOutput<any, 
       }
     })
 
-    if (missingRequiredArgs.length) {
+    if (missingRequiredArgs.length > 0) {
       throw new RequiredArgsError({parse, args: missingRequiredArgs})
     }
   }
 
   function validateFlags() {
-    for (let [name, flag] of Object.entries(parse.input.flags)) {
+    for (const [name, flag] of Object.entries(parse.input.flags)) {
       if (parse.output.flags[name] !== undefined) {
-        for (let also of flag.dependsOn || []) {
+        for (const also of flag.dependsOn || []) {
           if (!parse.output.flags[also]) {
             throw new CLIError(`--${also}= must also be provided when using --${name}=`)
           }
         }
-        for (let also of flag.exclusive || []) {
+        for (const also of flag.exclusive || []) {
           // do not enforce exclusivity for flags that were defaulted
           if (parse.output.metadata.flags[also] && parse.output.metadata.flags[also].setFromDefault) continue
           if (parse.output.metadata.flags[name] && parse.output.metadata.flags[name].setFromDefault) continue
@@ -51,9 +51,7 @@ export function validate(parse: { input: ParserInput; output: ParserOutput<any, 
             throw new CLIError(`--${also}= cannot also be provided when using --${name}=`)
           }
         }
-      } else {
-        if (flag.required) throw new RequiredFlagError({parse, flag})
-      }
+      } else if (flag.required) throw new RequiredFlagError({parse, flag})
     }
   }
 

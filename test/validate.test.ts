@@ -18,12 +18,12 @@ describe('validate', () => {
         input: [],
         name: 'dessert',
         exclusive: [],
-      }
+      },
     },
     args: [],
     strict: true,
     context: {},
-    '--': true
+    '--': true,
   }
 
   it('enforces exclusivity for flags', () => {
@@ -32,23 +32,22 @@ describe('validate', () => {
       argv: [],
       flags: {
         dinner: 'pizza',
-        dessert: 'cheesecake'
+        dessert: 'cheesecake',
       },
       raw: [{
         type: 'flag',
         flag: 'dinner',
-        input: 'pizza'
+        input: 'pizza',
       }],
       metadata: {
         flags: {
           dessert: {
-            setFromDefault: false
-          }
-        }
-      }
+            setFromDefault: false,
+          },
+        },
+      },
     }
 
-    // @ts-ignore
     expect(validate.bind({input, output})).to.throw()
   })
 
@@ -58,23 +57,22 @@ describe('validate', () => {
       argv: [],
       flags: {
         dinner: 'pizza',
-        dessert: 'cheesecake'
+        dessert: 'cheesecake',
       },
       raw: [{
         type: 'flag',
         flag: 'dinner',
-        input: 'pizza'
+        input: 'pizza',
       }],
       metadata: {
         flags: {
           dessert: {
-            setFromDefault: true
-          }
-        }
-      }
+            setFromDefault: true,
+          },
+        },
+      },
     }
 
-    // @ts-ignore
     validate({input, output})
   })
 
@@ -90,7 +88,7 @@ describe('validate', () => {
       args: [],
       strict: true,
       context: {},
-      '--': true
+      '--': true,
     }
 
     const output = {
@@ -99,11 +97,10 @@ describe('validate', () => {
       flags: {int: 0},
       raw: [],
       metadata: {
-        flags: {}
-      }
+        flags: {},
+      },
     }
 
-    // @ts-ignore
     validate({input, output})
   })
 
@@ -119,7 +116,7 @@ describe('validate', () => {
       args: [],
       strict: true,
       context: {},
-      '--': true
+      '--': true,
     }
 
     const output = {
@@ -128,12 +125,11 @@ describe('validate', () => {
       flags: {foobar: undefined},
       raw: [],
       metadata: {
-        flags: {}
-      }
+        flags: {},
+      },
     }
 
-    // @ts-ignore
+    // @-ignore
     expect(validate.bind({input, output})).to.throw()
   })
-
 })
