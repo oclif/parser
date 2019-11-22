@@ -9,15 +9,17 @@ export {args}
 export {flags}
 export {flagUsages} from './help'
 
+// eslint-disable-next-line new-cap
 const m = Deps()
+// eslint-disable-next-line node/no-missing-require
 .add('validate', () => require('./validate').validate as typeof Validate.validate)
 
 export type Input<TFlags extends flags.Output> = {
-  flags?: flags.Input<TFlags>
-  args?: args.Input
-  strict?: boolean
-  context?: any
-  '--'?: boolean
+  flags?: flags.Input<TFlags>;
+  args?: args.Input;
+  strict?: boolean;
+  context?: any;
+  '--'?: boolean;
 }
 
 export function parse<TFlags, TArgs extends {[name: string]: string}>(argv: string[], options: Input<TFlags>): Output<TFlags, TArgs> {

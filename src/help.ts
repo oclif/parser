@@ -4,8 +4,10 @@ import Deps from './deps'
 import {IFlag} from './flags'
 import * as Util from './util'
 
+// eslint-disable-next-line new-cap
 const m = Deps()
 .add('chalk', () => require('chalk') as typeof Chalk)
+// eslint-disable-next-line node/no-missing-require
 .add('util', () => require('./util') as typeof Util)
 
 export interface FlagUsageOptions { displayRequired?: boolean }
@@ -29,8 +31,8 @@ export function flagUsage(flag: IFlag<any>, options: FlagUsageOptions = {}): [st
 }
 
 export function flagUsages(flags: IFlag<any>[], options: FlagUsageOptions = {}): [string, string | undefined][] {
-  if (!flags.length) return []
+  if (flags.length === 0) return []
   const {sortBy} = m.util
   return sortBy(flags, f => [f.char ? -1 : 1, f.char, f.name])
-    .map(f => flagUsage(f, options))
+  .map(f => flagUsage(f, options))
 }

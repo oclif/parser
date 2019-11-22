@@ -9,15 +9,19 @@ import {ParserInput, ParserOutput} from './parse'
 
 export {CLIError} from '@oclif/errors'
 
+// eslint-disable-next-line new-cap
 const m = Deps()
+// eslint-disable-next-line node/no-missing-require
 .add('help', () => require('./help') as typeof Help)
+// eslint-disable-next-line node/no-missing-require
 .add('list', () => require('./list') as typeof List)
 
+// eslint-disable-next-line @typescript-eslint/interface-name-prefix
 export interface ICLIParseErrorOptions {
   parse: {
-    input?: ParserInput
-    output?: ParserOutput<any, any>
-  }
+    input?: ParserInput;
+    output?: ParserOutput<any, any>;
+  };
 }
 
 export class CLIParseError extends CLIError {
@@ -36,7 +40,7 @@ export class InvalidArgsSpecError extends CLIParseError {
   constructor({args, parse}: ICLIParseErrorOptions & { args: Arg<any>[] }) {
     let message = 'Invalid argument spec'
     const namedArgs = args.filter(a => a.name)
-    if (namedArgs.length) {
+    if (namedArgs.length > 0) {
       const list = m.list.renderList(namedArgs.map(a => [`${a.name} (${a.required ? 'required' : 'optional'})`, a.description] as [string, string]))
       message += `:\n${list}`
     }
@@ -51,7 +55,7 @@ export class RequiredArgsError extends CLIParseError {
   constructor({args, parse}: ICLIParseErrorOptions & { args: Arg<any>[] }) {
     let message = `Missing ${args.length} required arg${args.length === 1 ? '' : 's'}`
     const namedArgs = args.filter(a => a.name)
-    if (namedArgs.length) {
+    if (namedArgs.length > 0) {
       const list = m.list.renderList(namedArgs.map(a => [a.name, a.description] as [string, string]))
       message += `:\n${list}`
     }
