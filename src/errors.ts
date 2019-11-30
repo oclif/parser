@@ -20,7 +20,7 @@ const m = Deps()
 export interface ICLIParseErrorOptions {
   parse: {
     input?: ParserInput;
-    output?: ParserOutput<any, any>;
+    output?: ParserOutput<any>;
   };
 }
 
@@ -35,9 +35,9 @@ export class CLIParseError extends CLIError {
 }
 
 export class InvalidArgsSpecError extends CLIParseError {
-  public args: Arg<any>[]
+  public args: Arg<any, any>[]
 
-  constructor({args, parse}: ICLIParseErrorOptions & { args: Arg<any>[] }) {
+  constructor({args, parse}: ICLIParseErrorOptions & { args: Arg<any, any>[] }) {
     let message = 'Invalid argument spec'
     const namedArgs = args.filter(a => a.name)
     if (namedArgs.length > 0) {
@@ -50,9 +50,9 @@ export class InvalidArgsSpecError extends CLIParseError {
 }
 
 export class RequiredArgsError extends CLIParseError {
-  public args: Arg<any>[]
+  public args: Arg<any, any>[]
 
-  constructor({args, parse}: ICLIParseErrorOptions & { args: Arg<any>[] }) {
+  constructor({args, parse}: ICLIParseErrorOptions & { args: Arg<any, any>[] }) {
     let message = `Missing ${args.length} required arg${args.length === 1 ? '' : 's'}`
     const namedArgs = args.filter(a => a.name)
     if (namedArgs.length > 0) {
@@ -93,7 +93,7 @@ export class FlagInvalidOptionError extends CLIParseError {
 }
 
 export class ArgInvalidOptionError extends CLIParseError {
-  constructor(arg: Arg<any>, input: string) {
+  constructor(arg: Arg<any, any>, input: string) {
     const message = `Expected ${input} to be one of: ${arg.options!.join(', ')}`
     super({parse: {}, message})
   }

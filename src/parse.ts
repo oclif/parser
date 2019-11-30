@@ -1,11 +1,12 @@
 // tslint:disable interface-over-type-literal
 
-import {Arg} from './args'
+import {Arg, IArg, NameOf} from './args'
 import Deps from './deps'
 import * as Errors from './errors'
 import * as Flags from './flags'
 import {Metadata} from './metadata'
 import * as Util from './util'
+import {flags, args} from '.'
 
 // eslint-disable-next-line new-cap
 const m = Deps()
@@ -25,11 +26,43 @@ try {
   debug = () => {}
 }
 
-export type OutputArgs<T extends ParserInput['args']> = { [P in keyof T]: any }
-export type OutputFlags<T extends ParserInput['flags']> = { [P in keyof T]: any }
-export type ParserOutput<TFlags extends OutputFlags<any>, TArgs extends OutputArgs<any>> = {
-  flags: TFlags;
-  args: TArgs;
+type RequiredTypeOf<T, N extends string = NameOf<T>> = T extends {
+  name: N;
+  parse: (raw: string) => infer R;
+}
+  ? {[key in N]: R}
+  : {[key in N]: string};
+
+type TypeOf<T> = T extends {required: true}
+  ? RequiredTypeOf<T>
+  : Partial<RequiredTypeOf<T>>;
+
+type TypesOf<Args extends IArgsList> = {
+  [I in keyof Args]: TypeOf<Args[I]>
+}[number];
+
+type UnionToIntersection<U> =
+  (U extends any ? (k: U) => void : never) extends ((k: infer I) => void)
+  ? I
+  : never;
+
+type PartialBy<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>
+
+export type ParserRawInput<TFlags extends flags.Output> = {
+  flags?: flags.Input<TFlags>;
+  args?: args.Input;
+  strict?: boolean;
+  context?: any;
+  '--'?: boolean;
+};
+
+export type OutputArgs<T extends ParserRawInput<any>['args']> = T extends ParserRawInput<any>['args'] ?
+    UnionToIntersection<TypesOf<NonNullable<T>>> :
+    undefined;
+export type OutputFlags<T extends ParserInput['flags'] | undefined> = { [P in keyof NonNullable<T>]: any }
+export type ParserOutput<T extends ParserRawInput<any>> = {
+  flags: OutputFlags<T['flags']>;
+  args: OutputArgs<T['args']>;
   argv: string[];
   raw: ParsingToken[];
   metadata: Metadata;
@@ -39,16 +72,21 @@ export type ArgToken = { type: 'arg'; input: string }
 export type FlagToken = { type: 'flag'; flag: string; input: string }
 export type ParsingToken = ArgToken | FlagToken
 
+// eslint-disable-next-line @typescript-eslint/interface-name-prefix
+export interface IArgsList extends Array<IArg<any, any>> {
+    [index: number]: IArg<any, any>;
+}
+
 export interface ParserInput {
   argv: string[];
   flags: Flags.Input<any>;
-  args: Arg<any>[];
+  args: Arg<any, any>[];
   strict: boolean;
   context: any;
   '--'?: boolean;
 }
 
-export class Parser<T extends ParserInput, TFlags extends OutputFlags<T['flags']>, TArgs extends OutputArgs<T['args']>> {
+export class Parser<T extends ParserInput, TFlags extends OutputFlags<T['flags']>, TArgs extends any> {
   private readonly argv: string[]
 
   private readonly raw: ParsingToken[] = []
