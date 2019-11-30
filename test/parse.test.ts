@@ -442,12 +442,12 @@ See more help with --help`)
       expect(out.flags).to.deep.include({foo: 'bar'})
     })
 
-    // it('accepts falsy', () => {
-    //   const out = parse([], {
-    //     args: [{name: 'baz' as const, default: false}],
-    //   })
-    //   expect(out.args).to.deep.include({baz: false})
-    // })
+    it('accepts falsy', () => {
+      const out = parse([], {
+        args: [{name: 'baz' as const, default: false}],
+      })
+      expect(out.args).to.deep.include({baz: false})
+    })
 
     it('default as function', () => {
       const out = parse([], {

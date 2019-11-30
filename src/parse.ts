@@ -26,12 +26,15 @@ try {
   debug = () => {}
 }
 
+type DefaultOf<T> = T extends { default: () => infer Default } ? Default
+  : T extends { default: infer Default } ? Default
+  : never;
 type RequiredTypeOf<T, N extends string = NameOf<T>> = T extends {
   name: N;
   parse: (raw: string) => infer R;
 }
-  ? {[key in N]: R}
-  : {[key in N]: string};
+  ? {[key in N]: R | DefaultOf<T>}
+  : {[key in N]: string | DefaultOf<T>};
 
 type TypeOf<T> = T extends {required: true}
   ? RequiredTypeOf<T>
@@ -45,8 +48,6 @@ type UnionToIntersection<U> =
   (U extends any ? (k: U) => void : never) extends ((k: infer I) => void)
   ? I
   : never;
-
-type PartialBy<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>
 
 export type ParserRawInput<TFlags extends flags.Output> = {
   flags?: flags.Input<TFlags>;
