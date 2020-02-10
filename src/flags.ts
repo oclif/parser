@@ -47,7 +47,7 @@ export type Definition<T> = {
 }
 
 export type EnumFlagOptions<T> = Partial<IOptionFlag<T>> & {
-  options: string[];
+  options: T[];
 }
 
 export type IFlag<T> = IBooleanFlag<T> | IOptionFlag<T>
