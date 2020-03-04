@@ -5,7 +5,7 @@ import {
   InvalidArgsSpecError,
   RequiredArgsError,
   RequiredFlagError,
-  UnexpectedArgsError
+  UnexpectedArgsError,
 } from './errors'
 import {ParserInput, ParserOutput} from './parse'
 
@@ -50,7 +50,7 @@ export function validate(parse: {
         for (const also of flag.dependsOn || []) {
           if (!parse.output.flags[also]) {
             throw new CLIError(
-              `--${also}= must also be provided when using --${name}=`
+              `--${also}= must also be provided when using --${name}=`,
             )
           }
         }
@@ -68,14 +68,14 @@ export function validate(parse: {
             continue
           if (parse.output.flags[also]) {
             throw new CLIError(
-              `--${also}= cannot also be provided when using --${name}=`
+              `--${also}= cannot also be provided when using --${name}=`,
             )
           }
         }
         for (const also of flag.exactlyOne || []) {
           if (also !== name && parse.output.flags[also]) {
             throw new CLIError(
-              `--${also}= cannot also be provided when using --${name}=`
+              `--${also}= cannot also be provided when using --${name}=`,
             )
           }
         }
@@ -87,15 +87,15 @@ export function validate(parse: {
           .filter(flagName => flagName !== flag.name) // excluding the current flag
           .filter(flagName => parse.output.flags[flagName] !== undefined) // with values
           .filter(
-            flagName => flag.exactlyOne && flag.exactlyOne.includes(flagName)
+            flagName => flag.exactlyOne && flag.exactlyOne.includes(flagName),
           ) // and in the exactlyOne list
 
         if (intersection.length === 0) {
           // the command's exactlyOne may or may not include itself, so we'll use Set to add + de-dupe
           throw new CLIError(
             `Exactly one of the following must be provided: ${[
-              ...new Set(...flag.exactlyOne, flag.name)
-            ].join(',')}`
+              ...new Set(...flag.exactlyOne, flag.name),
+            ].join(',')}`,
           )
         }
       }
