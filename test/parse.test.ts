@@ -10,15 +10,15 @@ describe('parse', () => {
   it('--bool', () => {
     const out = parse(['--bool'], {
       flags: {
-        bool: flags.boolean(),
-      },
+        bool: flags.boolean()
+      }
     })
     expect(out).to.deep.include({flags: {bool: true}})
   })
 
   it('arg1', () => {
     const out = parse(['arg1'], {
-      args: [{name: 'foo'}],
+      args: [{name: 'foo'}]
     })
     expect(out.argv).to.deep.equal(['arg1'])
     expect(out.args).to.deep.equal({foo: 'arg1'})
@@ -26,7 +26,7 @@ describe('parse', () => {
 
   it('arg1 arg2', () => {
     const out = parse(['arg1', 'arg2'], {
-      args: [{name: 'foo'}, {name: 'bar'}],
+      args: [{name: 'foo'}, {name: 'bar'}]
     })
     expect(out.argv).to.deep.equal(['arg1', 'arg2'])
     expect(out.args).to.deep.equal({foo: 'arg1', bar: 'arg2'})
@@ -36,15 +36,15 @@ describe('parse', () => {
     it('--bool', () => {
       const out = parse(['--bool'], {
         flags: {
-          bool: flags.boolean(),
-        },
+          bool: flags.boolean()
+        }
       })
       expect(out.raw[0]).to.deep.include({flag: 'bool'})
     })
 
     it('arg1', () => {
       const out = parse(['arg1'], {
-        args: [{name: 'foo'}],
+        args: [{name: 'foo'}]
       })
       expect(out.raw[0]).to.have.property('input', 'arg1')
     })
@@ -52,7 +52,7 @@ describe('parse', () => {
     it('parses args and flags', () => {
       const out = parse(['foo', '--myflag', 'bar', 'baz'], {
         args: [{name: 'myarg'}, {name: 'myarg2'}],
-        flags: {myflag: flags.string()},
+        flags: {myflag: flags.string()}
       })
       expect(out.argv[0]).to.equal('foo')
       expect(out.argv[1]).to.equal('baz')
@@ -62,7 +62,7 @@ describe('parse', () => {
     describe('flags', () => {
       it('parses flags', () => {
         const out = parse(['--myflag', '--myflag2'], {
-          flags: {myflag: flags.boolean(), myflag2: flags.boolean()},
+          flags: {myflag: flags.boolean(), myflag2: flags.boolean()}
         })
         expect(Boolean(out.flags.myflag)).to.equal(true)
         expect(Boolean(out.flags.myflag2)).to.equal(true)
@@ -72,8 +72,8 @@ describe('parse', () => {
         const out = parse(['-mf'], {
           flags: {
             force: flags.boolean({char: 'f'}),
-            myflag: flags.boolean({char: 'm'}),
-          },
+            myflag: flags.boolean({char: 'm'})
+          }
         })
         expect(Boolean(out.flags.myflag)).to.equal(true)
         expect(Boolean(out.flags.force)).to.equal(true)
@@ -82,8 +82,8 @@ describe('parse', () => {
     it('parses flag value with "=" to separate', () => {
       const out = parse(['--myflag=foo'], {
         flags: {
-          myflag: flags.string({char: 'm'}),
-        },
+          myflag: flags.string({char: 'm'})
+        }
       })
       expect(out.flags).to.deep.equal({myflag: 'foo'})
     })
@@ -91,8 +91,8 @@ describe('parse', () => {
     it('parses flag value with "=" in value', () => {
       const out = parse(['--myflag', '=foo'], {
         flags: {
-          myflag: flags.string({char: 'm'}),
-        },
+          myflag: flags.string({char: 'm'})
+        }
       })
       expect(out.flags).to.deep.equal({myflag: '=foo'})
     })
@@ -100,8 +100,8 @@ describe('parse', () => {
     it('parses short flag value with "="', () => {
       const out = parse(['-m=foo'], {
         flags: {
-          myflag: flags.string({char: 'm'}),
-        },
+          myflag: flags.string({char: 'm'})
+        }
       })
       expect(out.flags).to.deep.equal({myflag: 'foo'})
     })
@@ -109,8 +109,8 @@ describe('parse', () => {
     it('parses value of ""', () => {
       const out = parse(['-m', ''], {
         flags: {
-          myflag: flags.string({char: 'm'}),
-        },
+          myflag: flags.string({char: 'm'})
+        }
       })
       expect(out.flags).to.deep.equal({myflag: ''})
     })
@@ -121,17 +121,19 @@ describe('parse', () => {
           flags: {
             myflag: flags.string({
               description: 'flag description',
-              required: true,
-            }),
-          },
+              required: true
+            })
+          }
         })
-      }).to.throw('Missing required flag:\n --myflag MYFLAG  flag description\nSee more help with --help')
+      }).to.throw(
+        'Missing required flag:\n --myflag MYFLAG  flag description\nSee more help with --help'
+      )
     })
 
     it('removes flags from argv', () => {
       const out = parse(['--myflag', 'bar', 'foo'], {
         args: [{name: 'myarg'}],
-        flags: {myflag: flags.string()},
+        flags: {myflag: flags.string()}
       })
       expect(out.flags).to.deep.equal({myflag: 'bar'})
       expect(out.argv).to.deep.equal(['foo'])
@@ -146,14 +148,14 @@ describe('parse', () => {
               {
                 description: 'arg2 desc',
                 name: 'arg2',
-                required: true,
+                required: true
               },
               {
                 description: 'arg3 desc',
                 name: 'arg3',
-                required: true,
-              },
-            ],
+                required: true
+              }
+            ]
           })
         }).to.throw(`Missing 2 required args:
 arg2  arg2 desc
@@ -164,34 +166,37 @@ See more help with --help`)
       it('too many args', () => {
         expect(() => {
           parse(['arg1', 'arg2'], {
-            args: [{name: 'arg1', required: true}],
+            args: [{name: 'arg1', required: true}]
           })
         }).to.throw('Unexpected argument: arg2\nSee more help with --help')
       })
 
       it('parses args', () => {
         const out = parse(['foo', 'bar'], {
-          args: [{name: 'myarg'}, {name: 'myarg2'}],
+          args: [{name: 'myarg'}, {name: 'myarg2'}]
         })
         expect(out.argv).to.deep.equal(['foo', 'bar'])
       })
       it('skips optional args', () => {
         const out = parse(['foo'], {
-          args: [{name: 'myarg'}, {name: 'myarg2'}],
+          args: [{name: 'myarg'}, {name: 'myarg2'}]
         })
         expect(out.argv).to.deep.equal(['foo'])
       })
 
       it('skips non-required args', () => {
         const out = parse(['foo'], {
-          args: [{name: 'myarg', required: false}, {name: 'myarg2', required: false}],
+          args: [
+            {name: 'myarg', required: false},
+            {name: 'myarg2', required: false}
+          ]
         })
         expect(out.argv).to.deep.equal(['foo'])
       })
 
       it('parses something looking like a flag as an arg', () => {
         const out = parse(['--foo'], {
-          args: [{name: 'myarg'}],
+          args: [{name: 'myarg'}]
         })
         expect(out.argv).to.deep.equal(['--foo'])
       })
@@ -203,8 +208,8 @@ See more help with --help`)
           parse([], {
             args: [
               {name: 'arg1', required: true},
-              {name: 'arg2', required: false, default: 'some_default'},
-            ],
+              {name: 'arg2', required: false, default: 'some_default'}
+            ]
           })
         }).to.throw(`Missing 1 required arg:
 arg1
@@ -216,8 +221,8 @@ See more help with --help`)
           parse([], {
             args: [
               {name: 'arg1', required: true, default: 'my_default'},
-              {name: 'arg2', required: false},
-            ],
+              {name: 'arg2', required: false}
+            ]
           })
         }).to.not.throw()
       })
@@ -227,8 +232,8 @@ See more help with --help`)
           parse([], {
             args: [
               {name: 'arg1', required: true, default: 'my_default'},
-              {name: 'arg2', required: false, default: 'some_default'},
-            ],
+              {name: 'arg2', required: false, default: 'some_default'}
+            ]
           })
         }).to.not.throw()
       })
@@ -240,8 +245,8 @@ See more help with --help`)
           parse([], {
             args: [
               {name: 'arg1', required: false},
-              {name: 'arg2', required: true, default: 'some_default'},
-            ],
+              {name: 'arg2', required: true, default: 'some_default'}
+            ]
           })
         }).to.throw(`Invalid argument spec:
 arg1 (optional)
@@ -256,8 +261,8 @@ See more help with --help`)
               {name: 'arg1', required: false},
               {name: 'arg2', required: false, default: 'my_default'},
               {name: 'arg3', required: false},
-              {name: 'arg4', required: true},
-            ],
+              {name: 'arg4', required: true}
+            ]
           })
         }).to.throw(`Invalid argument spec:
 arg1 (optional)
@@ -274,8 +279,8 @@ See more help with --help`)
           flags: {
             foo: flags.string(),
             bar: flags.string({multiple: true}),
-            baz: flags.string({required: true}),
-          },
+            baz: flags.string({required: true})
+          }
         })
         expect(out.flags.foo!.toUpperCase()).to.equal('C')
         expect(out.flags.baz.toUpperCase()).to.equal('D')
@@ -288,7 +293,7 @@ See more help with --help`)
         const out = parse(['foo', 'bar', '--', '--myflag'], {
           args: [{name: 'argOne'}],
           flags: {myflag: flags.boolean()},
-          strict: false,
+          strict: false
         })
         expect(out.argv).to.deep.equal(['foo', 'bar', '--myflag'])
         expect(out.args).to.deep.equal({argOne: 'foo'})
@@ -299,7 +304,7 @@ See more help with --help`)
           const out = parse(['foo', 'bar', '--', '--myflag'], {
             args: [{name: 'argOne'}],
             strict: false,
-            '--': false,
+            '--': false
           })
           expect(out.argv).to.deep.equal(['foo', 'bar', '--', '--myflag'])
           expect(out.args).to.deep.equal({argOne: 'foo'})
@@ -308,7 +313,7 @@ See more help with --help`)
 
       it('does not repeat arguments', () => {
         const out = parse(['foo', '--myflag=foo bar'], {
-          strict: false,
+          strict: false
         })
         expect(out.argv).to.deep.equal(['foo', '--myflag=foo bar'])
       })
@@ -317,21 +322,21 @@ See more help with --help`)
     describe('integer flag', () => {
       it('parses integers', () => {
         const out = parse(['--int', '100'], {
-          flags: {int: flags.integer(), s: flags.string()},
+          flags: {int: flags.integer(), s: flags.string()}
         })
         expect(out.flags).to.deep.include({int: 100})
       })
 
       it('parses zero', () => {
         const out = parse(['--int', '0'], {
-          flags: {int: flags.integer(), s: flags.string()},
+          flags: {int: flags.integer(), s: flags.string()}
         })
         expect(out.flags).to.deep.include({int: 0})
       })
 
       it('parses negative integers', () => {
         const out = parse(['--int', '-123'], {
-          flags: {int: flags.integer(), s: flags.string()},
+          flags: {int: flags.integer(), s: flags.string()}
         })
         expect(out.flags).to.deep.include({int: -123})
       })
@@ -339,7 +344,7 @@ See more help with --help`)
       it('does not parse floats', () => {
         expect(() => {
           parse(['--int', '3.14'], {
-            flags: {int: flags.integer()},
+            flags: {int: flags.integer()}
           })
         }).to.throw('Expected an integer but received: 3.14')
       })
@@ -347,7 +352,7 @@ See more help with --help`)
       it('does not parse fractions', () => {
         expect(() => {
           parse(['--int', '3/4'], {
-            flags: {int: flags.integer()},
+            flags: {int: flags.integer()}
           })
         }).to.throw('Expected an integer but received: 3/4')
       })
@@ -355,7 +360,7 @@ See more help with --help`)
       it('does not parse strings', () => {
         expect(() => {
           parse(['--int', 's10'], {
-            flags: {int: flags.integer()},
+            flags: {int: flags.integer()}
           })
         }).to.throw('Expected an integer but received: s10')
       })
@@ -371,7 +376,7 @@ See more help with --help`)
     it('parse', () => {
       const out = parse(['--foo=bar', '100'], {
         args: [{name: 'num', parse: i => parseInt(i, 10)}],
-        flags: {foo: flags.string({parse: input => input.toUpperCase()})},
+        flags: {foo: flags.string({parse: input => input.toUpperCase()})}
       })
       expect(out.flags).to.deep.include({foo: 'BAR'})
       expect(out.args).to.deep.include({num: 100})
@@ -392,26 +397,39 @@ See more help with --help`)
   describe('flag with multiple inputs', () => {
     it('flag multiple with flag in the middle', () => {
       const out = parse(['--foo=bar', '--foo', '100', '--hello', 'world'], {
-        flags: {foo: flags.string({multiple: true}), hello: flags.string()},
+        flags: {foo: flags.string({multiple: true}), hello: flags.string()}
       })
       expect(out.flags).to.deep.include({foo: ['bar', '100']})
       expect(out.flags).to.deep.include({hello: 'world'})
     })
 
     it('flag multiple without flag in the middle', () => {
-      const out = parse(['--foo', './a.txt', './b.txt', './c.txt', '--hello', 'world'], {
-        flags: {foo: flags.string({multiple: true}), hello: flags.string()},
+      const out = parse(
+        ['--foo', './a.txt', './b.txt', './c.txt', '--hello', 'world'],
+        {
+          flags: {
+            foo: flags.string({multiple: true}),
+            hello: flags.string()
+          }
+        }
+      )
+      expect(out.flags).to.deep.include({
+        foo: ['./a.txt', './b.txt', './c.txt']
       })
-      expect(out.flags).to.deep.include({foo: ['./a.txt', './b.txt', './c.txt']})
       expect(out.flags).to.deep.include({hello: 'world'})
     })
 
     it('flag multiple with arguments', () => {
-      const out = parse(['--foo', './a.txt', './b.txt', './c.txt', '--', '15'], {
-        args: [{name: 'num'}],
-        flags: {foo: flags.string({multiple: true})},
+      const out = parse(
+        ['--foo', './a.txt', './b.txt', './c.txt', '--', '15'],
+        {
+          args: [{name: 'num'}],
+          flags: {foo: flags.string({multiple: true})}
+        }
+      )
+      expect(out.flags).to.deep.include({
+        foo: ['./a.txt', './b.txt', './c.txt']
       })
-      expect(out.flags).to.deep.include({foo: ['./a.txt', './b.txt', './c.txt']})
       expect(out.args).to.deep.include({num: '15'})
     })
   })
@@ -421,21 +439,23 @@ See more help with --help`)
       const out = parse(['-n', 'heroku'], {
         flags: {
           name: flags.string({
-            char: 'n',
+            char: 'n'
           }),
           startup: flags.string({
             char: 's',
-            default: 'apero',
-          }),
-        },
+            default: 'apero'
+          })
+        }
       })
-      expect(out.metadata.flags).to.deep.equal({startup: {setFromDefault: true}})
+      expect(out.metadata.flags).to.deep.equal({
+        startup: {setFromDefault: true}
+      })
     })
 
     it('defaults', () => {
       const out = parse([], {
         args: [{name: 'baz', default: 'BAZ'}],
-        flags: {foo: flags.string({default: 'bar'})},
+        flags: {foo: flags.string({default: 'bar'})}
       })
       expect(out.args).to.deep.include({baz: 'BAZ'})
       expect(out.argv).to.deep.equal(['BAZ'])
@@ -444,7 +464,7 @@ See more help with --help`)
 
     it('accepts falsy', () => {
       const out = parse([], {
-        args: [{name: 'baz', default: false}],
+        args: [{name: 'baz', default: false}]
       })
       expect(out.args).to.deep.include({baz: false})
     })
@@ -452,7 +472,7 @@ See more help with --help`)
     it('default as function', () => {
       const out = parse([], {
         args: [{name: 'baz', default: () => 'BAZ'}],
-        flags: {foo: flags.string({default: () => 'bar'})},
+        flags: {foo: flags.string({default: () => 'bar'})}
       })
       expect(out.args).to.deep.include({baz: 'BAZ'})
       expect(out.argv).to.deep.equal(['BAZ'])
@@ -460,10 +480,11 @@ See more help with --help`)
     })
 
     it('default has options', () => {
-      const def: flags.Default<string | undefined> = ({options}) => options.description
+      const def: flags.Default<string | undefined> = ({options}) =>
+        options.description
       const out = parse([], {
         // args: [{ name: 'baz', default: () => 'BAZ' }],
-        flags: {foo: flags.string({description: 'bar', default: def})},
+        flags: {foo: flags.string({description: 'bar', default: def})}
       })
       // expect(out.args).to.deep.include({ baz: 'BAZ' })
       // expect(out.argv).to.deep.include(['BAZ'])
@@ -475,10 +496,10 @@ See more help with --help`)
       const out = parse(['--foo=bar'], {
         flags: {
           bar: flags.string({
-            default: def,
+            default: def
           }),
-          foo: flags.string(),
-        },
+          foo: flags.string()
+        }
       })
       expect(out.flags).to.deep.include({foo: 'bar', bar: 'bar'})
     })
@@ -488,8 +509,8 @@ See more help with --help`)
     it('default is true', () => {
       const out = parse([], {
         flags: {
-          color: flags.boolean({default: true}),
-        },
+          color: flags.boolean({default: true})
+        }
       })
       expect(out).to.deep.include({flags: {color: true}})
     })
@@ -497,8 +518,8 @@ See more help with --help`)
     it('default is false', () => {
       const out = parse([], {
         flags: {
-          color: flags.boolean({default: false}),
-        },
+          color: flags.boolean({default: false})
+        }
       })
       expect(out).to.deep.include({flags: {color: false}})
     })
@@ -506,8 +527,8 @@ See more help with --help`)
     it('default as function', () => {
       const out = parse([], {
         flags: {
-          color: flags.boolean({default: () => true}),
-        },
+          color: flags.boolean({default: () => true})
+        }
       })
       expect(out).to.deep.include({flags: {color: true}})
     })
@@ -515,8 +536,8 @@ See more help with --help`)
     it('overridden true default', () => {
       const out = parse(['--no-color'], {
         flags: {
-          color: flags.boolean({allowNo: true, default: true}),
-        },
+          color: flags.boolean({allowNo: true, default: true})
+        }
       })
       expect(out).to.deep.include({flags: {color: false}})
     })
@@ -524,8 +545,8 @@ See more help with --help`)
     it('overridden false default', () => {
       const out = parse(['--color'], {
         flags: {
-          color: flags.boolean({default: false}),
-        },
+          color: flags.boolean({default: false})
+        }
       })
       expect(out).to.deep.include({flags: {color: true}})
     })
@@ -535,7 +556,7 @@ See more help with --help`)
     it('can pass parse fn', () => {
       const foo = flags.option({char: 'f', parse: () => 100})
       const out = parse(['-f', 'bar'], {
-        flags: {foo},
+        flags: {foo}
       })
       expect(out.flags).to.deep.include({foo: 100})
     })
@@ -545,14 +566,14 @@ See more help with --help`)
     it('can pass parse fn', () => {
       const foo = flags.build({char: 'f', parse: () => 100})
       const out = parse(['-f', 'bar'], {
-        flags: {foo: foo()},
+        flags: {foo: foo()}
       })
       expect(out.flags).to.deep.include({foo: 100})
     })
     it('does not require parse fn', () => {
       const foo = flags.build({char: 'f'})
       const out = parse(['-f', 'bar'], {
-        flags: {foo: foo()},
+        flags: {foo: foo()}
       })
       expect(out.flags).to.deep.include({foo: 'bar'})
     })
@@ -561,7 +582,7 @@ See more help with --help`)
   describe('flag options', () => {
     it('accepts valid option', () => {
       const out = parse(['--foo', 'myotheropt'], {
-        flags: {foo: flags.string({options: ['myopt', 'myotheropt']})},
+        flags: {foo: flags.string({options: ['myopt', 'myotheropt']})}
       })
       expect(out.flags.foo).to.equal('myotheropt')
     })
@@ -569,7 +590,7 @@ See more help with --help`)
     it('fails when invalid', () => {
       expect(() => {
         parse(['--foo', 'invalidopt'], {
-          flags: {foo: flags.string({options: ['myopt', 'myotheropt']})},
+          flags: {foo: flags.string({options: ['myopt', 'myotheropt']})}
         })
       }).to.throw('Expected --foo=invalidopt to be one of: myopt, myotheropt')
     })
@@ -578,7 +599,7 @@ See more help with --help`)
   describe('arg options', () => {
     it('accepts valid option', () => {
       const out = parse(['myotheropt'], {
-        args: [{name: 'foo', options: ['myopt', 'myotheropt']}],
+        args: [{name: 'foo', options: ['myopt', 'myotheropt']}]
       })
       expect(out.args.foo).to.equal('myotheropt')
     })
@@ -586,7 +607,7 @@ See more help with --help`)
     it('fails when invalid', () => {
       expect(() => {
         parse(['invalidopt'], {
-          args: [{name: 'foo', options: ['myopt', 'myotheropt']}],
+          args: [{name: 'foo', options: ['myopt', 'myotheropt']}]
         })
       }).to.throw('Expected invalidopt to be one of: myopt, myotheropt')
     })
@@ -596,7 +617,7 @@ See more help with --help`)
     it('accepts as environment variable', () => {
       process.env.TEST_FOO = '101'
       const out = parse([], {
-        flags: {foo: flags.string({env: 'TEST_FOO'})},
+        flags: {foo: flags.string({env: 'TEST_FOO'})}
       })
       expect(out.flags.foo).to.equal('101')
       delete process.env.TEST_FOO
@@ -607,9 +628,11 @@ See more help with --help`)
     it('accepts context in parse', () => {
       const out = parse(['--foo'], {
         context: {a: 101},
-        flags: {foo: flags.boolean({
-          parse: (_: any, ctx: any) => ctx.a,
-        })},
+        flags: {
+          foo: flags.boolean({
+            parse: (_: any, ctx: any) => ctx.a
+          })
+        }
       })
       expect(out.flags.foo).to.equal(101)
     })
@@ -617,7 +640,7 @@ See more help with --help`)
 
   it('parses multiple flags', () => {
     const out = parse(['--foo=a', '--foo', 'b'], {
-      flags: {foo: flags.string()},
+      flags: {foo: flags.string()}
     })
     expect(out.flags.foo).to.equal('b')
   })
@@ -627,8 +650,8 @@ See more help with --help`)
       parse([], {
         flags: {
           foo: flags.string({dependsOn: ['bar']}),
-          bar: flags.string({char: 'b'}),
-        },
+          bar: flags.string({char: 'b'})
+        }
       })
     })
 
@@ -636,8 +659,8 @@ See more help with --help`)
       const out = parse(['--foo', 'a', '-bb'], {
         flags: {
           foo: flags.string({dependsOn: ['bar']}),
-          bar: flags.string({char: 'b'}),
-        },
+          bar: flags.string({char: 'b'})
+        }
       })
       expect(out.flags.foo).to.equal('a')
       expect(out.flags.bar).to.equal('b')
@@ -648,8 +671,8 @@ See more help with --help`)
         parse(['--foo', 'a'], {
           flags: {
             foo: flags.string({dependsOn: ['bar']}),
-            bar: flags.string({char: 'b'}),
-          },
+            bar: flags.string({char: 'b'})
+          }
         })
       }).to.throw('--bar= must also be provided when using --foo=')
     })
@@ -660,8 +683,8 @@ See more help with --help`)
       parse([], {
         flags: {
           foo: flags.string({exclusive: ['bar']}),
-          bar: flags.string({char: 'b'}),
-        },
+          bar: flags.string({char: 'b'})
+        }
       })
     })
 
@@ -669,8 +692,8 @@ See more help with --help`)
       const out = parse(['--foo', 'a'], {
         flags: {
           foo: flags.string({exclusive: ['bar']}),
-          bar: flags.string({char: 'b'}),
-        },
+          bar: flags.string({char: 'b'})
+        }
       })
       expect(out.flags.foo).to.equal('a')
     })
@@ -680,10 +703,90 @@ See more help with --help`)
         parse(['--foo', 'a', '-bb'], {
           flags: {
             foo: flags.string({exclusive: ['bar']}),
-            bar: flags.string({char: 'b'}),
-          },
+            bar: flags.string({char: 'b'})
+          }
         })
       }).to.throw('--bar= cannot also be provided when using --foo=')
+    })
+  })
+
+  describe('exactlyOne', () => {
+    it('throws if neither is set', () => {
+      expect(() => {
+        parse([], {
+          flags: {
+            foo: flags.string({exactlyOne: ['bar']}),
+            bar: flags.string({char: 'b', exactlyOne: ['foo']})
+          }
+        })
+      }).to.throw()
+    })
+
+    it('throws if multiple are set', () => {
+      expect(() => {
+        parse(['--foo', 'a', '--bar', 'b'], {
+          flags: {
+            foo: flags.string({exactlyOne: ['bar']}),
+            bar: flags.string({char: 'b', exactlyOne: ['foo']})
+          }
+        })
+      }).to.throw('--bar= cannot also be provided when using --foo=')
+    })
+
+    it('succeeds if exactly one', () => {
+      const out = parse(['--foo', 'a', '--else', '4'], {
+        flags: {
+          foo: flags.string({exactlyOne: ['bar']}),
+          bar: flags.string({char: 'b', exactlyOne: ['foo']}),
+          else: flags.string({char: 'e'})
+        }
+      })
+      expect(out.flags.foo).to.equal('a')
+    })
+
+    it('succeeds if exactly one (the other option)', () => {
+      const out = parse(['--bar', 'b', '--else', '4'], {
+        flags: {
+          foo: flags.string({exactlyOne: ['bar']}),
+          bar: flags.string({char: 'b', exactlyOne: ['foo']}),
+          else: flags.string({char: 'e'})
+        }
+      })
+      expect(out.flags.bar).to.equal('b')
+    })
+
+    it('succeeds if exactly one of three', () => {
+      const out = parse(['--bar', 'b'], {
+        flags: {
+          foo: flags.string({exactlyOne: ['bar', 'else']}),
+          bar: flags.string({char: 'b', exactlyOne: ['foo', 'else']}),
+          else: flags.string({char: 'e', exactlyOne: ['foo', 'bar']})
+        }
+      })
+      expect(out.flags.bar).to.equal('b')
+    })
+
+    it('lets user list flag in its own list', () => {
+      const out = parse(['--bar', 'b'], {
+        flags: {
+          foo: flags.string({exactlyOne: ['foo', 'bar', 'else']}),
+          bar: flags.string({char: 'b', exactlyOne: ['foo', 'bar', 'else']}),
+          else: flags.string({char: 'e', exactlyOne: ['foo', 'bar', 'else']})
+        }
+      })
+      expect(out.flags.bar).to.equal('b')
+    })
+
+    it('fails if multiple of three', () => {
+      expect(() => {
+        parse(['--foo', 'a', '--else', '4'], {
+          flags: {
+            foo: flags.string({exactlyOne: ['bar', 'else']}),
+            bar: flags.string({char: 'b', exactlyOne: ['foo', 'else']}),
+            else: flags.string({char: 'e', exactlyOne: ['foo', 'bar']})
+          }
+        })
+      }).to.throw()
     })
   })
 
@@ -691,24 +794,24 @@ See more help with --help`)
     it('is undefined if not set', () => {
       const out = parse([], {
         flags: {
-          foo: flags.boolean({allowNo: true}),
-        },
+          foo: flags.boolean({allowNo: true})
+        }
       })
       expect(out.flags.foo).to.equal(undefined)
     })
     it('is false', () => {
       const out = parse(['--no-foo'], {
         flags: {
-          foo: flags.boolean({allowNo: true}),
-        },
+          foo: flags.boolean({allowNo: true})
+        }
       })
       expect(out.flags.foo).to.equal(false)
     })
     it('is true', () => {
       const out = parse(['--foo'], {
         flags: {
-          foo: flags.boolean({allowNo: true}),
-        },
+          foo: flags.boolean({allowNo: true})
+        }
       })
       expect(out.flags.foo).to.equal(true)
     })
