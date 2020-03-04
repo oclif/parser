@@ -3,58 +3,58 @@
 import {AlphabetLowercase, AlphabetUppercase} from './alphabet'
 
 export type DefaultContext<T> = {
-  options: IOptionFlag<T>
-  flags: {[k: string]: string}
+  options: IOptionFlag<T>;
+  flags: {[k: string]: string};
 }
 
 export type Default<T> = T | ((context: DefaultContext<T>) => T)
 
 export type IFlagBase<T, I> = {
-  name: string
-  char?: AlphabetLowercase | AlphabetUppercase
-  description?: string
-  helpLabel?: string
-  hidden?: boolean
-  required?: boolean
-  dependsOn?: string[]
-  exclusive?: string[]
-  exactlyOne?: string[]
+  name: string;
+  char?: AlphabetLowercase | AlphabetUppercase;
+  description?: string;
+  helpLabel?: string;
+  hidden?: boolean;
+  required?: boolean;
+  dependsOn?: string[];
+  exclusive?: string[];
+  exactlyOne?: string[];
   /**
    * also accept an environment variable as input
    */
-  env?: string
-  parse(input: I, context: any): T
+  env?: string;
+  parse(input: I, context: any): T;
 }
 
 export type IBooleanFlag<T> = IFlagBase<T, boolean> & {
-  type: 'boolean'
-  allowNo: boolean
+  type: 'boolean';
+  allowNo: boolean;
   /**
    * specifying a default of false is the same not specifying a default
    */
-  default?: Default<boolean>
+  default?: Default<boolean>;
 }
 
 export type IOptionFlag<T> = IFlagBase<T, string> & {
-  type: 'option'
-  helpValue?: string
-  default?: Default<T | undefined>
-  multiple: boolean
-  input: string[]
-  options?: string[]
+  type: 'option';
+  helpValue?: string;
+  default?: Default<T | undefined>;
+  multiple: boolean;
+  input: string[];
+  options?: string[];
 }
 
 export type Definition<T> = {
-  (options: {multiple: true} & Partial<IOptionFlag<T[]>>): IOptionFlag<T[]>
+  (options: {multiple: true} & Partial<IOptionFlag<T[]>>): IOptionFlag<T[]>;
   (
     options: ({required: true} | {default: Default<T>}) &
       Partial<IOptionFlag<T>>,
-  ): IOptionFlag<T>
-  (options?: Partial<IOptionFlag<T>>): IOptionFlag<T | undefined>
+  ): IOptionFlag<T>;
+  (options?: Partial<IOptionFlag<T>>): IOptionFlag<T | undefined>;
 }
 
 export type EnumFlagOptions<T> = Partial<IOptionFlag<T>> & {
-  options: string[]
+  options: string[];
 }
 
 export type IFlag<T> = IBooleanFlag<T> | IOptionFlag<T>

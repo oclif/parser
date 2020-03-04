@@ -10,8 +10,8 @@ import {
 import {ParserInput, ParserOutput} from './parse'
 
 export function validate(parse: {
-  input: ParserInput
-  output: ParserOutput<any, any>
+  input: ParserInput;
+  output: ParserOutput<any, any>;
 }) {
   function validateArgs() {
     const maxArgs = parse.input.args.length
@@ -83,12 +83,12 @@ export function validate(parse: {
         throw new RequiredFlagError({parse, flag})
       } else if (flag.exactlyOne && flag.exactlyOne.length > 0) {
         const intersection = Object.entries(parse.input.flags)
-          .map(entry => entry[0]) // array of flag names
-          .filter(flagName => flagName !== flag.name) // excluding the current flag
-          .filter(flagName => parse.output.flags[flagName] !== undefined) // with values
-          .filter(
-            flagName => flag.exactlyOne && flag.exactlyOne.includes(flagName),
-          ) // and in the exactlyOne list
+        .map(entry => entry[0]) // array of flag names
+        .filter(flagName => flagName !== flag.name) // excluding the current flag
+        .filter(flagName => parse.output.flags[flagName] !== undefined) // with values
+        .filter(
+          flagName => flag.exactlyOne && flag.exactlyOne.includes(flagName),
+        ) // and in the exactlyOne list
 
         if (intersection.length === 0) {
           // the command's exactlyOne may or may not include itself, so we'll use Set to add + de-dupe
