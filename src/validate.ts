@@ -91,10 +91,11 @@ export function validate(parse: {
           ) // and in the exactlyOne list
 
         if (intersection.length === 0) {
+          // the command's exactlyOne may or may not include itself, so we'll use Set to add + de-dupe
           throw new CLIError(
-            `Exactly one of the following must be provided: ${flag.exactlyOne.join(
-              ','
-            )}`
+            `Exactly one of the following must be provided: ${[
+              ...new Set(...flag.exactlyOne, flag.name)
+            ].join(',')}`
           )
         }
       }
