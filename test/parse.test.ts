@@ -788,6 +788,31 @@ See more help with --help`)
         })
       }).to.throw()
     })
+
+    it('handles cross-references/pairings that don\'t make sense', () => {
+      const crazyFlags = {
+        foo: flags.string({exactlyOne: ['bar']}),
+        bar: flags.string({char: 'b', exactlyOne: ['else']}),
+        else: flags.string({char: 'e'}),
+      }
+      expect(() => {
+        parse(['--foo', 'a', '--bar', '4'], {
+          flags: crazyFlags,
+        })
+      }).to.throw()
+
+      expect(() => {
+        parse(['--bar', 'a', '--else', '4'], {
+          flags: crazyFlags,
+        })
+      }).to.throw()
+      const out = parse(['--foo', 'a', '--else', '4'], {
+        flags: crazyFlags,
+      })
+      expect(out.flags.foo).to.equal('a')
+      expect(out.flags.else).to.equal('4')
+      expect(out.flags.bar).to.equal(undefined)
+    })
   })
 
   describe('allowNo', () => {
