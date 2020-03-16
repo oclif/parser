@@ -84,7 +84,6 @@ export function validate(parse: {
       } else if (flag.exactlyOne && flag.exactlyOne.length > 0) {
         const intersection = Object.entries(parse.input.flags)
         .map(entry => entry[0]) // array of flag names
-        .filter(flagName => flagName !== flag.name) // excluding the current flag
         .filter(flagName => parse.output.flags[flagName] !== undefined) // with values
         .filter(
           flagName => flag.exactlyOne && flag.exactlyOne.includes(flagName),
