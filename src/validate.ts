@@ -8,6 +8,7 @@ import {
   UnexpectedArgsError,
 } from './errors'
 import {ParserInput, ParserOutput} from './parse'
+import {IFlag} from './flags'
 
 export function validate(parse: {
   input: ParserInput;
@@ -41,6 +42,19 @@ export function validate(parse: {
 
     if (missingRequiredArgs.length > 0) {
       throw new RequiredArgsError({parse, args: missingRequiredArgs})
+    }
+  }
+
+  function validateAcrossFlags(flag: IFlag<any>) {
+    const intersection = Object.entries(parse.input.flags)
+    .map(entry => entry[0]) // array of flag names
+    .filter(flagName => parse.output.flags[flagName] !== undefined) // with values
+    .filter(flagName => flag.exactlyOne && flag.exactlyOne.includes(flagName)) // and in the exactlyOne list
+    if (intersection.length === 0) {
+      // the command's exactlyOne may or may not include itself, so we'll use Set to add + de-dupe
+      throw new CLIError(`Exactly one of the following must be provided: ${[
+        ...new Set(...flag.exactlyOne || [], flag.name),
+      ].join(',')}`)
     }
   }
 
@@ -82,21 +96,7 @@ export function validate(parse: {
       } else if (flag.required) {
         throw new RequiredFlagError({parse, flag})
       } else if (flag.exactlyOne && flag.exactlyOne.length > 0) {
-        const intersection = Object.entries(parse.input.flags)
-        .map(entry => entry[0]) // array of flag names
-        .filter(flagName => parse.output.flags[flagName] !== undefined) // with values
-        .filter(
-          flagName => flag.exactlyOne && flag.exactlyOne.includes(flagName),
-        ) // and in the exactlyOne list
-
-        if (intersection.length === 0) {
-          // the command's exactlyOne may or may not include itself, so we'll use Set to add + de-dupe
-          throw new CLIError(
-            `Exactly one of the following must be provided: ${[
-              ...new Set(...flag.exactlyOne, flag.name),
-            ].join(',')}`,
-          )
-        }
+        validateAcrossFlags(flag)
       }
     }
   }
