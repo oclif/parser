@@ -1,7 +1,7 @@
 export type ParseFn<T> = (input: string) => T
 
 // eslint-disable-next-line @typescript-eslint/interface-name-prefix
-export interface IArg<T = string> {
+export interface IArg<T = any> {
   name: string;
   description?: string;
   required?: boolean;
