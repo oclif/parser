@@ -195,6 +195,13 @@ See more help with --help`)
         })
         expect(out.argv).to.deep.equal(['--foo'])
       })
+
+      it('parses - as an arg', () => {
+        const out = parse(['-'], {
+          args: [{name: 'myarg'}],
+        })
+        expect(out.argv).to.deep.equal(['-'])
+      })
     })
 
     describe('args - no args passed in, with defaults', () => {
