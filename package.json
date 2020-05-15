@@ -5,12 +5,12 @@
   "author": "Jeff Dickey @jdxcode",
   "bugs": "https://github.com/oclif/parser/issues",
   "dependencies": {
+    "@oclif/errors": "^1.2.2",
     "@oclif/linewrap": "^1.0.0",
     "chalk": "^2.4.2",
     "tslib": "^1.9.3"
   },
   "devDependencies": {
-    "@oclif/errors": "^1.2.2",
     "@types/chai": "^4.1.7",
     "@types/mocha": "^5.2.6",
     "@types/nock": "^9.3.1",
