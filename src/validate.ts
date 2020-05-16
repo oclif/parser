@@ -4,7 +4,7 @@ import {Arg} from './args'
 import {InvalidArgsSpecError, RequiredArgsError, RequiredFlagError, UnexpectedArgsError} from './errors'
 import {ParserInput, ParserOutput} from './parse'
 
-export function validate(parse: { input: ParserInput; output: ParserOutput<any, any> }) {
+export function validate(parse: { input: ParserInput; output: ParserOutput<any> }) {
   function validateArgs() {
     const maxArgs = parse.input.args.length
     if (parse.input.strict && parse.output.argv.length > maxArgs) {
@@ -12,7 +12,7 @@ export function validate(parse: { input: ParserInput; output: ParserOutput<any, 
       throw new UnexpectedArgsError({parse, args: extras})
     }
 
-    const missingRequiredArgs: Arg<any>[] = []
+    const missingRequiredArgs: Arg<any, any>[] = []
     let hasOptional = false
 
     parse.input.args.forEach((arg, index) => {

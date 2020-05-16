@@ -451,7 +451,7 @@ See more help with --help`)
 
     it('accepts falsy', () => {
       const out = parse([], {
-        args: [{name: 'baz', default: false}],
+        args: [{name: 'baz' as const, default: false}],
       })
       expect(out.args).to.deep.include({baz: false})
     })
@@ -585,7 +585,7 @@ See more help with --help`)
   describe('arg options', () => {
     it('accepts valid option', () => {
       const out = parse(['myotheropt'], {
-        args: [{name: 'foo', options: ['myopt', 'myotheropt']}],
+        args: [{name: 'foo' as const, options: ['myopt', 'myotheropt']}],
       })
       expect(out.args.foo).to.equal('myotheropt')
     })
