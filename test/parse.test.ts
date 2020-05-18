@@ -290,6 +290,42 @@ See more help with --help`)
       })
     })
 
+    describe('multiple flags with single value', () => {
+      it('parses multiple flags with single value', () => {
+        const out = parse(['--bar', 'a', 'b', '--bar=c', '--baz=d', 'e'], {
+          args: [{name: 'argOne'}],
+          flags: {
+            bar: flags.string({multiple: true, singleValue: true}),
+            baz: flags.string({multiple: true}),
+          },
+        })
+        expect(out.flags.baz.join('|')).to.equal('d|e')
+        expect(out.flags.bar.join('|')).to.equal('a|c')
+        expect(out.args).to.deep.equal({argOne: 'b'})
+      })
+
+      it('parses multiple flags with single value multiple args', () => {
+        const out = parse(['c', '--bar', 'a', 'b'], {
+          args: [{name: 'argOne'}, {name: 'argTwo'}],
+          flags: {
+            bar: flags.string({multiple: true, singleValue: true}),
+          },
+        })
+        expect(out.flags.bar.join('|')).to.equal('a')
+        expect(out.args).to.deep.equal({argOne: 'c', argTwo: 'b'})
+      })
+
+      it('fails to parse with single value and no args option', () => {
+        expect(() => {
+          parse(['--bar', 'a', 'b'], {
+            flags: {
+              bar: flags.string({multiple: true, singleValue: true}),
+            },
+          })
+        }).to.throw('Unexpected argument: b')
+      })
+    })
+
     describe('strict: false', () => {
       it('skips flag parsing after "--"', () => {
         const out = parse(['foo', 'bar', '--', '--myflag'], {
