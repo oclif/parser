@@ -36,6 +36,7 @@ export type IOptionFlag<T> = IFlagBase<T, string> & {
   helpValue?: string;
   default?: Default<T | undefined>;
   multiple: boolean;
+  singleValue: boolean;
   input: string[];
   options?: string[];
 }
@@ -62,6 +63,7 @@ export function build<T>(defaults: Partial<IOptionFlag<T>>): Definition<T> {
       ...options,
       input: [] as string[],
       multiple: Boolean(options.multiple),
+      singleValue: Boolean(options.singleValue),
       type: 'option',
     } as any
   }
