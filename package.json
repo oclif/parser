@@ -1,16 +1,16 @@
 {
   "name": "@oclif/parser",
   "description": "arg and flag parser for oclif",
-  "version": "3.8.4",
+  "version": "3.8.5",
   "author": "Jeff Dickey @jdxcode",
   "bugs": "https://github.com/oclif/parser/issues",
   "dependencies": {
+    "@oclif/errors": "^1.2.2",
     "@oclif/linewrap": "^1.0.0",
     "chalk": "^2.4.2",
     "tslib": "^1.9.3"
   },
   "devDependencies": {
-    "@oclif/errors": "^1.2.2",
     "@types/chai": "^4.1.7",
     "@types/mocha": "^5.2.6",
     "@types/nock": "^9.3.1",
@@ -24,7 +24,7 @@
     "eslint-config-oclif-typescript": "^0.1.0",
     "mocha": "^6.1.4",
     "ts-node": "^8.1.0",
-    "typescript": "^3.4.5"
+    "typescript": "3.8.3"
   },
   "engines": {
     "node": ">=8.0.0"

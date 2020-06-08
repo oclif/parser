@@ -130,7 +130,7 @@ export class Parser<T extends ParserInput, TFlags extends OutputFlags<T['flags']
     let parsingFlags = true
     while (this.argv.length) {
       const input = this.argv.shift() as string
-      if (parsingFlags && input.startsWith('-')) {
+      if (parsingFlags && input.startsWith('-') && input !== '-') {
         // attempt to parse as arg
         if (this.input['--'] !== false && input === '--') {
           parsingFlags = false
