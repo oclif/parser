@@ -2,7 +2,10 @@
 
 import {AlphabetLowercase, AlphabetUppercase} from './alphabet'
 
-export type DefaultContext<T> = { options: IOptionFlag<T>; flags: { [k: string]: string } }
+export type DefaultContext<T> = {
+  options: IOptionFlag<T>;
+  flags: {[k: string]: string};
+}
 
 export type Default<T> = T | ((context: DefaultContext<T>) => T)
 
@@ -15,6 +18,7 @@ export type IFlagBase<T, I> = {
   required?: boolean;
   dependsOn?: string[];
   exclusive?: string[];
+  exactlyOne?: string[];
   /**
    * also accept an environment variable as input
    */
@@ -42,7 +46,10 @@ export type IOptionFlag<T> = IFlagBase<T, string> & {
 
 export type Definition<T> = {
   (options: {multiple: true} & Partial<IOptionFlag<T[]>>): IOptionFlag<T[]>;
-  (options: ({required: true} | {default: Default<T>}) & Partial<IOptionFlag<T>>): IOptionFlag<T>;
+  (
+    options: ({required: true} | {default: Default<T>}) &
+      Partial<IOptionFlag<T>>,
+  ): IOptionFlag<T>;
   (options?: Partial<IOptionFlag<T>>): IOptionFlag<T | undefined>;
 }
 
@@ -52,8 +59,12 @@ export type EnumFlagOptions<T> = Partial<IOptionFlag<T>> & {
 
 export type IFlag<T> = IBooleanFlag<T> | IOptionFlag<T>
 
-export function build<T>(defaults: {parse: IOptionFlag<T>['parse']} & Partial<IOptionFlag<T>>): Definition<T>
-export function build(defaults: Partial<IOptionFlag<string>>): Definition<string>
+export function build<T>(
+  defaults: {parse: IOptionFlag<T>['parse']} & Partial<IOptionFlag<T>>,
+): Definition<T>
+export function build(
+  defaults: Partial<IOptionFlag<string>>,
+): Definition<string>
 export function build<T>(defaults: Partial<IOptionFlag<T>>): Definition<T> {
   return (options: any = {}): any => {
     return {
@@ -67,7 +78,9 @@ export function build<T>(defaults: Partial<IOptionFlag<T>>): Definition<T> {
   }
 }
 
-export function boolean<T = boolean>(options: Partial<IBooleanFlag<T>> = {}): IBooleanFlag<T> {
+export function boolean<T = boolean>(
+  options: Partial<IBooleanFlag<T>> = {},
+): IBooleanFlag<T> {
   return {
     parse: (b, _) => b,
     ...options,
@@ -78,12 +91,15 @@ export function boolean<T = boolean>(options: Partial<IBooleanFlag<T>> = {}): IB
 
 export const integer = build({
   parse: input => {
-    if (!/^-?\d+$/.test(input)) throw new Error(`Expected an integer but received: ${input}`)
+    if (!/^-?\d+$/.test(input))
+      throw new Error(`Expected an integer but received: ${input}`)
     return parseInt(input, 10)
   },
 })
 
-export function option<T>(options: {parse: IOptionFlag<T>['parse']} & Partial<IOptionFlag<T>>) {
+export function option<T>(
+  options: {parse: IOptionFlag<T>['parse']} & Partial<IOptionFlag<T>>,
+) {
   return build<T>(options)()
 }
 
@@ -95,4 +111,4 @@ export const defaultFlags = {
 }
 
 export type Output = {[name: string]: any}
-export type Input<T extends Output> = { [P in keyof T]: IFlag<T[P]> }
+export type Input<T extends Output> = {[P in keyof T]: IFlag<T[P]>}
