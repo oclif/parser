@@ -125,7 +125,9 @@ describe('parse', () => {
             }),
           },
         })
-      }).to.throw('Missing required flag:\n --myflag MYFLAG  flag description\nSee more help with --help')
+      }).to.throw(
+        'Missing required flag:\n --myflag MYFLAG  flag description\nSee more help with --help',
+      )
     })
 
     it('removes flags from argv', () => {
@@ -184,7 +186,10 @@ See more help with --help`)
 
       it('skips non-required args', () => {
         const out = parse(['foo'], {
-          args: [{name: 'myarg', required: false}, {name: 'myarg2', required: false}],
+          args: [
+            {name: 'myarg', required: false},
+            {name: 'myarg2', required: false},
+          ],
         })
         expect(out.argv).to.deep.equal(['foo'])
       })
@@ -442,19 +447,32 @@ See more help with --help`)
     })
 
     it('flag multiple without flag in the middle', () => {
-      const out = parse(['--foo', './a.txt', './b.txt', './c.txt', '--hello', 'world'], {
-        flags: {foo: flags.string({multiple: true}), hello: flags.string()},
+      const out = parse(
+        ['--foo', './a.txt', './b.txt', './c.txt', '--hello', 'world'],
+        {
+          flags: {
+            foo: flags.string({multiple: true}),
+            hello: flags.string(),
+          },
+        },
+      )
+      expect(out.flags).to.deep.include({
+        foo: ['./a.txt', './b.txt', './c.txt'],
       })
-      expect(out.flags).to.deep.include({foo: ['./a.txt', './b.txt', './c.txt']})
       expect(out.flags).to.deep.include({hello: 'world'})
     })
 
     it('flag multiple with arguments', () => {
-      const out = parse(['--foo', './a.txt', './b.txt', './c.txt', '--', '15'], {
-        args: [{name: 'num'}],
-        flags: {foo: flags.string({multiple: true})},
+      const out = parse(
+        ['--foo', './a.txt', './b.txt', './c.txt', '--', '15'],
+        {
+          args: [{name: 'num'}],
+          flags: {foo: flags.string({multiple: true})},
+        },
+      )
+      expect(out.flags).to.deep.include({
+        foo: ['./a.txt', './b.txt', './c.txt'],
       })
-      expect(out.flags).to.deep.include({foo: ['./a.txt', './b.txt', './c.txt']})
       expect(out.args).to.deep.include({num: '15'})
     })
   })
@@ -472,7 +490,9 @@ See more help with --help`)
           }),
         },
       })
-      expect(out.metadata.flags).to.deep.equal({startup: {setFromDefault: true}})
+      expect(out.metadata.flags).to.deep.equal({
+        startup: {setFromDefault: true},
+      })
     })
 
     it('defaults', () => {
@@ -503,7 +523,8 @@ See more help with --help`)
     })
 
     it('default has options', () => {
-      const def: flags.Default<string | undefined> = ({options}) => options.description
+      const def: flags.Default<string | undefined> = ({options}) =>
+        options.description
       const out = parse([], {
         // args: [{ name: 'baz', default: () => 'BAZ' }],
         flags: {foo: flags.string({description: 'bar', default: def})},
@@ -650,9 +671,11 @@ See more help with --help`)
     it('accepts context in parse', () => {
       const out = parse(['--foo'], {
         context: {a: 101},
-        flags: {foo: flags.boolean({
-          parse: (_: any, ctx: any) => ctx.a,
-        })},
+        flags: {
+          foo: flags.boolean({
+            parse: (_: any, ctx: any) => ctx.a,
+          }),
+        },
       })
       expect(out.flags.foo).to.equal(101)
     })
@@ -727,6 +750,111 @@ See more help with --help`)
           },
         })
       }).to.throw('--bar= cannot also be provided when using --foo=')
+    })
+  })
+
+  describe('exactlyOne', () => {
+    it('throws if neither is set', () => {
+      expect(() => {
+        parse([], {
+          flags: {
+            foo: flags.string({exactlyOne: ['bar']}),
+            bar: flags.string({char: 'b', exactlyOne: ['foo']}),
+          },
+        })
+      }).to.throw()
+    })
+
+    it('throws if multiple are set', () => {
+      expect(() => {
+        parse(['--foo', 'a', '--bar', 'b'], {
+          flags: {
+            foo: flags.string({exactlyOne: ['bar']}),
+            bar: flags.string({char: 'b', exactlyOne: ['foo']}),
+          },
+        })
+      }).to.throw('--bar= cannot also be provided when using --foo=')
+    })
+
+    it('succeeds if exactly one', () => {
+      const out = parse(['--foo', 'a', '--else', '4'], {
+        flags: {
+          foo: flags.string({exactlyOne: ['bar']}),
+          bar: flags.string({char: 'b', exactlyOne: ['foo']}),
+          else: flags.string({char: 'e'}),
+        },
+      })
+      expect(out.flags.foo).to.equal('a')
+    })
+
+    it('succeeds if exactly one (the other option)', () => {
+      const out = parse(['--bar', 'b', '--else', '4'], {
+        flags: {
+          foo: flags.string({exactlyOne: ['bar']}),
+          bar: flags.string({char: 'b', exactlyOne: ['foo']}),
+          else: flags.string({char: 'e'}),
+        },
+      })
+      expect(out.flags.bar).to.equal('b')
+    })
+
+    it('succeeds if exactly one of three', () => {
+      const out = parse(['--bar', 'b'], {
+        flags: {
+          foo: flags.string({exactlyOne: ['bar', 'else']}),
+          bar: flags.string({char: 'b', exactlyOne: ['foo', 'else']}),
+          else: flags.string({char: 'e', exactlyOne: ['foo', 'bar']}),
+        },
+      })
+      expect(out.flags.bar).to.equal('b')
+    })
+
+    it('lets user list flag in its own list', () => {
+      const out = parse(['--bar', 'b'], {
+        flags: {
+          foo: flags.string({exactlyOne: ['foo', 'bar', 'else']}),
+          bar: flags.string({char: 'b', exactlyOne: ['foo', 'bar', 'else']}),
+          else: flags.string({char: 'e', exactlyOne: ['foo', 'bar', 'else']}),
+        },
+      })
+      expect(out.flags.bar).to.equal('b')
+    })
+
+    it('fails if multiple of three', () => {
+      expect(() => {
+        parse(['--foo', 'a', '--else', '4'], {
+          flags: {
+            foo: flags.string({exactlyOne: ['bar', 'else']}),
+            bar: flags.string({char: 'b', exactlyOne: ['foo', 'else']}),
+            else: flags.string({char: 'e', exactlyOne: ['foo', 'bar']}),
+          },
+        })
+      }).to.throw()
+    })
+
+    it('handles cross-references/pairings that don\'t make sense', () => {
+      const crazyFlags = {
+        foo: flags.string({exactlyOne: ['bar']}),
+        bar: flags.string({char: 'b', exactlyOne: ['else']}),
+        else: flags.string({char: 'e'}),
+      }
+      expect(() => {
+        parse(['--foo', 'a', '--bar', '4'], {
+          flags: crazyFlags,
+        })
+      }).to.throw()
+
+      expect(() => {
+        parse(['--bar', 'a', '--else', '4'], {
+          flags: crazyFlags,
+        })
+      }).to.throw()
+      const out = parse(['--foo', 'a', '--else', '4'], {
+        flags: crazyFlags,
+      })
+      expect(out.flags.foo).to.equal('a')
+      expect(out.flags.else).to.equal('4')
+      expect(out.flags.bar).to.equal(undefined)
     })
   })
 
