@@ -61,10 +61,10 @@
   dependencies:
     "@types/node" "*"
 
-"@types/node-notifier@^5.4.0":
-  version "5.4.0"
-  resolved "https://registry.yarnpkg.com/@types/node-notifier/-/node-notifier-5.4.0.tgz#4e66c85eb41cce8387b4cd9c6c67852be41a99db"
-  integrity sha512-M1XvCG6Rwej6+W0+kWultE46YS7erOy+W7suRmXtKwLGT3ytj6YEe9lqo47nRfL1xILzg9xJpKeNczIsWR8ymw==
+"@types/node-notifier@^6.0.1":
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/@types/node-notifier/-/node-notifier-6.0.1.tgz#282bb8c37d69be3343c359efc8b9c97fad46a0e9"
+  integrity sha512-PBkKwgjxu2aA24zh5Rng8FlL03R4zopZbTtzeKbWLfF+AMeHBMk3Ls12K/yZchYhe/riuiarPXcRJGUBLGb15w==
   dependencies:
     "@types/node" "*"
 
