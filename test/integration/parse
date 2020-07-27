@@ -1,0 +1,9 @@
+#!/usr/bin/env node
+
+const {parse} = require('../../lib')
+
+const out = parse([], {
+  args: [{name: 'foo'}],
+})
+
+console.log(out.args.foo)

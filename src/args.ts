@@ -1,3 +1,5 @@
+import * as fs from 'fs-extra'
+
 export type ParseFn<T> = (input: string) => T
 
 // eslint-disable-next-line @typescript-eslint/interface-name-prefix
@@ -40,6 +42,12 @@ export function newArg(arg: IArg<any>): any {
     parse: (i: string) => i,
     ...arg,
     required: Boolean(arg.required),
+    default: () => {
+      let stdin: Buffer | string = fs.readFileSync('/dev/stdin')
+      stdin = stdin && stdin.toString()
+      if (stdin.length === 0) return
+      return stdin
+    },
   }
 }
 
