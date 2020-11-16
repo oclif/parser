@@ -426,6 +426,58 @@ See more help with --help`)
       expect(out.flags).to.deep.include({hello: 'world'})
     })
 
+    it('ends when a flag that wants input is found', () => {
+      const out = parse(
+        ['--foo', './a.txt', './b.txt', './c.txt', '--bar', 'world', 'me'],
+        {
+          flags: {
+            foo: flags.string({multiple: true}),
+            bar: flags.string(),
+          },
+          args: [{name: 'arg', required: false}],
+        },
+      )
+      expect(out.flags).to.deep.include({
+        foo: ['./a.txt', './b.txt', './c.txt'],
+      })
+      expect(out.flags).to.deep.include({bar: 'world'})
+      expect(out.argv).to.deep.equal(['me'])
+    })
+    it('ends when a flag that does not want input is found', () => {
+      const out = parse(
+        ['--foo', './a.txt', './b.txt', './c.txt', '--bar', 'world'],
+        {
+          flags: {
+            foo: flags.string({multiple: true}),
+            bar: flags.boolean(),
+          },
+          args: [{name: 'arg', required: false}],
+        },
+      )
+      expect(out.flags).to.deep.include({
+        foo: ['./a.txt', './b.txt', './c.txt'],
+      })
+      expect(out.flags).to.deep.include({bar: true})
+      expect(out.argv).to.deep.equal(['world'])
+    })
+    it('ends when next flag is found with strict=false', () => {
+      const out = parse(
+        ['--foo', './a.txt', './b.txt', './c.txt', '--bar', 'world'],
+        {
+          flags: {
+            foo: flags.string({multiple: true}),
+            bar: flags.boolean(),
+          },
+          strict: false,
+        },
+      )
+      /* expect(out.flags).to.deep.include({
+        foo: ['./a.txt', './b.txt', './c.txt'],
+      }) */
+      expect(out.flags).to.deep.include({bar: true})
+      expect(out.argv).to.deep.equal(['world'])
+    })
+
     it('flag multiple with arguments', () => {
       const out = parse(
         ['--foo', './a.txt', './b.txt', './c.txt', '--', '15'],
