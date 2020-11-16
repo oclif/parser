@@ -78,7 +78,19 @@ describe('parse', () => {
         expect(Boolean(out.flags.myflag)).to.equal(true)
         expect(Boolean(out.flags.force)).to.equal(true)
       })
+
+      it('parses short flags with values', () => {
+        const out = parse(['-mf', 'cat'], {
+          flags: {
+            force: flags.string({char: 'f'}),
+            myflag: flags.boolean({char: 'm'}),
+          },
+        })
+        expect(out.flags.force).to.equal('cat')
+        expect(out.flags.myflag).to.equal(true)
+      })
     })
+
     it('parses flag value with "=" to separate', () => {
       const out = parse(['--myflag=foo'], {
         flags: {
@@ -113,6 +125,18 @@ describe('parse', () => {
         },
       })
       expect(out.flags).to.deep.equal({myflag: ''})
+    })
+
+    it('fails with multiple char option flags', () => {
+      expect(() => parse(
+        ['-fb', 'foo'],
+        {
+          flags: {
+            foo: flags.string({char: 'f'}),
+            bar: flags.string({char: 'b'}),
+          },
+        },
+      )).to.throw()
     })
 
     it('requires required flag', () => {
@@ -426,7 +450,7 @@ See more help with --help`)
       expect(out.flags).to.deep.include({hello: 'world'})
     })
 
-    it('ends when a flag that wants input is found', () => {
+    it('ends when another option flag is found', () => {
       const out = parse(
         ['--foo', './a.txt', './b.txt', './c.txt', '--bar', 'world', 'me'],
         {
@@ -443,7 +467,7 @@ See more help with --help`)
       expect(out.flags).to.deep.include({bar: 'world'})
       expect(out.argv).to.deep.equal(['me'])
     })
-    it('ends when a flag that does not want input is found', () => {
+    it('ends when a non-option flag is found', () => {
       const out = parse(
         ['--foo', './a.txt', './b.txt', './c.txt', '--bar', 'world'],
         {
@@ -476,6 +500,21 @@ See more help with --help`)
       }) */
       expect(out.flags).to.deep.include({bar: true})
       expect(out.argv).to.deep.equal(['world'])
+    })
+    it('handles char flags intuitively', () => {
+      const out = parse(
+        ['-fb', 'foo', 'bar'],
+        {
+          flags: {
+            foo: flags.boolean({char: 'f'}),
+            bar: flags.string({char: 'b', multiple: true}),
+          },
+        },
+      )
+      expect(out.flags).to.deep.include({
+        bar: ['foo', 'bar'],
+        foo: true,
+      })
     })
 
     it('flag multiple with arguments', () => {
