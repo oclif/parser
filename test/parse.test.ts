@@ -127,6 +127,16 @@ describe('parse', () => {
       expect(out.flags).to.deep.equal({myflag: ''})
     })
 
+    it('parses flag as an arg to a flag option', () => {
+      const out = parse(['--foo', '--bar'], {
+        flags: {
+          foo: flags.string(),
+          bar: flags.string(),
+        },
+      })
+      expect(out.flags).to.deep.equal({foo: '--bar'})
+    })
+
     it('fails with multiple char option flags', () => {
       expect(() => parse(
         ['-fb', 'foo'],
@@ -448,6 +458,21 @@ See more help with --help`)
         foo: ['./a.txt', './b.txt', './c.txt'],
       })
       expect(out.flags).to.deep.include({hello: 'world'})
+    })
+
+    it('always eats the first argument', () => {
+      const out = parse(['--foo', '--bar', 'camel', '--car'], {
+        flags: {
+          foo: flags.string({multiple: true}),
+          bar: flags.boolean({default: false}),
+          car: flags.boolean({default: false}),
+        },
+      })
+      expect(out.flags).to.deep.equal({
+        foo: ['--bar', 'camel'],
+        bar: false,
+        car: true,
+      })
     })
 
     it('ends when another option flag is found', () => {
