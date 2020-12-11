@@ -22,7 +22,7 @@
     "eslint": "^7.3.1",
     "eslint-config-oclif": "^3.1.0",
     "eslint-config-oclif-typescript": "^0.2.0",
-    "mocha": "^6.1.4",
+    "mocha": "^8.2.1",
     "ts-node": "^9.0.0",
     "typescript": "3.8.3"
   },
