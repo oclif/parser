@@ -7,7 +7,7 @@
   "dependencies": {
     "@oclif/errors": "^1.2.2",
     "@oclif/linewrap": "^1.0.0",
-    "chalk": "^2.4.2",
+    "chalk": "^4.1.0",
     "tslib": "^2.0.0"
   },
   "devDependencies": {

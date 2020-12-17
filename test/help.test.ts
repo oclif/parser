@@ -1,10 +1,7 @@
 import {expect} from 'chai'
-import chalk from 'chalk'
 
 import * as flags from '../src/flags'
 import {flagUsages} from '../src/help'
-
-chalk.enabled = false
 
 describe('flagUsage', () => {
   it('shows usages', () => {
