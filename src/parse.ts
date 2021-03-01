@@ -229,7 +229,11 @@ export class Parser<T extends ParserInput, TFlags extends OutputFlags<T['flags']
           if (arg.options && !arg.options.includes(token.input)) {
             throw new m.errors.ArgInvalidOptionError(arg, token.input)
           }
-          args[i] = arg.parse(token.input)
+          const parsedToken = arg.parse(token.input)
+          if (arg.postParseOptions && !arg.postParseOptions.includes(parsedToken)) {
+            throw new m.errors.ArgInvalidPostParseOptionError(arg, parsedToken)
+          }
+          args[i] = parsedToken
         } else {
           args[i] = token.input
         }
