@@ -98,3 +98,10 @@ export class ArgInvalidOptionError extends CLIParseError {
     super({parse: {}, message})
   }
 }
+
+export class ArgInvalidPostParseOptionError extends CLIParseError {
+  constructor(arg: Arg<any>, input: string) {
+    const message = `Expected ${input} to be one of: ${arg.postParseOptions!.join(', ')} after parsing`
+    super({parse: {}, message})
+  }
+}

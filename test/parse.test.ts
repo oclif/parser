@@ -617,6 +617,23 @@ See more help with --help`)
     })
   })
 
+  describe('arg postParseOptions', () => {
+    it('accepts valid postParseOptions', () => {
+      const out = parse(['myotheropt'], {
+        args: [{name: 'foo', parse: s => s.toUpperCase(), postParseOptions: ['MYOPT', 'MYOTHEROPT']}],
+      })
+      expect(out.args.foo).to.equal('MYOTHEROPT')
+    })
+
+    it('fails when invalid', () => {
+      expect(() => {
+        parse(['invalidopt'], {
+          args: [{name: 'foo', parse: s => s.toUpperCase(), postParseOptions: ['MYOPT', 'MYOTHEROPT']}],
+        })
+      }).to.throw('Expected INVALIDOPT to be one of: MYOPT, MYOTHEROPT after parsing')
+    })
+  })
+
   describe('env', () => {
     it('accepts as environment variable', () => {
       process.env.TEST_FOO = '101'

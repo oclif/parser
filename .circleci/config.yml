@@ -7,6 +7,7 @@ jobs:
     working_directory: ~/cli
     environment:
       NYC: "yarn exec nyc -- --nycrc-path node_modules/@oclif/nyc-config/.nycrc"
+      FORCE_COLOR: "0"
     steps:
       - checkout
       - restore_cache: &restore_cache
