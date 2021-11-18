@@ -25,9 +25,9 @@ try {
   debug = () => {}
 }
 
-export type OutputArgs<T extends ParserInput['args']> = { [P in keyof T]: any }
+export type OutputArgs = { [name: string]: any }
 export type OutputFlags<T extends ParserInput['flags']> = { [P in keyof T]: any }
-export type ParserOutput<TFlags extends OutputFlags<any>, TArgs extends OutputArgs<any>> = {
+export type ParserOutput<TFlags extends OutputFlags<any>, TArgs extends OutputArgs> = {
   flags: TFlags;
   args: TArgs;
   argv: string[];
@@ -48,7 +48,7 @@ export interface ParserInput {
   '--'?: boolean;
 }
 
-export class Parser<T extends ParserInput, TFlags extends OutputFlags<T['flags']>, TArgs extends OutputArgs<T['args']>> {
+export class Parser<T extends ParserInput, TFlags extends OutputFlags<T['flags']>, TArgs extends OutputArgs> {
   private readonly argv: string[]
 
   private readonly raw: ParsingToken[] = []
