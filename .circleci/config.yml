@@ -1,5 +1,7 @@
 ---
-version: 2
+version: 2.1
+orbs:
+  release-management: salesforce/npm-release-management@4
 jobs:
   node-latest: &test
     docker:
@@ -26,8 +28,18 @@ jobs:
 
 workflows:
   version: 2
-  "@oclif/parser":
+  test:
     jobs:
       - node-latest
       - node-12
       - node-10
+  dependabot-automerge:
+    triggers:
+      - schedule:
+          cron: '0 2,5,8,11 * * *'
+          filters:
+            branches:
+              only:
+                - main
+    jobs:
+      - release-management/dependabot-automerge
