@@ -4,11 +4,11 @@
 arg and flag parser for oclif
 
 [![Version](https://img.shields.io/npm/v/@oclif/parser.svg)](https://npmjs.org/package/@oclif/parser)
-[![CircleCI](https://circleci.com/gh/oclif/parser/tree/master.svg?style=svg)](https://circleci.com/gh/oclif/parser/tree/master)
-[![Appveyor CI](https://ci.appveyor.com/api/projects/status/github/oclif/parser?branch=master&svg=true)](https://ci.appveyor.com/project/heroku/parser/branch/master)
+[![CircleCI](https://circleci.com/gh/oclif/parser/tree/main.svg?style=svg)](https://circleci.com/gh/oclif/parser/tree/main)
+[![Appveyor CI](https://ci.appveyor.com/api/projects/status/github/oclif/parser?branch=main&svg=true)](https://ci.appveyor.com/project/heroku/parser/branch/main)
 [![Known Vulnerabilities](https://snyk.io/test/npm/@oclif/parser/badge.svg)](https://snyk.io/test/npm/@oclif/parser)
 [![Downloads/week](https://img.shields.io/npm/dw/@oclif/parser.svg)](https://npmjs.org/package/@oclif/parser)
-[![License](https://img.shields.io/npm/l/@oclif/parser.svg)](https://github.com/oclif/parser/blob/master/package.json)
+[![License](https://img.shields.io/npm/l/@oclif/parser.svg)](https://github.com/oclif/parser/blob/main/package.json)
 
 CLI flag parser.
 
