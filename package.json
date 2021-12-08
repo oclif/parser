@@ -24,7 +24,7 @@
     "eslint-config-oclif-typescript": "^0.2.0",
     "mocha": "^8.2.1",
     "ts-node": "^9.0.0",
-    "typescript": "3.8.3"
+    "typescript": "3.9.10"
   },
   "engines": {
     "node": ">=8.0.0"
