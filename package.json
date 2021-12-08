@@ -2,7 +2,7 @@
   "name": "@oclif/parser",
   "description": "arg and flag parser for oclif",
   "version": "3.8.6",
-  "author": "Jeff Dickey @jdxcode",
+  "author": "Salesforce",
   "bugs": "https://github.com/oclif/parser/issues",
   "dependencies": {
     "@oclif/errors": "^1.2.2",
