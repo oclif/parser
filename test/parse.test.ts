@@ -719,11 +719,11 @@ See more help with --help`)
       expect(() => {
         parse([], {
           flags: {
-            foo: flags.string({exactlyOne: ['bar']}),
-            bar: flags.string({char: 'b', exactlyOne: ['foo']}),
+            foo: flags.string({exactlyOne: ['bar', 'foo']}),
+            bar: flags.string({char: 'b', exactlyOne: ['bar', 'foo']}),
           },
         })
-      }).to.throw()
+      }).to.throws('Exactly one of the following must be provided: bar, foo')
     })
 
     it('throws if multiple are set', () => {
