@@ -1,7 +1,7 @@
 {
   "name": "@oclif/parser",
   "description": "arg and flag parser for oclif",
-  "version": "3.8.6",
+  "version": "3.8.7",
   "author": "Salesforce",
   "bugs": "https://github.com/oclif/parser/issues",
   "dependencies": {
