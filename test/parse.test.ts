@@ -75,7 +75,19 @@ describe('parse', () => {
         expect(Boolean(out.flags.myflag)).to.equal(true)
         expect(Boolean(out.flags.force)).to.equal(true)
       })
+
+      it('parses short flags with values', () => {
+        const out = parse(['-mf', 'cat'], {
+          flags: {
+            force: flags.string({char: 'f'}),
+            myflag: flags.boolean({char: 'm'}),
+          },
+        })
+        expect(out.flags.force).to.equal('cat')
+        expect(out.flags.myflag).to.equal(true)
+      })
     })
+
     it('parses flag value with "=" to separate', () => {
       const out = parse(['--myflag=foo'], {
         flags: {
@@ -110,6 +122,28 @@ describe('parse', () => {
         },
       })
       expect(out.flags).to.deep.equal({myflag: ''})
+    })
+
+    it('parses flag as an arg to a flag option', () => {
+      const out = parse(['--foo', '--bar'], {
+        flags: {
+          foo: flags.string(),
+          bar: flags.string(),
+        },
+      })
+      expect(out.flags).to.deep.equal({foo: '--bar'})
+    })
+
+    it('fails with multiple char option flags', () => {
+      expect(() => parse(
+        ['-fb', 'foo'],
+        {
+          flags: {
+            foo: flags.string({char: 'f'}),
+            bar: flags.string({char: 'b'}),
+          },
+        },
+      )).to.throw()
     })
 
     it('requires required flag', () => {
@@ -421,6 +455,88 @@ See more help with --help`)
         foo: ['./a.txt', './b.txt', './c.txt'],
       })
       expect(out.flags).to.deep.include({hello: 'world'})
+    })
+
+    it('always eats the first argument', () => {
+      const out = parse(['--foo', '--bar', 'camel', '--car'], {
+        flags: {
+          foo: flags.string({multiple: true}),
+          bar: flags.boolean({default: false}),
+          car: flags.boolean({default: false}),
+        },
+      })
+      expect(out.flags).to.deep.equal({
+        foo: ['--bar', 'camel'],
+        bar: false,
+        car: true,
+      })
+    })
+
+    it('ends when another option flag is found', () => {
+      const out = parse(
+        ['--foo', './a.txt', './b.txt', './c.txt', '--bar', 'world', 'me'],
+        {
+          flags: {
+            foo: flags.string({multiple: true}),
+            bar: flags.string(),
+          },
+          args: [{name: 'arg', required: false}],
+        },
+      )
+      expect(out.flags).to.deep.include({
+        foo: ['./a.txt', './b.txt', './c.txt'],
+      })
+      expect(out.flags).to.deep.include({bar: 'world'})
+      expect(out.argv).to.deep.equal(['me'])
+    })
+    it('ends when a non-option flag is found', () => {
+      const out = parse(
+        ['--foo', './a.txt', './b.txt', './c.txt', '--bar', 'world'],
+        {
+          flags: {
+            foo: flags.string({multiple: true}),
+            bar: flags.boolean(),
+          },
+          args: [{name: 'arg', required: false}],
+        },
+      )
+      expect(out.flags).to.deep.include({
+        foo: ['./a.txt', './b.txt', './c.txt'],
+      })
+      expect(out.flags).to.deep.include({bar: true})
+      expect(out.argv).to.deep.equal(['world'])
+    })
+    it('ends when next flag is found with strict=false', () => {
+      const out = parse(
+        ['--foo', './a.txt', './b.txt', './c.txt', '--bar', 'world'],
+        {
+          flags: {
+            foo: flags.string({multiple: true}),
+            bar: flags.boolean(),
+          },
+          strict: false,
+        },
+      )
+      /* expect(out.flags).to.deep.include({
+        foo: ['./a.txt', './b.txt', './c.txt'],
+      }) */
+      expect(out.flags).to.deep.include({bar: true})
+      expect(out.argv).to.deep.equal(['world'])
+    })
+    it('handles char flags intuitively', () => {
+      const out = parse(
+        ['-fb', 'foo', 'bar'],
+        {
+          flags: {
+            foo: flags.boolean({char: 'f'}),
+            bar: flags.string({char: 'b', multiple: true}),
+          },
+        },
+      )
+      expect(out.flags).to.deep.include({
+        bar: ['foo', 'bar'],
+        foo: true,
+      })
     })
 
     it('flag multiple with arguments', () => {

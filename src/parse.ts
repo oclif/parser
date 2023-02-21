@@ -119,6 +119,7 @@ export class Parser<T extends ParserInput, TFlags extends OutputFlags<T['flags']
         }
         this.raw.push({type: 'flag', flag: flag.name, input})
       } else {
+        this.currentFlag = undefined
         this.raw.push({type: 'flag', flag: flag.name, input: arg})
         // push the rest of the short characters back on the stack
         if (!long && arg.length > 2) {
