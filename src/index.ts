@@ -22,7 +22,7 @@ export type Input<TFlags extends flags.Output> = {
   '--'?: boolean;
 }
 
-export function parse<TFlags, TArgs extends {[name: string]: string}>(argv: string[], options: Input<TFlags>): Output<TFlags, TArgs> {
+export function parse<TFlags extends flags.Output, TArgs extends {[name: string]: string}>(argv: string[], options: Input<TFlags>): Output<TFlags, TArgs> {
   const input = {
     argv,
     context: options.context,
