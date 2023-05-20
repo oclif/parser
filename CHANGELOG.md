@@ -1,15 +1,38 @@
-# Changelog
-
-All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
-
-### [3.8.7](https://github.com/oclif/parser/compare/v3.8.5...v3.8.7) (2022-02-25)
+## [3.8.11](https://github.com/oclif/parser/compare/3.8.10...3.8.11) (2023-05-20)
 
 
 ### Bug Fixes
 
-* accept integer 0 as valid arg input ([#114](https://github.com/oclif/parser/issues/114)) ([2619871](https://github.com/oclif/parser/commit/2619871f2e9c669863f32a73fa00b49d4e18d333))
-* print valid flag values in error message when using `exactlyOne` ([#232](https://github.com/oclif/parser/issues/232)) ([7b348f8](https://github.com/oclif/parser/commit/7b348f86bf44a4e537445c655480baf4383f13f7))
-* typescript compliation errors ([bba144d](https://github.com/oclif/parser/commit/bba144dbe008e4c33e6f486359bac975860de9b9))
+* **deps:** bump tslib from 2.5.0 to 2.5.2 ([27c57cc](https://github.com/oclif/parser/commit/27c57ccf3b6614512598d3a936421378dce1d5df))
+
+
+
+## [3.8.10](https://github.com/oclif/parser/compare/3.8.9...3.8.10) (2023-01-28)
+
+
+### Bug Fixes
+
+* **deps:** bump tslib from 2.4.1 to 2.5.0 ([3e85d7a](https://github.com/oclif/parser/commit/3e85d7a0633931c3a84f4bcd6c714e0cbb3d7d9b))
+
+
+
+## [3.8.9](https://github.com/oclif/parser/compare/3.8.8...3.8.9) (2022-11-05)
+
+
+### Bug Fixes
+
+* **deps:** bump tslib from 2.3.1 to 2.4.1 ([9935987](https://github.com/oclif/parser/commit/9935987f313579fb012439def3a0e46fd8a24b70))
+
+
+
+## [3.8.8](https://github.com/oclif/parser/compare/v3.8.7...3.8.8) (2022-10-01)
+
+
+### Bug Fixes
+
+* **deps:** bump @oclif/errors from 1.3.5 to 1.3.6 ([1b14fb5](https://github.com/oclif/parser/commit/1b14fb56463e00366a0db765aa54ae3d3acbb3d8))
+
+
 
 ## [3.8.7](https://github.com/oclif/parser/compare/v3.8.5...v3.8.7) (2022-02-25)
 
@@ -643,3 +666,6 @@ All notable changes to this project will be documented in this file. See [standa
 
 
 # 1.0.0 (2017-09-10)
+
+
+
