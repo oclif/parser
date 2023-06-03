@@ -1,3 +1,12 @@
+## [3.8.12](https://github.com/oclif/parser/compare/3.8.11...3.8.12) (2023-06-03)
+
+
+### Bug Fixes
+
+* **deps:** bump tslib from 2.5.2 to 2.5.3 ([c01da3f](https://github.com/oclif/parser/commit/c01da3fcb68314c4e48ca242fe507220e597458c))
+
+
+
 ## [3.8.11](https://github.com/oclif/parser/compare/3.8.10...3.8.11) (2023-05-20)
 
 
