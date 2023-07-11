@@ -1,3 +1,12 @@
+## [3.8.14](https://github.com/oclif/parser/compare/3.8.13...3.8.14) (2023-07-11)
+
+
+### Bug Fixes
+
+* **deps:** bump semver from 5.7.0 to 5.7.2 ([ec88111](https://github.com/oclif/parser/commit/ec88111529bd4d5410a29bf9aa76e54e0a044ab1))
+
+
+
 ## [3.8.13](https://github.com/oclif/parser/compare/3.8.12...3.8.13) (2023-07-01)
 
 
