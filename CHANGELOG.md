@@ -1,3 +1,12 @@
+## [3.8.15](https://github.com/oclif/parser/compare/3.8.14...3.8.15) (2023-07-19)
+
+
+### Bug Fixes
+
+* **deps:** bump word-wrap from 1.2.3 to 1.2.4 ([7aa0faa](https://github.com/oclif/parser/commit/7aa0faa2118f9db47feb7603ae25ac340ef19c41))
+
+
+
 ## [3.8.14](https://github.com/oclif/parser/compare/3.8.13...3.8.14) (2023-07-11)
 
 
