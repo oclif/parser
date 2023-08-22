@@ -1,7 +1,7 @@
 @oclif/parser
 =============
 
-**This library has been replaced by [@oclif/core](https://github.com/oclif/core) and is now in maintenance mode. We will only consider PRs that address security concerns.**
+**This library has been replaced by [@oclif/core](https://github.com/oclif/core) and is no longer maintained**
 
 arg and flag parser for oclif
 
