@@ -23,11 +23,13 @@ export interface ArgBase<T> {
 
 export type RequiredArg<T> = ArgBase<T> & {
   required: true;
+  multiple?: false;
   value: T;
 }
 
 export type OptionalArg<T> = ArgBase<T> & {
   required: false;
+  multiple?: false;
   value?: T;
 }
 
