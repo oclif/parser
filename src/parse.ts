@@ -141,7 +141,7 @@ export class Parser<T extends ParserInput, TFlags extends OutputFlags<T['flags']
         }
         // not actually a flag if it reaches here so parse as an arg
       }
-      if (parsingFlags && this.currentFlag && this.currentFlag.multiple) {
+      if (parsingFlags && this.currentFlag && this.currentFlag.multiple && !this.currentFlag.singleValue) {
         this.raw.push({type: 'flag', flag: this.currentFlag.name, input})
         continue
       }
